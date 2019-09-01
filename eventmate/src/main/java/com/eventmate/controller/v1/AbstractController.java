@@ -1,7 +1,8 @@
-package com.eventmate.controller;
+package com.eventmate.controller.v1;
 
 import com.eventmate.dto.AbstractDto;
 import com.eventmate.service.AbstractService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,13 +30,14 @@ public abstract class AbstractController<T extends AbstractDto> {
         return getService().create(t);
     }
 
-    @PutMapping
-    public T update(@Valid @RequestBody T t) {
-        return getService().update(t);
+    @PutMapping("/{id}")
+    public ResponseEntity<T> update(@Valid @RequestBody T t, @Valid @PathVariable Long id) {
+        return new ResponseEntity<>(getService().update(t, id), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@Valid @PathVariable Long id) {
+    public ResponseEntity<?> delete(@Valid @PathVariable Long id) {
         getService().delete(id);
+        return ResponseEntity.ok().build();
     }
 }

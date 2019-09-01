@@ -14,8 +14,9 @@ import java.util.stream.Collectors;
 @Service
 public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> implements EventService {
 
-    private EventMapper eventMapper;
-    private EventDao eventDao;
+    private final EventMapper eventMapper;
+
+    private final EventDao eventDao;
 
     public EventServiceImpl(EventMapper eventMapper, EventDao eventDao) {
         this.eventMapper = eventMapper;
@@ -39,11 +40,19 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
 
     @Override
     public List<EventDto> entitiesToDtos(List<Event> entities) {
-        return entities.stream().map(e -> eventMapper.convert(e)).collect(Collectors.toList());
+        return entities.stream().map(eventMapper::convert).collect(Collectors.toList());
     }
 
     @Override
     public List<Event> dtosToEntities(List<EventDto> dtos) {
-        return dtos.stream().map(d -> eventMapper.convert(d)).collect(Collectors.toList());
+        return dtos.stream().map(eventMapper::convert).collect(Collectors.toList());
+    }
+
+    @Override
+    protected Event updateEntity(EventDto dto, Event entity) {
+        entity.setTitle(dto.getTitle());
+        entity.setLocalization(dto.getLocalization());
+        entity.setDate(dto.getDate());
+        return entity;
     }
 }

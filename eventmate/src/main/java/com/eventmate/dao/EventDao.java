@@ -3,10 +3,11 @@ package com.eventmate.dao;
 import com.eventmate.entity.Event;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Repository
 public interface EventDao extends AbstractDao<Event> {
 
-   /* @Query(value = "select * from event where ")
-    List<Event> findEvent(@Param("dateFrom") LocalDateTime dateFrom, @Param("dateTo") LocalDateTime dateTo);
-    */
+    List<Event> findAllByDateLessThanEqualAndDateGreaterThanEqual(LocalDateTime endDate, LocalDateTime startDate);
 }

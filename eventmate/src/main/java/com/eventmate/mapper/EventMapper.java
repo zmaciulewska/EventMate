@@ -4,7 +4,7 @@ import com.eventmate.dto.EventDto;
 import com.eventmate.entity.Event;
 import org.mapstruct.Mapper;
 
-@Mapper (componentModel = "spring")
+@Mapper(componentModel = "spring")
 public interface EventMapper {
 
     Event convert(final EventDto event);

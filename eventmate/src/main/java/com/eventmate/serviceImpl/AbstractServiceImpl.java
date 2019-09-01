@@ -5,7 +5,6 @@ import com.eventmate.entity.AbstractEntity;
 import com.eventmate.service.AbstractService;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.http.ResponseEntity;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -21,6 +20,8 @@ public abstract class AbstractServiceImpl<T extends AbstractDto, S extends Abstr
     public abstract List<T> entitiesToDtos(List<S> entities);
 
     public abstract List<S> dtosToEntities(List<T> dtos);
+
+    protected abstract S updateEntity(T dto, S entity);
 
     @Override
     public List<T> getAll() {
@@ -40,14 +41,18 @@ public abstract class AbstractServiceImpl<T extends AbstractDto, S extends Abstr
     }
 
     @Override
-    public ResponseEntity<?> delete(Long id) {
+    public void delete(Long id) {
         S entity = getRepository().findById(id).orElseThrow(() -> new EntityNotFoundException("Object with given id: " + id + " not found."));
         getRepository().delete(entity);
-        return ResponseEntity.ok().build();
     }
 
     @Override
-    public T update(T t) {
-        return convert(getRepository().save(convert(t)));
+    public T update(T t, Long id) {
+        if (getRepository().findById(id).isPresent()) {
+            S entity = getRepository().findById(id).get();
+            return convert(getRepository().save(updateEntity(t, entity)));
+        } else {
+            return null;
+        }
     }
 }

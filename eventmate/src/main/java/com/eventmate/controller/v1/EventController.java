@@ -1,4 +1,4 @@
-package com.eventmate.controller;
+package com.eventmate.controller.v1;
 
 import com.eventmate.dto.EventDto;
 import com.eventmate.service.AbstractService;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/events")
+@RequestMapping("/api/v1/events")
 public class EventController extends AbstractController<EventDto> {
 
     private EventService eventService;
