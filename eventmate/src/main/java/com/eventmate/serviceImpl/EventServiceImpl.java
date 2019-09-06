@@ -52,7 +52,7 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
     protected Event updateEntity(EventDto dto, Event entity) {
         entity.setTitle(dto.getTitle());
         entity.setLocalization(dto.getLocalization());
-        entity.setDate(dto.getDate());
+        entity.setCreationDate(dto.getDate());
         return entity;
     }
 }

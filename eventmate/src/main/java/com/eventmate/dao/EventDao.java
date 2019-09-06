@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface EventDao extends AbstractDao<Event> {
 
-    List<Event> findAllByDateLessThanEqualAndDateGreaterThanEqual(LocalDateTime endDate, LocalDateTime startDate);
+    List<Event> findAllByStartDateLessThanEqualAndStartDateGreaterThanEqual(LocalDateTime endDate, LocalDateTime startDate);
 }
