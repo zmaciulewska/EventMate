@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class AbstractDto {
-    private Long id;
+public class OneTimeEventOfferDto extends AbstractEventOfferDto {
+
 }

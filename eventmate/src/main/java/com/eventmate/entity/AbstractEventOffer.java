@@ -1,6 +1,6 @@
 package com.eventmate.entity;
 
-import com.eventmate.entity.user.Users;
+import com.eventmate.entity.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +14,7 @@ abstract class AbstractEventOffer extends AbstractEntity {
 
     @ManyToOne
     @JoinColumn(name="owner_id", nullable = false)
-    private Users owner;
+    private User owner;
 
     @ManyToOne
     @JoinColumn(name="event_id", nullable = false)

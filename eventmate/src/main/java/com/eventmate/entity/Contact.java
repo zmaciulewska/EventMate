@@ -1,6 +1,6 @@
 package com.eventmate.entity;
 
-import com.eventmate.entity.user.Users;
+import com.eventmate.entity.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,11 +17,11 @@ public class Contact extends AbstractEntity {
 
     @ManyToOne
     @JoinColumn(name = "first_person_id", nullable = false)
-    private Users firstPerson;
+    private User firstPerson;
 
     @ManyToOne
     @JoinColumn(name = "second_person_id", nullable = false)
-    private Users secondPerson;
+    private User secondPerson;
 
     private LocalDateTime creationDate;
 

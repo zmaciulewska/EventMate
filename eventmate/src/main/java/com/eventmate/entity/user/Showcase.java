@@ -20,6 +20,6 @@ class Showcase extends AbstractEntity {
     private String localization;
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private Users user;
+    private User user;
 
 }

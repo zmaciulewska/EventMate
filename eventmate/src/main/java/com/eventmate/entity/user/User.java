@@ -9,8 +9,8 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Entity
-public class Users extends AbstractEntity {
+@Entity(name = "users")
+public class User extends AbstractEntity {
     private String userName;
     private String password;
     private String email;

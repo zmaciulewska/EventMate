@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class AbstractDto {
-    private Long id;
+public class CategoryDto extends AbstractDto {
+    String name;
+    String description;
 }

@@ -1,6 +1,6 @@
 package com.eventmate.entity;
 
-import com.eventmate.entity.user.Users;
+import com.eventmate.entity.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,17 +21,17 @@ public class Event extends AbstractEntity {
     private Boolean common;
     @ManyToOne
     @JoinColumn(name = "administrator_id")
-    private Users administrator;
+    private User administrator;
     @ManyToOne
     @JoinColumn(name = "reporter_id")
-    private Users reporter;
+    private User reporter;
     private Boolean continous;
     private String siteUrl;
     private LocalDateTime creationDate;
     private LocalDateTime removalDate;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    private Set<Price> prices;
+    private Set<Cost> costs;
 
     @ManyToMany
     @JoinTable(

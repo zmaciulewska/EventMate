@@ -24,6 +24,6 @@ class Authority extends AbstractEntity {
     private Role role;
 
     @ManyToMany(mappedBy = "authorityList")
-    private Set<Users> users;
+    private Set<User> users;
 
 }
