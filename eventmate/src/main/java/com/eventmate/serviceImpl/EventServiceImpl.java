@@ -55,4 +55,12 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
         entity.setCreationDate(dto.getCreationDate());
         return entity;
     }
+
+    @Override
+    public EventDto create(EventDto event) {
+        Event newEvent = new Event();
+        newEvent.setTitle(event.getTitle());
+        //todo cala logika
+        return convert(newEvent);
+    }
 }

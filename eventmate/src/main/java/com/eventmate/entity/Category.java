@@ -10,8 +10,9 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-class Category extends AbstractEntity {
+public class Category extends AbstractEntity {
 
+    String code;
     String name;
     String description;
 

@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 @Getter
 @Setter
 @Entity
-class Cost extends AbstractEntity {
+public class Cost extends AbstractEntity {
 
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)

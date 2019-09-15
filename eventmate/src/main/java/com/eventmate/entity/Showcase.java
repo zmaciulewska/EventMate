@@ -1,6 +1,5 @@
-package com.eventmate.entity.user;
+package com.eventmate.entity;
 
-import com.eventmate.entity.AbstractEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +11,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-class Showcase extends AbstractEntity {
+public class Showcase extends AbstractEntity {
     private String nickname;
     private String description;
     private String gender;

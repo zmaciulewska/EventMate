@@ -1,6 +1,5 @@
 package com.eventmate.entity;
 
-import com.eventmate.entity.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -45,9 +44,6 @@ public class Event extends AbstractEntity {
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private Set<ContinousEventOffer> continousEventOffers;
-
-
-
 
 
 }

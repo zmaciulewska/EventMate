@@ -1,6 +1,5 @@
 package com.eventmate.entity;
 
-import com.eventmate.entity.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
