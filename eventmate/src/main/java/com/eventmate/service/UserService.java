@@ -1,5 +1,6 @@
 package com.eventmate.service;
 
+import com.eventmate.dto.UserDto;
 import com.eventmate.dto.security.SignUpForm;
 import com.eventmate.entity.User;
 
@@ -13,4 +14,6 @@ public interface UserService {
     boolean existsUserByUsername(String username);
 
     Optional<User> findUser(Long id);
+
+    UserDto findUserByEmail(String email);
 }

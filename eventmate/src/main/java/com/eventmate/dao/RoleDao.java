@@ -1,7 +1,7 @@
 package com.eventmate.dao;
 
 import com.eventmate.entity.Role;
-import com.eventmate.entity.RoleName;
+import com.eventmate.entity.enumeration.RoleName;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

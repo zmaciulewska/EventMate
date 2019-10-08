@@ -16,14 +16,22 @@ public class EventDto extends AbstractDto {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private Boolean common;
-    private UserDto administrator;
-    private UserDto reporter;
+    private Long administratorId;
+    private Long reporterId;
     private Boolean continous;
     private String siteUrl;
     private LocalDateTime creationDate;
     private LocalDateTime removalDate;
-    private Set<CostDto> costs;
-    private Set<CategoryDto> categories;
-    private Set<OneTimeEventOfferDto> oneTimeEventOffers;
-    private Set<ContinousEventOfferDto> continousEventOffers;
+    private Set<Long> costIds;
+    private Set<Long> categoryIds;
+    // private Set<Long> oneTimeEventOfferIds;
+    // private Set<Long> continousEventOfferIds;
+
+    public Boolean isCommon() {
+        return common;
+    }
+
+    public Boolean isContinous() {
+        return continous;
+    }
 }

@@ -4,9 +4,9 @@ import com.eventmate.dto.UserDto;
 import com.eventmate.entity.User;
 
 //@Mapper(componentModel = "spring")
-public interface UserMapper {
+public interface UserMapper extends AbstractMapper<UserDto, User> {
 
-    User convert(final UserDto user);
+    /*User convert(final UserDto user);
 
-    UserDto convert(final User user);
+    UserDto convert(final User user);*/
 }

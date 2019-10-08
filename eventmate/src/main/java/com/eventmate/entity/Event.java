@@ -45,5 +45,13 @@ public class Event extends AbstractEntity {
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private Set<ContinousEventOffer> continousEventOffers;
 
+    public Boolean isCommon() {
+        return common;
+    }
+
+    public Boolean isContinous() {
+        return continous;
+    }
+
 
 }

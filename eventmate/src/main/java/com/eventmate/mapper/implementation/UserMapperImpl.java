@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 public class UserMapperImpl implements UserMapper {
     @Override
     public User convert(UserDto user) {
+        if(user == null) {
+            return null;
+        }
         User newUser = new User();
         newUser.setUsername(user.getUsername());
         newUser.setPassword(user.getPassword());
@@ -18,6 +21,9 @@ public class UserMapperImpl implements UserMapper {
 
     @Override
     public UserDto convert(User user) {
+        if(user == null) {
+            return null;
+        }
         UserDto newUser = new UserDto();
         newUser.setUsername(user.getUsername());
         newUser.setPassword(user.getPassword());

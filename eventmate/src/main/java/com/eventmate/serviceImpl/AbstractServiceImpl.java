@@ -21,8 +21,6 @@ public abstract class AbstractServiceImpl<T extends AbstractDto, S extends Abstr
 
     public abstract List<S> dtosToEntities(List<T> dtos);
 
-    protected abstract S updateEntity(T dto, S entity);
-
     @Override
     public List<T> getAll() {
         Sort orderBy = new Sort(Sort.Direction.ASC, "id");
@@ -50,7 +48,7 @@ public abstract class AbstractServiceImpl<T extends AbstractDto, S extends Abstr
     public T update(T t, Long id) {
         if (getRepository().findById(id).isPresent()) {
             S entity = getRepository().findById(id).get();
-            return convert(getRepository().save(updateEntity(t, entity)));
+            return convert(getRepository().save(entity));
         } else {
             return null;
         }
