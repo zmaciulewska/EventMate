@@ -8,7 +8,9 @@ import com.eventmate.dto.UserDto;
 import com.eventmate.dto.form.EventFormDto;
 import com.eventmate.entity.Cost;
 import com.eventmate.entity.Event;
-import com.eventmate.mapper.CategoryMapper;
+import com.eventmate.entity.enumeration.RoleName;
+import com.eventmate.error.AppException;
+import com.eventmate.error.Error;
 import com.eventmate.mapper.CostMapper;
 import com.eventmate.mapper.EventMapper;
 import com.eventmate.service.EventService;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -107,8 +110,48 @@ public class EventServiceImpl  extends AbstractServiceImpl<EventDto, Event> impl
 
     @Override
     public EventDto update(EventFormDto eventForm, Long id) {
-        return null;
-        // todo
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto principal = (UserDto) auth.getPrincipal();
+
+        Optional<Event> eventFindResult = getRepository().findById(id);
+        if(eventFindResult.isPresent()) {
+            Event existingEvent = eventFindResult.get();
+            if(existingEvent.getReporter() != null) {
+                if(!existingEvent.getReporter().getId().equals(principal.getId()))
+                    throw new AppException(Error.USER_NOT_ALLOWED);
+            } else {
+                if(!principal.getAuthorities().contains(RoleName.ROLE_USER))
+                    throw new AppException(Error.USER_NOT_ALLOWED);
+            }
+
+            existingEvent.setTitle(eventForm.getTitle());
+            existingEvent.setDescription(eventForm.getDescription());
+            existingEvent.setLocalization(eventForm.getLocalization());
+            existingEvent.setStartDate(eventForm.getStartDate());
+            existingEvent.setEndDate(eventForm.getEndDate());
+            existingEvent.setCommon(eventForm.isCommon());
+            //existingEvent.setAdministrator(userDao.findByEmail(principal.getEmail()));
+            //existingEvent.setReporter(null);
+            existingEvent.setContinous(eventForm.isContinous());
+            existingEvent.setSiteUrl(eventForm.getSiteUrl());
+            //existingEvent.setCreationDate(LocalDateTime.now());
+            //newEvent.setRemovalDate(null);
+            existingEvent.getCosts().clear();
+            existingEvent.getCosts().addAll(eventForm.getCosts().stream()
+                    .map(costFormDto -> {
+                        Cost entity = costMapper.formToEntity(costFormDto);
+                        entity.setEvent(existingEvent);
+                        return entity;
+                    })
+                    .collect(Collectors.toSet()));
+            existingEvent.setCategories(eventForm.getCategoryIds().stream()
+                    .map(e -> categoryDao.findById(e).get())
+                    .collect(Collectors.toSet()));
+            return convert(getRepository().save(existingEvent));
+
+        } else {
+            return null;
+        }
     }
 
 

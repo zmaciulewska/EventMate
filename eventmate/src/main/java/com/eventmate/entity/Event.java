@@ -29,7 +29,7 @@ public class Event extends AbstractEntity {
     private LocalDateTime creationDate;
     private LocalDateTime removalDate;
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Cost> costs;
 
     @ManyToMany

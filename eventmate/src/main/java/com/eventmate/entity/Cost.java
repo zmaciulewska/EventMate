@@ -1,6 +1,7 @@
 package com.eventmate.entity;
 
 import com.eventmate.entity.enumeration.Currency;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Entity
 public class Cost extends AbstractEntity {
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne( fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
     private Event event;
     private String name;

@@ -1,0 +1,39 @@
+@startuml
+actor zalogowany as "Zalogowany
+Użytkownik"
+actor niezalogowany as "Niezalogowany
+Użytkownik"
+
+usecase przegladanieWydarzen as "Przeglądanie
+wydarzeń"
+usecase propozycjaWydarzenPublicznych as "Tworzenie propozycji
+wydarzeń publicznych"
+
+zalogowany -- przegladanieWydarzen
+zalogowany --> propozycjaWydarzenPublicznych
+propozycjaWydarzenPublicznych ..> (Wypełnienie formularza\ndotyczącego wydarzenia) : <<include>>
+zalogowany -right-> (Zarządzanie swoimi niezatwierdzonymi\npropozycjami wydarzeń - edycja, usuwanie)
+zalogowany --> (Tworzenie wydarzeń prywatnych)
+(Tworzenie wydarzeń prywatnych) ..> (Wypełnienie formularza\ndotyczącego wydarzenia)  : <<include>>
+zalogowany -left-> (Zarządzanie swoimi wydarzeniami\nprywatnymi - edycja, usuwanie)
+zalogowany --> (Tworzenie ofert\ndotyczących wydarzeń publicznych)
+ (Tworzenie ofert\ndotyczących wydarzeń publicznych) ..> (Wypełnienie formularza dotyczącego oferty) : <<include>>
+zalogowany -up-> (Zarządzanie swoimi ofertami\ndo wydarzeń - edycja, usuwanie)
+zalogowany -up-> (Odpowiadanie na oferty\ndotyczące wydarzeń publicznych)
+zalogowany -up-> (Wyrażenie chęci współudziału\nw wydarzeniu prywatnym)
+zalogowany -up--> (Edytowanie profilu)
+(Edytowanie profilu) <.right. (Edytowanie wizytówki) : <<extends>>
+(Edytowanie profilu) <.right. (Edytowanie preferencji) : <<extends>>
+
+niezalogowany -up- przegladanieWydarzen
+
+:Admin: -- przegladanieWydarzen
+:Admin: -up--> (Dodawanie wydarzeń\npublicznych)
+:Admin: --> (Zatwierdzanie propozycji\nwydarzeń publicznych)
+:Admin: -up- (Zarządzanie wydarzeniami\npublicznymi - edycja i usuwanie)
+:Admin: -left- (Usuwanie\nwydarzeń prywatnych)
+:Admin: --- (Usuwanie ofert dotyczących\nwydarzeń publicznych)
+:Admin: -right- (Przeglądanie\nużytkowników)
+:Admin: -up- (Usuwanie\nużytkowników)
+
+@enduml

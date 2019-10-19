@@ -50,6 +50,7 @@ public class EventController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<EventDto> update(@Valid @RequestBody EventFormDto eventForm, @Valid @PathVariable Long id) {
         return new ResponseEntity<>(eventService.update(eventForm, id), HttpStatus.OK);
     }
