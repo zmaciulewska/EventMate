@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface EventDao extends AbstractDao<Event> {
 
+    List<Event> findAllByRemovalDateNull();
     List<Event> findAllByStartDateLessThanEqualAndStartDateGreaterThanEqual(LocalDateTime endDate, LocalDateTime startDate);
 }

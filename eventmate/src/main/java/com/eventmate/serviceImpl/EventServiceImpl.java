@@ -18,16 +18,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class EventServiceImpl  extends AbstractServiceImpl<EventDto, Event> implements EventService {
+public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> implements EventService {
 
     private static final Logger logger = LoggerFactory.getLogger(EventServiceImpl.class);
     private final EventMapper eventMapper;
@@ -47,9 +48,8 @@ public class EventServiceImpl  extends AbstractServiceImpl<EventDto, Event> impl
     }
 
     @Override
-    public EventDto create (EventFormDto eventForm) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDto principal = (UserDto) auth.getPrincipal();
+    public EventDto create(EventFormDto eventForm) {
+        UserDto principal = getPrincipal();
 
         Event newEvent = new Event();
         newEvent.setTitle(eventForm.getTitle());
@@ -58,8 +58,17 @@ public class EventServiceImpl  extends AbstractServiceImpl<EventDto, Event> impl
         newEvent.setStartDate(eventForm.getStartDate());
         newEvent.setEndDate(eventForm.getEndDate());
         newEvent.setCommon(eventForm.isCommon());
-        newEvent.setAdministrator(userDao.findByEmail(principal.getEmail()));
-        newEvent.setReporter(null);
+        if (eventForm.isCommon() && principal.getAuthorities()
+                .contains(new SimpleGrantedAuthority(RoleName.ROLE_ADMIN.name()))) {
+            // admin can create public event without any confirmation
+            newEvent.setAdministrator(userDao.findByEmail(principal.getEmail()));
+            newEvent.setReporter(null);
+        } else {
+            // user can create public event proposal, it have to be confirmed by admin
+            // private events don't require confirmation
+            newEvent.setAdministrator(null);
+            newEvent.setReporter(userDao.findByEmail(principal.getEmail()));
+        }
         newEvent.setContinous(eventForm.isContinous());
         newEvent.setSiteUrl(eventForm.getSiteUrl());
         newEvent.setCreationDate(LocalDateTime.now());
@@ -78,80 +87,92 @@ public class EventServiceImpl  extends AbstractServiceImpl<EventDto, Event> impl
     }
 
     @Override
-    public EventDto createEventProposal(EventFormDto eventForm) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDto principal = (UserDto) auth.getPrincipal();
+    public void delete(Long id) {
+        UserDto principal = getPrincipal();
 
-        Event newEvent = new Event();
-        newEvent.setTitle(eventForm.getTitle());
-        newEvent.setDescription(eventForm.getDescription());
-        newEvent.setLocalization(eventForm.getLocalization());
-        newEvent.setStartDate(eventForm.getStartDate());
-        newEvent.setEndDate(eventForm.getEndDate());
-        newEvent.setCommon(eventForm.isCommon());
-        newEvent.setAdministrator(null);
-        newEvent.setReporter(userDao.findByEmail(principal.getEmail()));
-        newEvent.setContinous(eventForm.isContinous());
-        newEvent.setSiteUrl(eventForm.getSiteUrl());
-        newEvent.setCreationDate(LocalDateTime.now());
-        newEvent.setRemovalDate(null);
-        newEvent.setCosts(eventForm.getCosts().stream()
-                .map(costFormDto -> {
-                    Cost entity = costMapper.formToEntity(costFormDto);
-                    entity.setEvent(newEvent);
-                    return entity;
-                })
-                .collect(Collectors.toSet()));
-        newEvent.setCategories(eventForm.getCategoryIds().stream()
-                .map(e -> categoryDao.findById(e).get())
-                .collect(Collectors.toSet()));
-        return eventMapper.convert(eventDao.save(newEvent));
+        Event event = findEventById(id);
+        if (event.getRemovalDate() != null) {
+            throw new AppException(Error.EVENT_REMOVED);
+        }
+        validateUserResourcesAccess(principal, event);
+        event.setRemovalDate(LocalDateTime.now());
+        eventDao.save(event);
     }
+
+    private void validateUserResourcesAccess(UserDto principal, Event event) {
+        if (event.getReporter() != null) {
+            if (!event.getReporter().getId().equals(principal.getId()))
+                throw new AppException(Error.USER_NOT_ALLOWED);
+        } else {
+            if (!principal.getAuthorities().contains(RoleName.ROLE_USER))
+                throw new AppException(Error.USER_NOT_ALLOWED);
+        }
+    }
+
 
     @Override
     public EventDto update(EventFormDto eventForm, Long id) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserDto principal = (UserDto) auth.getPrincipal();
+        UserDto principal = getPrincipal();
 
-        Optional<Event> eventFindResult = getRepository().findById(id);
-        if(eventFindResult.isPresent()) {
-            Event existingEvent = eventFindResult.get();
-            if(existingEvent.getReporter() != null) {
-                if(!existingEvent.getReporter().getId().equals(principal.getId()))
-                    throw new AppException(Error.USER_NOT_ALLOWED);
-            } else {
-                if(!principal.getAuthorities().contains(RoleName.ROLE_USER))
-                    throw new AppException(Error.USER_NOT_ALLOWED);
-            }
-
-            existingEvent.setTitle(eventForm.getTitle());
-            existingEvent.setDescription(eventForm.getDescription());
-            existingEvent.setLocalization(eventForm.getLocalization());
-            existingEvent.setStartDate(eventForm.getStartDate());
-            existingEvent.setEndDate(eventForm.getEndDate());
-            existingEvent.setCommon(eventForm.isCommon());
-            //existingEvent.setAdministrator(userDao.findByEmail(principal.getEmail()));
-            //existingEvent.setReporter(null);
-            existingEvent.setContinous(eventForm.isContinous());
-            existingEvent.setSiteUrl(eventForm.getSiteUrl());
-            //existingEvent.setCreationDate(LocalDateTime.now());
-            //newEvent.setRemovalDate(null);
-            existingEvent.getCosts().clear();
-            existingEvent.getCosts().addAll(eventForm.getCosts().stream()
-                    .map(costFormDto -> {
-                        Cost entity = costMapper.formToEntity(costFormDto);
-                        entity.setEvent(existingEvent);
-                        return entity;
-                    })
-                    .collect(Collectors.toSet()));
-            existingEvent.setCategories(eventForm.getCategoryIds().stream()
-                    .map(e -> categoryDao.findById(e).get())
-                    .collect(Collectors.toSet()));
-            return convert(getRepository().save(existingEvent));
-
-        } else {
-            return null;
+        Event existingEvent = findEventById(id);
+        if (existingEvent.getRemovalDate() != null) {
+            throw new AppException(Error.EVENT_REMOVED);
         }
+        validateUserResourcesAccess(principal, existingEvent);
+        existingEvent.setTitle(eventForm.getTitle());
+        existingEvent.setDescription(eventForm.getDescription());
+        existingEvent.setLocalization(eventForm.getLocalization());
+        existingEvent.setStartDate(eventForm.getStartDate());
+        existingEvent.setEndDate(eventForm.getEndDate());
+        existingEvent.setCommon(eventForm.isCommon());
+        existingEvent.setContinous(eventForm.isContinous());
+        existingEvent.setSiteUrl(eventForm.getSiteUrl());
+        existingEvent.getCosts().clear();
+        existingEvent.getCosts().addAll(eventForm.getCosts().stream()
+                .map(costFormDto -> {
+                    Cost entity = costMapper.formToEntity(costFormDto);
+                    entity.setEvent(existingEvent);
+                    return entity;
+                })
+                .collect(Collectors.toSet()));
+        existingEvent.setCategories(eventForm.getCategoryIds().stream()
+                .map(e -> categoryDao.findById(e).get())
+                .collect(Collectors.toSet()));
+        return convert(getRepository().save(existingEvent));
+    }
+
+    @Override
+    public List<EventDto> getAll() {
+        return entitiesToDtos(eventDao.findAllByRemovalDateNull());
+    }
+
+    @Override
+    public EventDto confirmPublicEventProposal(Long id) {
+        UserDto principal = getPrincipal();
+
+        Event event = findEventById(id);
+        if (event.getAdministrator() != null) {
+            throw new AppException(Error.EVENT_ALREADY_CONFIRMED);
+        }
+        if (!event.isCommon()) {
+            throw new AppException(Error.CANNOT_CONFIRM_PIVATE_EVENT);
+        }
+        event.setAdministrator(userDao.findByEmail(principal.getEmail()));
+        return convert(getRepository().save(event));
+    }
+
+    private Event findEventById(Long id) {
+        Event event = eventDao.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Object with given id: " + id + " not found."));
+        if (event.getRemovalDate() != null) {
+            throw new AppException(Error.EVENT_REMOVED);
+        }
+        return event;
+    }
+
+    @Override
+    public EventDto getOne(Long id) {
+        return convert(findEventById(id));
     }
 
 

@@ -36,11 +36,9 @@ public class User extends AbstractEntity {
             inverseJoinColumns = @JoinColumn(name = "authority_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "owner")
-    private Set<OneTimeEventOffer> oneTimeEventOffers;
 
     @OneToMany(mappedBy = "owner")
-    private Set<ContinousEventOffer> continousEventOffers;
+    private Set<EventOffer> eventOffers;
 
     @OneToMany(mappedBy = "owner")
     private Set<EventOfferResponse> eventOfferResponses;

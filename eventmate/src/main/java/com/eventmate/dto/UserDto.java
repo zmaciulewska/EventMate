@@ -29,8 +29,8 @@ public class UserDto extends AbstractDto implements UserDetails {
 
    // private Set<AuthorityDto> authorityList;
 
-    private Set<OneTimeEventOfferDto> oneTimeEventOffers;
-    private Set<ContinousEventOfferDto> continousEventOffers;
+    //private Set<OneTimeEventOfferDto> oneTimeEventOffers;
+    private Set<EventOfferDto> eventOffers;
     private Set<EventOfferResponseDto> eventOfferResponses;
     private ShowcaseDto showcase;
 

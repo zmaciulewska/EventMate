@@ -40,10 +40,7 @@ public class Event extends AbstractEntity {
     private Set<Category> categories;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    private Set<OneTimeEventOffer> oneTimeEventOffers;
-
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    private Set<ContinousEventOffer> continousEventOffers;
+    private Set<EventOffer> continousEventOffers;
 
     public Boolean isCommon() {
         return common;

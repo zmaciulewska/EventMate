@@ -1,7 +1,10 @@
 package com.eventmate.controller.v1;
 
 import com.eventmate.dto.EventDto;
+import com.eventmate.dto.EventOfferDto;
 import com.eventmate.dto.form.EventFormDto;
+import com.eventmate.dto.form.EventOfferFormDto;
+import com.eventmate.service.EventOfferService;
 import com.eventmate.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,18 +27,20 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
+    @Autowired
+    private EventOfferService eventOfferService;
+
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public EventDto create(@Valid @RequestBody EventFormDto eventForm) {
         return eventService.create(eventForm);
     }
 
-    @PostMapping
-    @RequestMapping("/proposal")
-    @PreAuthorize("hasRole('USER')")
-    public EventDto createEventProposal(@Valid @RequestBody EventFormDto eventForm) {
-        return eventService.createEventProposal(eventForm);
-
+    @PutMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping("/{id}/confirm")
+    public EventDto confirmPublicEventProposal(@Valid @PathVariable Long id) {
+        return eventService.confirmPublicEventProposal(id);
     }
 
     @GetMapping("/{id}")
@@ -59,6 +64,18 @@ public class EventController {
     public ResponseEntity<?> delete(@Valid @PathVariable Long id) {
         eventService.delete(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping ("/{id}/event-offers")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<List<EventOfferDto>> getAllEventOffers(@Valid @PathVariable Long id) {
+        return ResponseEntity.ok(eventOfferService.getAllEventOffers(id));
+    }
+
+    @PostMapping("/{id}/event-offers")
+    @PreAuthorize("hasRole('USER')")
+    public EventOfferDto create(@Valid @RequestBody EventOfferFormDto eventOfferForm, @Valid @PathVariable Long id) {
+        return eventOfferService.create(eventOfferForm, id);
     }
 
 
