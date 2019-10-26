@@ -7,11 +7,13 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public abstract class AbstractEventOfferDto extends AbstractDto {
+public class EventOfferDto extends AbstractDto {
 
-    private UserDto owner;
+    private LocalDateTime prefferedDate;
 
-    private EventDto event;
+    private Long ownerId;
+
+    private Long eventId;
 
     private String prefferedGender; //TODO enum
 

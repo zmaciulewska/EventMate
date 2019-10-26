@@ -29,7 +29,7 @@ public class Event extends AbstractEntity {
     private LocalDateTime creationDate;
     private LocalDateTime removalDate;
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Cost> costs;
 
     @ManyToMany
@@ -40,10 +40,15 @@ public class Event extends AbstractEntity {
     private Set<Category> categories;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    private Set<OneTimeEventOffer> oneTimeEventOffers;
+    private Set<EventOffer> continousEventOffers;
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    private Set<ContinousEventOffer> continousEventOffers;
+    public Boolean isCommon() {
+        return common;
+    }
+
+    public Boolean isContinous() {
+        return continous;
+    }
 
 
 }

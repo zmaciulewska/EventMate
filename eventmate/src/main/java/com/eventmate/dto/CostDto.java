@@ -9,6 +9,6 @@ public class CostDto extends AbstractDto {
 
     private String name;
     private String description;
-    private String price;
+    private Double price;
     private String currency;
 }

@@ -1,18 +1,18 @@
 package com.eventmate.entity;
 
+import com.eventmate.entity.enumeration.Gender;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
-@MappedSuperclass
-abstract public class AbstractEventOffer extends AbstractEntity {
-
+@Entity
+//todo index on event
+public class EventOffer extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
@@ -21,14 +21,20 @@ abstract public class AbstractEventOffer extends AbstractEntity {
     @JoinColumn(name = "event_id", nullable = false)
     private Event event;
 
-    private String prefferedGender; //TODO enum
+    @Enumerated(EnumType.STRING)
+    private Gender prefferedGender; //TODO enum
 
     private Integer prefferedMinAge;
 
-    private Integer prfferedMaxAge;
+    private Integer prefferedMaxAge;
 
     private String prefferedLocalization; //TODO google api?
 
     private LocalDateTime creationDate;
+
+    @OneToMany(mappedBy = "eventOffer")
+    private Set<EventOfferResponse> eventOfferResponses;
+
+    private LocalDateTime prefferedDate;
 
 }

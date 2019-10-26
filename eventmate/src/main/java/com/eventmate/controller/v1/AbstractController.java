@@ -1,4 +1,4 @@
-package com.eventmate.controller.v1;
+/*package com.eventmate.controller.v1;
 
 import com.eventmate.dto.AbstractDto;
 import com.eventmate.service.AbstractService;
@@ -40,4 +40,4 @@ public abstract class AbstractController<T extends AbstractDto> {
         getService().delete(id);
         return ResponseEntity.ok().build();
     }
-}
+}*/

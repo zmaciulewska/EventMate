@@ -18,11 +18,7 @@ public class EventOfferResponse extends AbstractEntity {
 
     @ManyToOne
     @JoinColumn(name = "one_time_event_offer_id", nullable = false)
-    private OneTimeEventOffer oneTimeEventOffer;
-
-    @ManyToOne
-    @JoinColumn(name = "continous_event_offer_id", nullable = false)
-    private ContinousEventOffer continousEventOffer;
+    private EventOffer eventOffer;
 
 
 }

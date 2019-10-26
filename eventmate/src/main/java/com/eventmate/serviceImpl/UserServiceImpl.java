@@ -5,7 +5,7 @@ import com.eventmate.dao.UserDao;
 import com.eventmate.dto.UserDto;
 import com.eventmate.dto.security.SignUpForm;
 import com.eventmate.entity.Role;
-import com.eventmate.entity.RoleName;
+import com.eventmate.entity.enumeration.RoleName;
 import com.eventmate.entity.User;
 import com.eventmate.mapper.UserMapper;
 import com.eventmate.service.UserService;
@@ -88,5 +88,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public Optional<User> findUser(Long id) {
         return userDao.findById(id);
+    }
+
+    @Override
+    public UserDto findUserByEmail(String email) {
+        return userMapper.convert(userDao.findByEmail(email));
     }
 }

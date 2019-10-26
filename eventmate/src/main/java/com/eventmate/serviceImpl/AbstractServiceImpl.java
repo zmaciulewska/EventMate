@@ -1,10 +1,13 @@
 package com.eventmate.serviceImpl;
 
 import com.eventmate.dto.AbstractDto;
+import com.eventmate.dto.UserDto;
 import com.eventmate.entity.AbstractEntity;
 import com.eventmate.service.AbstractService;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -21,7 +24,10 @@ public abstract class AbstractServiceImpl<T extends AbstractDto, S extends Abstr
 
     public abstract List<S> dtosToEntities(List<T> dtos);
 
-    protected abstract S updateEntity(T dto, S entity);
+    public UserDto getPrincipal() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return (UserDto) auth.getPrincipal();
+    }
 
     @Override
     public List<T> getAll() {
@@ -50,7 +56,7 @@ public abstract class AbstractServiceImpl<T extends AbstractDto, S extends Abstr
     public T update(T t, Long id) {
         if (getRepository().findById(id).isPresent()) {
             S entity = getRepository().findById(id).get();
-            return convert(getRepository().save(updateEntity(t, entity)));
+            return convert(getRepository().save(entity));
         } else {
             return null;
         }
