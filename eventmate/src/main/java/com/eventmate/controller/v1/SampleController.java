@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/sample")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class SampleController {
     private static final Logger logger = LoggerFactory.getLogger(SampleController.class);
 

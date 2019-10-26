@@ -45,14 +45,21 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {
+    public ResponseEntity<CustomHttpResponse> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {
+        CustomHttpResponse httpResponse = new CustomHttpResponse();
         if (userService.existsUserByUsername(signUpRequest.getUsername())) {
-            return new ResponseEntity<>("Username is already taken!", HttpStatus.BAD_REQUEST);
+            httpResponse.setMessage("Username is already taken!");
+            httpResponse.setStatus(HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<>(httpResponse, HttpStatus.BAD_REQUEST);
         }
         if (userService.existsUserByEmail(signUpRequest.getEmail())) {
-            return new ResponseEntity<>("Email is already in use!", HttpStatus.BAD_REQUEST);
+            httpResponse.setMessage("Email is already in use!");
+            httpResponse.setStatus(HttpStatus.BAD_REQUEST.value());
+            return new ResponseEntity<>(httpResponse, HttpStatus.BAD_REQUEST);
         }
         userService.signUpUser(signUpRequest);
-        return ResponseEntity.ok().body("User registered successfully!");
+        httpResponse.setMessage("User registered successfully!");
+        httpResponse.setStatus(HttpStatus.OK.value());
+        return ResponseEntity.ok().body(httpResponse);
     }
 }
