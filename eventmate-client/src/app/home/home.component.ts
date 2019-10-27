@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { EventsListComponent } from './../events-list/events-list.component';
+import { Component, OnInit, NgModule } from '@angular/core';
 
 import { TokenStorageService } from '../auth/token-storage.service';
 

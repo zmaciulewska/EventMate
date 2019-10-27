@@ -45,6 +45,7 @@ body {
     margin: 0;
     font-family: 'Montserrat', 'sans-serif';
     font-size: 18px;
+    background-color: #D1D7DA;
 }
 .container-fluid {
     background-color: #010E14;
@@ -52,9 +53,25 @@ body {
 
 .navbar-default .navbar-brand {
     font-size: 20px;
-    color : rgba-primary-1; 
+    color : #D1D7DA; 
 }
 
 .navbar-brand {
     font-size: 20px;
+}
+
+.container {
+    background-color: #364D57;
+    border-radius: 5px;
+    color: #D1D7DA;
+    padding: 1%;
+}
+
+.btn-secondary {
+    background-color: #16303B;
+    color: #D1D7DA;
+    font-size: 18px;
+}
+.btn-secondary:hover {
+    color: white;
 }

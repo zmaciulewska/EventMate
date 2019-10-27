@@ -1,6 +1,6 @@
-<div *ngIf="info.token; else loggedOut">
-  <h5 class="text-primary">Your Information</h5>
-  <p>
+<!-- <div *ngIf="info.token; else loggedOut"> -->
+  <!-- <h5 class="text-primary">Your Information</h5> -->
+  <!-- <p>
     <strong>Username:</strong> {{info.username}}<br/>
     <strong>Roles:</strong> {{info.authorities}}<br />
     <strong>Token:</strong> {{info.token}}.
@@ -10,4 +10,8 @@
  
 <ng-template #loggedOut>
   Please login.
-</ng-template>
+</ng-template> -->
+
+<div>
+  <app-events-list></app-events-list>
+</div>

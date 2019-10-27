@@ -1,3 +1,4 @@
+import { EventService } from './services/event.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -12,7 +13,8 @@ import { UserComponent } from './user/user.component';
 import { AdminComponent } from './admin/admin.component';
 
 import { httpInterceptorProviders } from './auth/auth-interceptor';
-
+import { EventsListComponent } from './events-list/events-list.component';
+import { EventDetailsComponent } from './event-details/event-details.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { httpInterceptorProviders } from './auth/auth-interceptor';
     RegisterComponent,
     HomeComponent,
     UserComponent,
-    AdminComponent
+    AdminComponent,
+    EventsListComponent,
+    EventDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +33,7 @@ import { httpInterceptorProviders } from './auth/auth-interceptor';
     FormsModule,
     HttpClientModule
   ],
-  providers: [httpInterceptorProviders],
+  providers: [httpInterceptorProviders, EventService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
