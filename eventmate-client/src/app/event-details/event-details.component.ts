@@ -26,4 +26,9 @@ export class EventDetailsComponent implements OnInit {
       });
   }
 
+  deleteEvent(id: number) {
+    this.eventService.delete(id).subscribe(res => console.log('Event deleted'));
+  }
+
+
 }

@@ -1,0 +1,109 @@
+<p>
+  event-create works!
+</p>
+<div [hidden]="submitted" style="width: 600px;">
+  <form ngNativeValidate>
+    <!-- (ngSubmit)="onSubmit()" -->
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" class="form-control" id="title" required [(ngModel)]="eventForm.title" name="title">
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <input type="text" class="form-control" id="description" required [(ngModel)]="eventForm.description" name="description">
+    </div>
+
+    <div class="form-group">
+      <label for="localization">Localization</label>
+      <input type="text" class="form-control" id="localization" required [(ngModel)]="eventForm.localization" name="localization">
+    </div>
+
+
+    <div class="form-group">
+      <label for="startDate">Start date</label>
+      <!-- <input type="text" class="form-control" id="startDate" required [(ngModel)]="eventForm.startDate" name="startDate"> -->
+      <angular2-date-picker name="angular-calendar" id="startDate" [(ngModel)]="eventForm.startDate" [settings]=settings (ngmodelchange)="$event &gt;= today &amp;&amp; date = $event"></angular2-date-picker>
+    </div>
+
+
+    <div class="form-group">
+      <label for="endDate">Start date</label>
+      <!-- <input type="text" class="form-control" id="startDate" required [(ngModel)]="eventForm.startDate" name="startDate"> -->
+      <angular2-date-picker name="angular-calendar" id="endDate" [(ngModel)]="eventForm.endDate" [settings]=settings (ngmodelchange)="$event &gt;= today &amp;&amp; date = $event"></angular2-date-picker>
+    </div>
+
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" id="common" [(ngModel)]="eventForm.common" name="common">
+      <label class="form-check-label" for="common">Common event</label>
+    </div>
+
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" id="continous" [(ngModel)]="eventForm.continous" name="continous">
+      <label class="form-check-label" for="continous">Continous event</label>
+    </div>
+
+    <div class="url">
+      <label for="siteUrl">Site URL</label>
+      <input type="url" class="form-control" [(ngModel)]="eventForm.siteUrl" name="siteUrl" id="siteUrl">
+    </div>
+    <hr/>
+
+    <div>
+      <p>
+        Costs
+      </p>
+
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let cost of eventForm.costs">
+          <div ng-click="">
+            {{cost.name}}
+            <br/> {{cost.description}}
+            <br/> {{cost.price}} {{ cost.currency}}
+            <button class="btn btn-danger" (click)="removeCost(cost)">Remove cost</button>
+          </div>
+        </li>
+      </ul>
+
+
+      <div class="form-group">
+        <label for="costName">Cost title</label>
+        <input type="text" class="form-control" id="costName" required [(ngModel)]="costForm.name" name="costName">
+      </div>
+      <div class="form-group">
+        <label for="costDescription">Cost description</label>
+        <input type="text" class="form-control" id="costDescription" [(ngModel)]="costForm.description" name="costDescription">
+      </div>
+      <div class="form-group">
+        <label for="costPrice">Price</label>
+        <input type="number" class="form-control" id="costPrice" [(ngModel)]="costForm.price" name="costPrice">
+      </div>
+      <button class="btn btn-success" (click)="addCost()">Add cost</button>
+    </div>
+    <hr/>
+
+    <div class="form-group">
+      <label for="selectedCategories">Cost title</label>
+      <!-- <input type="text" class="form-control" id="costName" required [(ngModel)]="costForm.name" name="costName"> -->
+
+      <ng-multiselect-dropdown-angular7 id="selectedCategories" name="selectedCategories"
+       [placeholder]="'Select categories'" [data]="categories"
+        [(ngModel)]="selectedCategories" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+        (onSelectAll)="onSelectAll($event)"
+        (onDeSelect)="onItemDeSelect($event)">
+      </ng-multiselect-dropdown-angular7>
+    </div>
+
+
+
+    <hr/>
+
+    <button (click)="submit()" class="btn btn-success">Submit</button>
+    <!-- type="submit" -->
+  </form>
+</div>
+
+<div [hidden]="!submitted">
+  <h4>You submitted successfully!</h4>
+  <button class="btn btn-success" (click)="newEvent()">Add</button>
+</div>

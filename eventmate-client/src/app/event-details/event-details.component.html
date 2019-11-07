@@ -2,7 +2,10 @@
   event-details works!
 </p>
 <div>
-    {{event.title}}<br/>
-    {{event.description}}<br/>
-    {{event.localization}}<br/>
+    {{event?.title}}<br/>
+    {{event?.description}}<br/>
+    {{event?.localization}}<br/>
 </div>
+<li *ngIf="authority === 'admin'" class="nav-item">
+  <a (click) = "deleteEvent(event.id)" class="btn btn-danger">Delete</a>
+</li>

@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,8 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
 
     @Override
     public EventDto create(EventFormDto eventForm) {
-        UserDto principal = getPrincipal();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto principal = (UserDto) auth.getPrincipal();
 
         Event newEvent = new Event();
         newEvent.setTitle(eventForm.getTitle());
@@ -88,7 +90,9 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
 
     @Override
     public void delete(Long id) {
-        UserDto principal = getPrincipal();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto principal = (UserDto) auth.getPrincipal();
+
 
         Event event = findEventById(id);
         if (event.getRemovalDate() != null) {
@@ -104,7 +108,8 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
             if (!event.getReporter().getId().equals(principal.getId()))
                 throw new AppException(Error.USER_NOT_ALLOWED);
         } else {
-            if (!principal.getAuthorities().contains(RoleName.ROLE_USER))
+
+            if (!principal.getAuthorities().contains(new SimpleGrantedAuthority(RoleName.ROLE_ADMIN.name())))
                 throw new AppException(Error.USER_NOT_ALLOWED);
         }
     }
@@ -112,7 +117,8 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
 
     @Override
     public EventDto update(EventFormDto eventForm, Long id) {
-        UserDto principal = getPrincipal();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto principal = (UserDto) auth.getPrincipal();
 
         Event existingEvent = findEventById(id);
         if (existingEvent.getRemovalDate() != null) {
@@ -148,7 +154,8 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
 
     @Override
     public EventDto confirmPublicEventProposal(Long id) {
-        UserDto principal = getPrincipal();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto principal = (UserDto) auth.getPrincipal();
 
         Event event = findEventById(id);
         if (event.getAdministrator() != null) {

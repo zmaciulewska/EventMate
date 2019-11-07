@@ -1,17 +1,17 @@
-<p>
-  events-list works!
-</p>
+<div *ngIf="authority">
+  <p>
+    <a routerLink="/events/add" class="nav-link" routerLinkActive="active">Create Recipe</a>
+  </p>
+</div>
+
 
 <ul class="list-group">
   <li class="list-group-item" *ngFor="let event of events">
     <div ng-click="">
-        <a class="nav-link" [routerLink]="['/events/', event.id]" >{{event.title}}</a>
-        <br/>
-      
-      {{event.description}}<br/><br/>
-
-       <!-- <a [routerLink]="['/recipes/edit/', recipe.id]" class="btn btn-primary">Edit</a>
-       <a (click) = "deleteRecipe(recipe.id)" class="btn btn-danger">Delete</a> -->
+      <a class="nav-link" [routerLink]="['/events/details/', event.id]">{{event.title}}</a>
+      <br/> {{event.description}}
+      <br/>
+      <br/>
     </div>
   </li>
 </ul>

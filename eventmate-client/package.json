@@ -19,7 +19,11 @@
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
+    "@ng-select/ng-select": "^3.4.0",
+    "@syncfusion/ej2-angular-dropdowns": "^17.3.21",
+    "angular2-datetimepicker": "^1.1.1",
     "core-js": "^2.5.4",
+    "ng-multiselect-dropdown-angular7": "^0.1.5",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"

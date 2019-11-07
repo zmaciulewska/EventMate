@@ -35,8 +35,8 @@ public class Event extends AbstractEntity {
     @ManyToMany
     @JoinTable(
             name = "event_category",
-            joinColumns = @JoinColumn(name = "category_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id"))
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
