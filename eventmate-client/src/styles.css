@@ -77,3 +77,30 @@ body {
 .btn-secondary:hover {
     color: white;
 }
+.list-group-item {
+   /* padding: 10px;*/
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+.list-group {
+    /* padding: 10px;*/
+    border-radius: 5px;
+}
+.title-link {
+    font-weight: bolder;
+    font-size: 20px; 
+    color: #16303B; 
+    text-decoration: none;
+}
+.title-link:hover {
+    font-weight: bolder;
+    font-size: 20px; 
+    color: #364D57; 
+    text-decoration: none;
+}
+.btn-block {
+   background-color: #16303B;
+}
+.btn-block:hover {
+   color:  #D1D7DA;
+ }

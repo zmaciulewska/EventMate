@@ -4,8 +4,8 @@ export class EventForm {
     title: string;
     description: string;
     localization: string;
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
     common: boolean;
     continous: boolean;
     siteUrl: string;

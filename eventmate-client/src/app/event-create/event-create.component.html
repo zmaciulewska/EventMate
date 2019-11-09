@@ -1,9 +1,9 @@
-<p>
-  event-create works!
-</p>
-<div [hidden]="submitted" style="width: 600px;">
-  <form ngNativeValidate>
+<div [hidden]="submitted">
+  <form>
+    <!-- ngNativeValidate -->
     <!-- (ngSubmit)="onSubmit()" -->
+
+    <!-- <button (click)="info()" class="btn btn-info">LOG INFO</button> -->
     <div class="form-group">
       <label for="title">Title</label>
       <input type="text" class="form-control" id="title" required [(ngModel)]="eventForm.title" name="title">
@@ -20,18 +20,51 @@
     </div>
 
 
-    <div class="form-group">
-      <label for="startDate">Start date</label>
-      <!-- <input type="text" class="form-control" id="startDate" required [(ngModel)]="eventForm.startDate" name="startDate"> -->
-      <angular2-date-picker name="angular-calendar" id="startDate" [(ngModel)]="eventForm.startDate" [settings]=settings (ngmodelchange)="$event &gt;= today &amp;&amp; date = $event"></angular2-date-picker>
+    <!--   <div class="md-form">
+      <label for="input">Choose start date</label>
+      <input type="date" id="tmpStartDate" class="form-control" [ngModel] = "tmpStartDate | date:'dd-MM-yyyy'" name="tmpStartDate" mdbInput>
+    </div> -->
+    <div class="md-form">
+      <label for="input">Choose start date</label>
+      <input type="datetime-local" id="tmpStartDateTime" class="form-control" [ngModel]="tmpStartDateTime | date:'yyyy-MM-ddTHH:mm'"
+        (ngModelChange)="tmpStartDateTime = $event" name="tmpStartDateTime" mdbInput>
     </div>
+    <br/>
+    <!-- <div class="md-form">
+        <label for="input">Start time</label>
+        <input
+          type="time"
+          id="tmpStartTime"
+          [ngModel] = "tmpStartTime | date: 'shortTime'"
+          name = "tmpStartTime"
+          class="form-control"
+          value="13:00"
+          mdbInput
+        />
+      </div> -->
+    <div class="md-form">
+      <label for="input">Choose end date</label>
+      <input type="datetime-local" id="tmpEndDateTime" class="form-control" [ngModel]="tmpEndDateTime | date:'yyyy-MM-ddTHH:mm'"
+        (ngModelChange)="tmpEndDateTime = $event" name="tmpEndDateTime" mdbInput>
+    </div>
+    <br/>
+
+    <!--  <div class="form-group">
+      <label for="startDate">Start date</label> -->
+    <!-- <input type="text" class="form-control" id="startDate" required [(ngModel)]="eventForm.startDate" name="startDate"> -->
+    <!--  <angular2-date-picker name="angular-calendar" id="startDate" [(ngModel)]="eventForm.startDate" [settings]=settings (ngmodelchange)="$event &gt;= today &amp;&amp; date = $event"></angular2-date-picker> -->
+    <!--      <angular2-date-picker name="angular-calendar" id="startDate" [(ngModel)]="tmpStartDate" [settings]=settings (ngmodelchange)="$event &gt;= today &amp;&amp; date = $event"></angular2-date-picker>
+   
+    </div> -->
 
 
-    <div class="form-group">
-      <label for="endDate">Start date</label>
-      <!-- <input type="text" class="form-control" id="startDate" required [(ngModel)]="eventForm.startDate" name="startDate"> -->
-      <angular2-date-picker name="angular-calendar" id="endDate" [(ngModel)]="eventForm.endDate" [settings]=settings (ngmodelchange)="$event &gt;= today &amp;&amp; date = $event"></angular2-date-picker>
-    </div>
+    <!-- <div class="form-group">
+      <label for="endDate">Start date</label> -->
+    <!-- <input type="text" class="form-control" id="startDate" required [(ngModel)]="eventForm.startDate" name="startDate"> -->
+    <!-- <angular2-date-picker name="angular-calendar" id="endDate" [(ngModel)]="eventForm.endDate" [settings]=settings (ngmodelchange)="$event &gt;= today &amp;&amp; date = $event"></angular2-date-picker> -->
+
+
+    <!--      <angular2-date-picker name="angular-calendar" id="endDate" [(ngModel)]="tmpEndDate" [settings]=settings (ngmodelchange)="$event &gt;= today &amp;&amp; date = $event"></angular2-date-picker>    </div> -->
 
     <div class="form-check">
       <input type="checkbox" class="form-check-input" id="common" [(ngModel)]="eventForm.common" name="common">
@@ -42,6 +75,7 @@
       <input type="checkbox" class="form-check-input" id="continous" [(ngModel)]="eventForm.continous" name="continous">
       <label class="form-check-label" for="continous">Continous event</label>
     </div>
+    <br/>
 
     <div class="url">
       <label for="siteUrl">Site URL</label>
@@ -50,21 +84,44 @@
     <hr/>
 
     <div>
-      <p>
+      <p style="font-weight: bolder;">
         Costs
       </p>
 
+
+      <div *ngIf="eventForm.costs.length > 0">
+        <table class="table table-borderless">
+          <thead>
+            <tr>
+              <th scope="col">Cost</th>
+              <th scope="col">Description</th>
+              <th scope="col">Price</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cost of eventForm.costs">
+              <td>{{cost.name}}</td>
+              <td>{{cost.description}}</td>
+              <td>{{cost.price}} {{ cost.currency}}</td>
+              <td> <button class="btn btn-danger" (click)="removeCost(cost)">Remove cost</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+<!-- 
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let cost of eventForm.costs">
           <div ng-click="">
             {{cost.name}}
             <br/> {{cost.description}}
             <br/> {{cost.price}} {{ cost.currency}}
-            <button class="btn btn-danger" (click)="removeCost(cost)">Remove cost</button>
+           
           </div>
         </li>
       </ul>
-
+ -->
 
       <div class="form-group">
         <label for="costName">Cost title</label>
@@ -86,11 +143,11 @@
       <label for="selectedCategories">Cost title</label>
       <!-- <input type="text" class="form-control" id="costName" required [(ngModel)]="costForm.name" name="costName"> -->
 
-      <ng-multiselect-dropdown-angular7 id="selectedCategories" name="selectedCategories"
-       [placeholder]="'Select categories'" [data]="categories"
-        [(ngModel)]="selectedCategories" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+      <ng-multiselect-dropdown-angular7 id="selectedCategories" name="selectedCategories" [placeholder]="'Select categories'" [data]="categories"
+        [(ngModel)]="selectedCategories" [settings]="dropdownSettings">
+        <!-- (onSelect)="onItemSelect($event)"
         (onSelectAll)="onSelectAll($event)"
-        (onDeSelect)="onItemDeSelect($event)">
+        (onDeSelect)="onItemDeSelect($event)" -->
       </ng-multiselect-dropdown-angular7>
     </div>
 

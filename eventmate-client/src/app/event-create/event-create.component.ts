@@ -4,6 +4,7 @@ import { EventService } from './../services/event.service';
 import { EventForm } from './../domain/event-form';
 import { Component, OnInit } from '@angular/core';
 import { Category } from '../domain/category';
+import { Time } from '../../../node_modules/@angular/common';
 
 @Component({
   selector: 'app-event-create',
@@ -18,23 +19,14 @@ export class EventCreateComponent implements OnInit {
   costForm: CostForm = new CostForm();
   categories: Category[];
   selectedCategories: Category[];
-  // selectedCategories: Map<string, Array<any>>;
-
-  settings = {
-    bigBanner: true,
-    timePicker: true,
-    // dateFormat: 'yyyy-MM-dd HH:mm',
-    defaultOpen: false,
-    // format: 'medium',
-    closeOnSelect: true,
-  };
+  tmpStartDateTime: Date;
+  tmpEndDateTime: Date;
 
   dropdownSettings = {
     singleSelection: false,
     idField: 'id',
     textField: 'name',
     enableCheckAll: false,
-    // selectAllText: 'Select All',
     unSelectAllText: 'Unselect All',
     itemsShowLimit: 3,
     allowSearchFilter: true
@@ -42,25 +34,22 @@ export class EventCreateComponent implements OnInit {
   constructor(private eventService: EventService, private categoryService: CategoryService) { }
 
   ngOnInit() {
-    // this.eventForm.costs = [];
-
     this.eventForm.title = '';
     this.eventForm.description = '';
     this.eventForm.localization = '';
-    this.eventForm.startDate = new Date();
-    this.eventForm.endDate = new Date();
+    this.eventForm.startDate = '';
+    this.eventForm.endDate = '';
+    this.tmpStartDateTime = new Date();
+    this.tmpEndDateTime = new Date();
     this.eventForm.common = false;
     this.eventForm.continous = false;
     this.eventForm.siteUrl = '';
     this.eventForm.costs = [];
     this.eventForm.categoryIds = [];
-
     this.costForm.name = '';
     this.costForm.description = '';
     this.costForm.price = null;
     this.costForm.currency = 'PLN';
-
-    // this.selectedCategories = new Map<string, Array<any>>();
     this.selectedCategories = [];
     this.categoryService.getAll().subscribe(data => this.categories = data);
   }
@@ -91,27 +80,23 @@ export class EventCreateComponent implements OnInit {
 
   }
 
-  onItemSelect(item: any) {
-    console.log('item:  ' + item);
-    console.log('selected : ' + this.selectedCategories);
-  }
-
-  onSelectAll(items: any) {
-    console.log(items);
-  }
-
-  onItemDeSelect(item: any) {
-    console.log('deselect: ' + item);
-    console.log('selected : ' + this.selectedCategories);
-  }
 
   submit() {
     console.log('method submit');
+    this.eventForm.startDate = this.tmpStartDateTime + ':00.000';
+    this.eventForm.endDate = this.tmpEndDateTime + ':00.000';
     console.log('selected: ' + this.selectedCategories);
     console.log(this.eventForm);
     this.eventForm.categoryIds = this.selectedCategories.map(item => item.id);
     this.submitted = true;
     this.save();
+  }
+
+  info() {
+    console.log('INFO:');
+    console.log('Start Date: ' + this.tmpStartDateTime);
+    console.log('iso Start Date: ' + this.tmpStartDateTime + ':00.000');
+
   }
 
   /*  onSubmit() {

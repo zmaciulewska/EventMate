@@ -1,6 +1,7 @@
 <div *ngIf="authority">
   <p>
-    <a routerLink="/events/add" class="nav-link" routerLinkActive="active">Create Recipe</a>
+    <button class="btn btn-block" routerLink="/events/add">Create Event</button>
+    <!-- <a routerLink="/events/add" class="nav-link" routerLinkActive="active">Create Event</a> -->
   </p>
 </div>
 
@@ -8,10 +9,13 @@
 <ul class="list-group">
   <li class="list-group-item" *ngFor="let event of events">
     <div ng-click="">
-      <a class="nav-link" [routerLink]="['/events/details/', event.id]">{{event.title}}</a>
-      <br/> {{event.description}}
+      <a class="title-link" [routerLink]="['/events/details/', event.id]">
+        {{event.title}}
+      </a>
       <br/>
-      <br/>
+      <p style="color: #364D57">
+        {{event.description}}
+      </p>
     </div>
   </li>
 </ul>
