@@ -1,10 +1,10 @@
-import { CategoryService } from './../services/category.service';
-import { CostForm } from './../domain/cost-form';
-import { EventService } from './../services/event.service';
-import { EventForm } from './../domain/event-form';
+import { CategoryService } from '../services/category.service';
+import { CostForm } from '../domain/cost-form';
+import { EventService } from '../services/event.service';
+import { EventForm } from '../domain/event-form';
 import { Component, OnInit } from '@angular/core';
 import { Category } from '../domain/category';
-import { Time } from '../../../node_modules/@angular/common';
+import { Time } from '@angular/common';
 
 @Component({
   selector: 'app-event-create',
@@ -27,6 +27,7 @@ export class EventCreateComponent implements OnInit {
     idField: 'id',
     textField: 'name',
     enableCheckAll: false,
+    // selectAllText: 'Select All',
     unSelectAllText: 'Unselect All',
     itemsShowLimit: 3,
     allowSearchFilter: true

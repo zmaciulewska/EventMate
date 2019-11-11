@@ -89,7 +89,7 @@
       </p>
 
 
-      <div *ngIf="eventForm.costs.length > 0">
+      <div ><!-- *ngIf="eventForm.costs.length > 0" -->
         <table class="table table-borderless">
           <thead>
             <tr>
@@ -110,18 +110,7 @@
         </table>
       </div>
 
-<!-- 
-      <ul class="list-group">
-        <li class="list-group-item" *ngFor="let cost of eventForm.costs">
-          <div ng-click="">
-            {{cost.name}}
-            <br/> {{cost.description}}
-            <br/> {{cost.price}} {{ cost.currency}}
-           
-          </div>
-        </li>
-      </ul>
- -->
+
 
       <div class="form-group">
         <label for="costName">Cost title</label>
@@ -140,7 +129,7 @@
     <hr/>
 
     <div class="form-group">
-      <label for="selectedCategories">Cost title</label>
+      <label for="selectedCategories">Categories</label>
       <!-- <input type="text" class="form-control" id="costName" required [(ngModel)]="costForm.name" name="costName"> -->
 
       <ng-multiselect-dropdown-angular7 id="selectedCategories" name="selectedCategories" [placeholder]="'Select categories'" [data]="categories"

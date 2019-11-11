@@ -104,3 +104,14 @@ body {
 .btn-block:hover {
    color:  #D1D7DA;
  }
+
+ .title-details {
+    font-size: 24px;
+ }
+ .text-details {
+    font-size: 18px;
+ }
+ .label-details {
+     font-size: 18px;
+     font-weight: bolder;
+ }

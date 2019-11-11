@@ -1,3 +1,4 @@
+import { DateFormatPipe } from './utils/DateFormatPipe';
 import { EventService } from './services/event.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -43,7 +44,7 @@ import { CategoryService } from './services/category.service';
     NgMultiSelectDropDownModule,
     /* MbscModule */
   ],
-  providers: [httpInterceptorProviders, EventService, CategoryService],
+  providers: [httpInterceptorProviders, EventService, CategoryService, DateFormatPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

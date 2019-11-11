@@ -1,5 +1,5 @@
-import { EventService } from './../services/event.service';
-import { Event } from './../domain/event';
+import { EventService } from '../services/event.service';
+import { Event } from '../domain/event';
 import { Component, OnInit } from '@angular/core';
 import { TokenStorageService } from '../auth/token-storage.service';
 
