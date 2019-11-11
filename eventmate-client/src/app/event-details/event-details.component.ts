@@ -36,14 +36,14 @@ export class EventDetailsComponent implements OnInit {
             this.endDateString = this.dateFormatPipe.transform(new Date(this.event.endDate));
             console.log(this.event);
 
-            this.costs = [];
+            /* this.costs = [];
             this.event.costIds.forEach(costId => {
               console.log('costid: ' + costId);
               this.costService.getOneById(costId).subscribe(cost => {
                 console.log('cost: ' + cost);
                 this.costs.push(cost);
               });
-            });
+            }); */
 
           });
       });

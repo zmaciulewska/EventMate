@@ -3,6 +3,8 @@ package com.eventmate.mapper.implementation;
 import com.eventmate.dao.EventDao;
 import com.eventmate.dto.EventDto;
 import com.eventmate.entity.Event;
+import com.eventmate.mapper.CategoryMapper;
+import com.eventmate.mapper.CostMapper;
 import com.eventmate.mapper.EventMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,12 @@ import java.util.stream.Collectors;
 public class EventMapperImpl implements EventMapper {
     @Autowired
     EventDao eventDao;
+
+    @Autowired
+    CostMapper costMapper;
+
+    @Autowired
+    CategoryMapper categoryMapper;
 
     @Override
     public Event convert(EventDto event) {
@@ -50,10 +58,16 @@ public class EventMapperImpl implements EventMapper {
         newEvent.setSiteUrl(event.getSiteUrl());
         newEvent.setCreationDate(event.getCreationDate());
         newEvent.setRemovalDate(event.getRemovalDate());
-        newEvent.setCostIds(event.getCosts().stream()
+        //newEvent.setCosts(event.getCosts().stream().map(e-> costMapper.convert(e)).collect(Collectors.toList()));
+
+        newEvent.setCosts(event.getCosts().stream().map(e-> costMapper.convert(e)).collect(Collectors.toSet()));
+        newEvent.setCategories(event.getCategories().stream().map(e -> categoryMapper.convert(e)).collect(Collectors.toSet()));
+
+
+        /* newEvent.setCostIds(event.getCosts().stream()
                 .map(e -> e.getId()).collect(Collectors.toSet()));
         newEvent.setCategoryIds(event.getCategories().stream()
-                .map(e -> e.getId()).collect(Collectors.toSet()));
+                .map(e -> e.getId()).collect(Collectors.toSet()));*/
         return newEvent;
     }
 }

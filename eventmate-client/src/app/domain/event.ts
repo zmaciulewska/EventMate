@@ -1,3 +1,6 @@
+import { Category } from './category';
+import { Cost } from './cost';
+
 export class Event {
     id: number;
     title: string;
@@ -12,6 +15,6 @@ export class Event {
     siteUrl: string;
     creationDate: Date;
     removalDate: Date;
-    costIds: number[];
-    categoryIds: number[];
+    costs: Cost[];
+    categoriess: Category[];
 }

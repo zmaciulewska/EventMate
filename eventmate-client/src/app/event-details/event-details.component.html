@@ -1,38 +1,45 @@
 <div>
-    <p class="title-details" >{{event?.title}}</p>
-    <p class="text-details">{{event?.description}}</p>
-    <hr/>
-    <p class="label-details">Where?</p>
-    <p class="text-details">{{event?.localization}}</p>
-    <p class="label-details">When?</p>
-    <p class="text-details">{{startDateString}} - {{endDateString}}</p>
-    <p class="label-details">Event type</p>
-   
-    <p class="text-details" *ngIf="event?.common">Public</p>
-    <p class="text-details" *ngIf="!event?.common">Private</p>
-    <p class="text-details" *ngIf="event?.continous">Continous</p>
-    <p class="text-details" *ngIf="!event?.continous">One-time</p>
+  <p class="title-details">{{event?.title}}</p>
+  <p class="text-details">{{event?.description}}</p>
+  <hr/>
+  <p class="label-details">Where?</p>
+  <p class="text-details">{{event?.localization}}</p>
+  <p class="label-details">When?</p>
+  <p class="text-details">{{startDateString}} - {{endDateString}}</p>
+  <p class="label-details">Event type</p>
 
-    <div >  <!-- *ngIf="event?.costs.length > 0" -->
-      <table class="table table-borderless">
-        <thead>
-          <tr>
-            <th scope="col">Cost</th>
-            <th scope="col">Description</th>
-            <th scope="col">Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let cost of event?.costs">
-            <td>{{cost.name}}</td>
-            <td>{{cost.description}}</td>
-            <td>{{cost.price}} {{ cost.currency}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <p class="text-details" *ngIf="event?.common">Public</p>
+  <p class="text-details" *ngIf="!event?.common">Private</p>
+  <p class="text-details" *ngIf="event?.continous">Continous</p>
+  <p class="text-details" *ngIf="!event?.continous">One-time</p>
+
+  <div *ngIf="event?.costs.length > 0">
+    <table class="table table-borderless">
+      <thead>
+        <tr>
+          <th scope="col">Cost</th>
+          <th scope="col">Description</th>
+          <th scope="col">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cost of event?.costs">
+          <td>{{cost.name}}</td>
+          <td>{{cost.description}}</td>
+          <td>{{cost.price}} {{ cost.currency}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="label-details">Categories</p>
+
+  <div *ngFor="let category of event?.categories">
+    <p class="text-details"># {{category.name}}</p>
+
+  </div>
+
 
 </div>
 <li *ngIf="authority === 'admin'" class="nav-item">
-  <a (click) = "deleteEvent(event.id)" class="btn btn-danger">Delete</a>
+  <a (click)="deleteEvent(event.id)" class="btn btn-danger">Delete</a>
 </li>

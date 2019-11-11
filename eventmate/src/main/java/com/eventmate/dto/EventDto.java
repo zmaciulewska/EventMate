@@ -22,8 +22,8 @@ public class EventDto extends AbstractDto {
     private String siteUrl;
     private LocalDateTime creationDate;
     private LocalDateTime removalDate;
-    private Set<Long> costIds;
-    private Set<Long> categoryIds;
+    private Set<CostDto> costs;
+    private Set<CategoryDto> categories;
     // private Set<Long> oneTimeEventOfferIds;
     // private Set<Long> continousEventOfferIds;
 
