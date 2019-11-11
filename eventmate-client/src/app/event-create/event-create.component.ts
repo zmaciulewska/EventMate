@@ -84,8 +84,22 @@ export class EventCreateComponent implements OnInit {
 
   submit() {
     console.log('method submit');
-    this.eventForm.startDate = this.tmpStartDateTime + ':00.000';
-    this.eventForm.endDate = this.tmpEndDateTime + ':00.000';
+    if (this.tmpStartDateTime.toString().indexOf('-') !== -1) {
+      this.eventForm.startDate = this.tmpStartDateTime + ':00.000';
+      console.log(' zawiera - ');
+    } else {
+      this.eventForm.startDate = this.tmpStartDateTime.toISOString();
+      console.log('nie zawiera - ');
+    }
+    // this.eventForm.startDate = this.tmpStartDateTime + ':00.000';
+    // this.eventForm.endDate = this.tmpEndDateTime + ':00.000';
+    if (this.tmpStartDateTime.toString().indexOf('-') !== -1) {
+      this.eventForm.endDate = this.tmpEndDateTime + ':00.000';
+      console.log('nie zawiera - ');
+    } else {
+      this.eventForm.endDate = this.tmpEndDateTime.toISOString();
+      console.log('nie zawiera - ');
+    }
     console.log('selected: ' + this.selectedCategories);
     console.log(this.eventForm);
     this.eventForm.categoryIds = this.selectedCategories.map(item => item.id);
@@ -96,8 +110,9 @@ export class EventCreateComponent implements OnInit {
   info() {
     console.log('INFO:');
     console.log('Start Date: ' + this.tmpStartDateTime);
-    console.log('iso Start Date: ' + this.tmpStartDateTime + ':00.000');
-
+    console.log('my iso Start Date: ' + this.tmpStartDateTime + ':00.000');
+    /*  console.log(' iso Start Date: ' + this.tmpStartDateTime.toISOString()); */
+    console.log(this.tmpStartDateTime.toString().indexOf('-') !== -1);
   }
 
   /*  onSubmit() {

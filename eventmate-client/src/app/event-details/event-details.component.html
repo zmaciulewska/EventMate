@@ -37,9 +37,17 @@
     <p class="text-details"># {{category.name}}</p>
 
   </div>
+  <div *ngIf="authority === 'admin'">
+    <button class="btn btn-danger" (click)="deleteEvent(event.id)">
+      Delete event
+    </button>
+    <div *ngIf="isDeleteFailed" class="alert alert-danger">
+        Delete failed: {{errorMessage}}
+      </div>
+  </div>
 
 
 </div>
-<li *ngIf="authority === 'admin'" class="nav-item">
+<!-- <li *ngIf="authority === 'admin'" class="nav-item">
   <a (click)="deleteEvent(event.id)" class="btn btn-danger">Delete</a>
-</li>
+</li> -->

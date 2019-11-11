@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -105,7 +104,8 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
 
     private void validateUserResourcesAccess(UserDto principal, Event event) {
         if (event.getReporter() != null) {
-            if (!event.getReporter().getId().equals(principal.getId()))
+            if (!event.getReporter().getId().equals(principal.getId()) &&
+                    !principal.getAuthorities().contains(new SimpleGrantedAuthority(RoleName.ROLE_ADMIN.name())))
                 throw new AppException(Error.USER_NOT_ALLOWED);
         } else {
 

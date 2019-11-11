@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DateFormatPipe } from '../utils/DateFormatPipe';
 import { CostService } from '../services/cost.service';
 import { Cost } from '../domain/cost';
+import { TokenStorageService } from '../auth/token-storage.service';
 
 @Component({
   selector: 'app-event-details',
@@ -18,11 +19,17 @@ export class EventDetailsComponent implements OnInit {
   startDateString: String;
   endDateString: String;
   costs: Cost[];
+  private authority: string;
+  private roles: string[];
+
+  isDeleteFailed = false;
+  errorMessage = '';
 
   constructor(private route: ActivatedRoute,
     private eventService: EventService,
     private dateFormatPipe: DateFormatPipe,
-    private costService: CostService) { }
+    private tokenStorage: TokenStorageService,
+    private router: Router) { }
 
   ngOnInit() {
     this.route
@@ -35,28 +42,36 @@ export class EventDetailsComponent implements OnInit {
             this.startDateString = this.dateFormatPipe.transform(new Date(this.event.startDate));
             this.endDateString = this.dateFormatPipe.transform(new Date(this.event.endDate));
             console.log(this.event);
-
-            /* this.costs = [];
-            this.event.costIds.forEach(costId => {
-              console.log('costid: ' + costId);
-              this.costService.getOneById(costId).subscribe(cost => {
-                console.log('cost: ' + cost);
-                this.costs.push(cost);
-              });
-            }); */
-
           });
       });
-
-
-    console.log('2: ' + this.event);
-
-
+    if (this.tokenStorage.getToken()) {
+      this.roles = this.tokenStorage.getAuthorities();
+      this.roles.every(role => {
+        if (role === 'ROLE_ADMIN') {
+          this.authority = 'admin';
+          console.log('role: ' + this.authority);
+          return false;
+        }
+        this.authority = 'user';
+        console.log('role: ' + this.authority);
+        return true;
+      });
+    }
   }
 
   deleteEvent(id: number) {
-    this.eventService.delete(id).subscribe(res => console.log('Event deleted'));
+    if (confirm('Do you want to delete this event?')) {
+      console.log('Delete confirmed');
+      this.eventService.delete(id).subscribe(
+        res => {
+          console.log('Event deleted');
+          this.router.navigate(['/home']);
+        },
+        error => {
+          console.log('Event not deleted');
+          this.isDeleteFailed = true;
+          this.errorMessage = error.error.message;
+        });
+    }
   }
-
-
 }
