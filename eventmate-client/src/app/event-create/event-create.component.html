@@ -1,95 +1,86 @@
 <div [hidden]="submitted">
-  <form>
-    <!-- ngNativeValidate -->
-    <!-- (ngSubmit)="onSubmit()" -->
-
-     <button (click)="info()" class="btn btn-info">LOG INFO</button> 
+  <form name="form"  #form="ngForm" (ngSubmit)="submit()"  novalidate>
+  
     <div class="form-group">
       <label for="title">Title</label>
-      <input type="text" class="form-control" id="title" required [(ngModel)]="eventForm.title" name="title">
-    </div>
+      <input type="text" class="form-control" id="title" [(ngModel)]="eventForm.title" name="title" #title="ngModel" [ngClass]="{ 'is-invalid': form.submitted && title.invalid }" required  minlength="6">
 
+
+      <show-errors  class="invalid-feedback" [control]="title"></show-errors>
+    </div>
+    
     <div class="form-group">
       <label for="description">Description</label>
-      <input type="text" class="form-control" id="description" required [(ngModel)]="eventForm.description" name="description">
-    </div>
+      <input type="text" class="form-control" id="description" required [(ngModel)]="eventForm.description" name="description" #description="ngModel" [ngClass]="{ 'is-invalid': form.submitted && description.invalid }">
+      <show-errors  class="invalid-feedback" [control]="description"></show-errors>
 
-    <div class="form-group">
-      <label for="localization">Localization</label>
-      <input type="text" class="form-control" id="localization" required [(ngModel)]="eventForm.localization" name="localization">
     </div>
 
 
-    <!--   <div class="md-form">
-      <label for="input">Choose start date</label>
-      <input type="date" id="tmpStartDate" class="form-control" [ngModel] = "tmpStartDate | date:'dd-MM-yyyy'" name="tmpStartDate" mdbInput>
-    </div> -->
-    <div class="md-form">
-      <label for="input">Choose start date</label>
-      <input type="datetime-local" id="tmpStartDateTime" class="form-control" [ngModel]="tmpStartDateTime | date:'yyyy-MM-ddTHH:mm'"
-        (ngModelChange)="tmpStartDateTime = $event" name="tmpStartDateTime" mdbInput>
-    </div>
-    <br/>
-    <!-- <div class="md-form">
-        <label for="input">Start time</label>
-        <input
-          type="time"
-          id="tmpStartTime"
-          [ngModel] = "tmpStartTime | date: 'shortTime'"
-          name = "tmpStartTime"
-          class="form-control"
-          value="13:00"
-          mdbInput
-        />
-      </div> -->
-    <div class="md-form">
-      <label for="input">Choose end date</label>
-      <input type="datetime-local" id="tmpEndDateTime" class="form-control" [ngModel]="tmpEndDateTime | date:'yyyy-MM-ddTHH:mm'"
-        (ngModelChange)="tmpEndDateTime = $event" name="tmpEndDateTime" mdbInput>
-    </div>
-    <br/>
-
-    <!--  <div class="form-group">
-      <label for="startDate">Start date</label> -->
-    <!-- <input type="text" class="form-control" id="startDate" required [(ngModel)]="eventForm.startDate" name="startDate"> -->
-    <!--  <angular2-date-picker name="angular-calendar" id="startDate" [(ngModel)]="eventForm.startDate" [settings]=settings (ngmodelchange)="$event &gt;= today &amp;&amp; date = $event"></angular2-date-picker> -->
-    <!--      <angular2-date-picker name="angular-calendar" id="startDate" [(ngModel)]="tmpStartDate" [settings]=settings (ngmodelchange)="$event &gt;= today &amp;&amp; date = $event"></angular2-date-picker>
-   
-    </div> -->
+    <div>
+      <div class="row">
+          <div class="col-xs-6">
+            <div class="form-group">
+              <label for="localization">Localization</label>
+              <input type="text" class="form-control" id="localization" required [(ngModel)]="eventForm.localization" name="localization" #localization="ngModel" [ngClass]="{ 'is-invalid': form.submitted && localization.invalid }">
+              
+              <show-errors  class="invalid-feedback" [control]="localization"></show-errors>
+          
+            </div>
+          </div>
+          <div class="col-xs-6">
+            <div class="url">
+              <label for="siteUrl">Site URL</label>
+              <input type="url" class="form-control" [(ngModel)]="eventForm.siteUrl" name="siteUrl" id="siteUrl">
+            </div>
+            
+          </div>
+      </div>
+  </div>
 
 
-    <!-- <div class="form-group">
-      <label for="endDate">Start date</label> -->
-    <!-- <input type="text" class="form-control" id="startDate" required [(ngModel)]="eventForm.startDate" name="startDate"> -->
-    <!-- <angular2-date-picker name="angular-calendar" id="endDate" [(ngModel)]="eventForm.endDate" [settings]=settings (ngmodelchange)="$event &gt;= today &amp;&amp; date = $event"></angular2-date-picker> -->
 
 
-    <!--      <angular2-date-picker name="angular-calendar" id="endDate" [(ngModel)]="tmpEndDate" [settings]=settings (ngmodelchange)="$event &gt;= today &amp;&amp; date = $event"></angular2-date-picker>    </div> -->
-
+    <div >
+      <div class="row">
+          <div class="col-xs-4">
+            <div class="md-form">
+              <label for="input">Choose start date</label>
+              <input type="datetime-local" id="tmpStartDateTime" class="form-control" [ngModel]="tmpStartDateTime | date:'yyyy-MM-ddTHH:mm'"
+                (ngModelChange)="tmpStartDateTime = $event" name="tmpStartDateTime"  mdbInput>
+            </div> 
+            <br/>
+          </div>
+          <div class="col-xs-4"> 
+            <div class="md-form">
+              <label for="input">Choose end date</label>
+              <input type="datetime-local" id="tmpEndDateTime" class="form-control" [ngModel]="tmpEndDateTime | date:'yyyy-MM-ddTHH:mm'"
+                (ngModelChange)="tmpEndDateTime = $event" name="tmpEndDateTime" mdbInput>
+            </div>
+            <br/>
+          </div>
+          <div class="col-xs-4"> 
+            
     <div class="form-check">
       <input type="checkbox" class="form-check-input" id="common" [(ngModel)]="eventForm.common" name="common">
       <label class="form-check-label" for="common">Common event</label>
+      <hr/>
     </div>
 
     <div class="form-check">
       <input type="checkbox" class="form-check-input" id="continous" [(ngModel)]="eventForm.continous" name="continous">
       <label class="form-check-label" for="continous">Continous event</label>
     </div>
-    <br/>
-
-    <div class="url">
-      <label for="siteUrl">Site URL</label>
-      <input type="url" class="form-control" [(ngModel)]="eventForm.siteUrl" name="siteUrl" id="siteUrl">
-    </div>
-    <hr/>
+          </div>
+      </div>
+  </div>
 
     <div>
       <p style="font-weight: bolder;">
         Costs
       </p>
 
-
-      <div ><!-- *ngIf="eventForm.costs.length > 0" -->
+      <div>
         <table class="table table-borderless">
           <thead>
             <tr>
@@ -104,48 +95,50 @@
               <td>{{cost.name}}</td>
               <td>{{cost.description}}</td>
               <td>{{cost.price}} {{ cost.currency}}</td>
-              <td> <button class="btn btn-danger" (click)="removeCost(cost)">Remove cost</button></td>
+              <td>
+                <button class="btn btn-danger" (click)="removeCost(cost)">Remove cost</button>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
 
-
-
-      <div class="form-group">
-        <label for="costName">Cost title</label>
-        <input type="text" class="form-control" id="costName" required [(ngModel)]="costForm.name" name="costName">
-      </div>
-      <div class="form-group">
-        <label for="costDescription">Cost description</label>
-        <input type="text" class="form-control" id="costDescription" [(ngModel)]="costForm.description" name="costDescription">
-      </div>
-      <div class="form-group">
-        <label for="costPrice">Price</label>
-        <input type="number" class="form-control" id="costPrice" [(ngModel)]="costForm.price" name="costPrice">
-      </div>
-      <button class="btn btn-success" (click)="addCost()">Add cost</button>
+      <div  ngModelGroup="costs" >
+        <div class="row">
+            <div class="col-xs-4">
+              <div class="form-group">
+                <label for="costName">Cost title</label>
+                <input type="text" class="form-control" id="costName"  [(ngModel)]="costForm.name" name="costName">
+              </div>
+            </div>
+            <div class="col-xs-4">
+              <div class="form-group">
+                <label for="costDescription">Cost description</label>
+                <input type="text" class="form-control" id="costDescription" [(ngModel)]="costForm.description" name="costDescription">
+              </div>
+            </div>
+            <div class="col-xs-4">
+              <div class="form-group">
+                <label for="costPrice">Price</label>
+                <input type="number" class="form-control" id="costPrice" [(ngModel)]="costForm.price" name="costPrice">
+              </div>
+            </div>
+        </div>
+        <button class="btn btn-info" type="button" (click)="addCost();  form.control.markAsTouched();">Add cost</button>
+      </div>      
     </div>
     <hr/>
 
     <div class="form-group">
       <label for="selectedCategories">Categories</label>
-      <!-- <input type="text" class="form-control" id="costName" required [(ngModel)]="costForm.name" name="costName"> -->
-
       <ng-multiselect-dropdown-angular7 id="selectedCategories" name="selectedCategories" [placeholder]="'Select categories'" [data]="categories"
         [(ngModel)]="selectedCategories" [settings]="dropdownSettings">
-        <!-- (onSelect)="onItemSelect($event)"
-        (onSelectAll)="onSelectAll($event)"
-        (onDeSelect)="onItemDeSelect($event)" -->
       </ng-multiselect-dropdown-angular7>
     </div>
-
-
-
     <hr/>
+    <show-errors [control]="form"></show-errors>
 
-    <button (click)="submit()" class="btn btn-success">Submit</button>
-    <!-- type="submit" -->
+    <button  [disabled]="form.invalid || form.pending" type="submit" class="btn btn-success">Submit</button>
   </form>
 </div>
 

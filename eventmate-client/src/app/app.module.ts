@@ -2,6 +2,7 @@ import { DateFormatPipe } from './utils/DateFormatPipe';
 import { EventService } from './services/event.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
@@ -20,6 +21,9 @@ import { EventsListComponent } from './events-list/events-list.component';
 import { EventDetailsComponent } from './event-details/event-details.component';
 import { EventCreateComponent } from './event-create/event-create.component';
 import { CategoryService } from './services/category.service';
+import { DateCorrectDirective } from './utils/date-correct.directive';
+import { ShowErrorComponent } from './utils/show-error.component';
+import { EventEditComponent } from './event-edit/event-edit.component';
 
 
 
@@ -33,7 +37,10 @@ import { CategoryService } from './services/category.service';
     AdminComponent,
     EventsListComponent,
     EventDetailsComponent,
-    EventCreateComponent
+    EventCreateComponent,
+    DateCorrectDirective,
+    ShowErrorComponent,
+    EventEditComponent
   ],
   imports: [
     BrowserModule,
@@ -42,6 +49,7 @@ import { CategoryService } from './services/category.service';
     HttpClientModule,
     AngularDateTimePickerModule,
     NgMultiSelectDropDownModule,
+    /* ReactiveFormsModule */
     /* MbscModule */
   ],
   providers: [httpInterceptorProviders, EventService, CategoryService, DateFormatPipe],

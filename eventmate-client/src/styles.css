@@ -115,3 +115,8 @@ body {
      font-size: 18px;
      font-weight: bolder;
  }
+ .invalid-feedback {
+     font-size: 18px;
+     font-weight: bolder;
+     /* color: #801515; */
+ }

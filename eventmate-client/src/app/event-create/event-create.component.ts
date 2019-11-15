@@ -2,9 +2,10 @@ import { CategoryService } from '../services/category.service';
 import { CostForm } from '../domain/cost-form';
 import { EventService } from '../services/event.service';
 import { EventForm } from '../domain/event-form';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Category } from '../domain/category';
 import { Time } from '@angular/common';
+/* import { FormGroup, FormBuilder, Validators } from '@angular/forms'; */
 
 @Component({
   selector: 'app-event-create',
@@ -22,17 +23,32 @@ export class EventCreateComponent implements OnInit {
   tmpStartDateTime: Date;
   tmpEndDateTime: Date;
 
+
+  @ViewChild('form')
+private form: NgForm;
+
+  /* newEventForm: FormGroup; */
+
+
   dropdownSettings = {
     singleSelection: false,
     idField: 'id',
     textField: 'name',
     enableCheckAll: false,
-    // selectAllText: 'Select All',
     unSelectAllText: 'Unselect All',
     itemsShowLimit: 3,
     allowSearchFilter: true
   };
-  constructor(private eventService: EventService, private categoryService: CategoryService) { }
+  constructor(private eventService: EventService, private categoryService: CategoryService) {
+   /* this.createForm(); */
+  }
+  /* private formBuilder: FormBuilder */
+ /*  createForm() {
+    this.newEventForm = this.formBuilder.group({
+       title: ['', Validators.required ],
+       description: ['', Validators.required ]
+    });
+  } */
 
   ngOnInit() {
     this.eventForm.title = '';
@@ -91,9 +107,7 @@ export class EventCreateComponent implements OnInit {
       this.eventForm.startDate = this.tmpStartDateTime.toISOString();
       console.log('nie zawiera - ');
     }
-    // this.eventForm.startDate = this.tmpStartDateTime + ':00.000';
-    // this.eventForm.endDate = this.tmpEndDateTime + ':00.000';
-    if (this.tmpStartDateTime.toString().indexOf('-') !== -1) {
+    if (this.tmpEndDateTime.toString().indexOf('-') !== -1) {
       this.eventForm.endDate = this.tmpEndDateTime + ':00.000';
       console.log('nie zawiera - ');
     } else {
@@ -111,14 +125,30 @@ export class EventCreateComponent implements OnInit {
     console.log('INFO:');
     console.log('Start Date: ' + this.tmpStartDateTime);
     console.log('my iso Start Date: ' + this.tmpStartDateTime + ':00.000');
-    /*  console.log(' iso Start Date: ' + this.tmpStartDateTime.toISOString()); */
     console.log(this.tmpStartDateTime.toString().indexOf('-') !== -1);
   }
 
-  /*  onSubmit() {
-     console.log(this.eventForm);
-     this.submitted = true;
-     this.save();
-   } */
+  onSubmit() {
+    console.log('method submit');
+    if (this.tmpStartDateTime.toString().indexOf('-') !== -1) {
+      this.eventForm.startDate = this.tmpStartDateTime + ':00.000';
+      console.log(' zawiera - ');
+    } else {
+      this.eventForm.startDate = this.tmpStartDateTime.toISOString();
+      console.log('nie zawiera - ');
+    }
+    if (this.tmpEndDateTime.toString().indexOf('-') !== -1) {
+      this.eventForm.endDate = this.tmpEndDateTime + ':00.000';
+      console.log('nie zawiera - ');
+    } else {
+      this.eventForm.endDate = this.tmpEndDateTime.toISOString();
+      console.log('nie zawiera - ');
+    }
+    console.log('selected: ' + this.selectedCategories);
+    console.log(this.eventForm);
+    this.eventForm.categoryIds = this.selectedCategories.map(item => item.id);
+    this.submitted = true;
+    this.save();
+  }
 
 }
