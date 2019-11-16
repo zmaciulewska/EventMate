@@ -9,6 +9,7 @@ import { EventsListComponent } from './events-list/events-list.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { EventCreateComponent } from './event-create/event-create.component';
+import { EventEditComponent } from './event-edit/event-edit.component';
 
 const routes: Routes = [
   {
@@ -48,6 +49,10 @@ const routes: Routes = [
   {
     path: 'events/add',
     component: EventCreateComponent,
+  },
+  {
+    path: 'events/edit/:id',
+    component: EventEditComponent
   }
 ];
 

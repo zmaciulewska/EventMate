@@ -24,8 +24,8 @@ export class EventCreateComponent implements OnInit {
   tmpEndDateTime: Date;
 
 
-  @ViewChild('form')
-private form: NgForm;
+/*   @ViewChild('form')
+private form: NgForm; */
 
   /* newEventForm: FormGroup; */
 

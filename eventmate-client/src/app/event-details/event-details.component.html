@@ -43,7 +43,11 @@
     </button>
     <div *ngIf="isDeleteFailed" class="alert alert-danger">
         Delete failed: {{errorMessage}}
-      </div>
+    </div>
+    <button class="btn btn-info" (click)="router.navigate(['/events/edit/', event?.id]);">
+      Edit event
+    </button>
+    
   </div>
 
 
