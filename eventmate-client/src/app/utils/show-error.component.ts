@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { AbstractControlDirective, AbstractControl } from '@angular/forms';
 
 @Component({
+  // tslint:disable-next-line:component-selector
   selector: 'show-errors',
   template: `
    <div *ngIf="shouldShowErrors()">
@@ -9,10 +10,9 @@ import { AbstractControlDirective, AbstractControl } from '@angular/forms';
             <p class="text-label"> {{error}}</p>
         </div>
     </div>
-    
   `,
 })
-/* 
+/*
 <ul *ngIf="shouldShowErrors()">
       <li style="list-style-type: none;" *ngFor="let error of listOfErrors()">
       {{error}}
@@ -21,10 +21,11 @@ import { AbstractControlDirective, AbstractControl } from '@angular/forms';
 export class ShowErrorComponent {
 
   private static readonly errorMessages = {
-    'required': () => 'This field is required',
-    'minlength': (params) => 'The min number of characters is ' + params.requiredLength,
-    'maxlength': (params) => 'The max allowed number of characters is ' + params.requiredLength,
-    'pattern': (params) => 'The required pattern is: ' + params.requiredPattern,
+    'required': () => 'Wymagane pole',
+    /* 'range': () => 'Value is out of the range', */
+    'minlength': (params) => 'Minimalna liczba znaków ' + params.requiredLength,
+    'maxlength': (params) => 'Maksymalna dozwolona liczba znaków' + params.requiredLength,
+    'pattern': (params) => 'Wymagany wzór: ' + params.requiredPattern,
     'years': (params) => params.message,
     'countryCity': (params) => params.message,
     'uniqueName': (params) => params.message,

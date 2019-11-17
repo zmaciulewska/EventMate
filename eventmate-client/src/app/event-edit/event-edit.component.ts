@@ -16,7 +16,7 @@ export class EventEditComponent implements OnInit {
 
   existingEvent: Event;
   eventForm: any = {};
- // eventForm: EventForm;
+  // eventForm: EventForm;
   costs: CostForm[];
   costForm: CostForm = new CostForm();
   categories: Category[];
@@ -32,7 +32,7 @@ export class EventEditComponent implements OnInit {
     idField: 'id',
     textField: 'name',
     enableCheckAll: false,
-    unSelectAllText: 'Unselect All',
+    unSelectAllText: 'Odznacz wszystkie',
     itemsShowLimit: 3,
     allowSearchFilter: true
   };
@@ -56,7 +56,7 @@ export class EventEditComponent implements OnInit {
             console.log(this.existingEvent);
 
             this.eventForm = data;
-            
+
             /* this.eventForm = new EventForm();
             this.eventForm.title = this.existingEvent.title;
             this.eventForm.description = this.existingEvent.description;
@@ -66,7 +66,7 @@ export class EventEditComponent implements OnInit {
 
             this.tmpStartDateTime = new Date(this.existingEvent.startDate);
             this.tmpEndDateTime = new Date(this.existingEvent.endDate);
-            this.selectedCategories = this.existingEvent.categories;
+            this.selectedCategories = this.existingEvent.categoriess;
           });
       });
   }
@@ -99,7 +99,7 @@ export class EventEditComponent implements OnInit {
       this.eventForm.endDate = this.tmpEndDateTime.toISOString();
       // console.log('nie zawiera - ');
     }
-   
+
     this.eventForm.categoryIds = this.selectedCategories.map(item => item.id);
     // this.submitted = true;
     this.save();
@@ -111,11 +111,11 @@ export class EventEditComponent implements OnInit {
         console.log(data);
         this.router.navigate(['/events/details/', this.existingEvent.id]);
       }, error => {
-        console.log(error)
+        console.log(error);
         this.isUpdateFailed = true;
         this.errorMessage = error.error.message;
       });
-    
-      //this.eventForm = new EventForm();
+
+    // this.eventForm = new EventForm();
   }
 }

@@ -15,9 +15,9 @@ public class EventOfferFormDto {
 
     private Integer prefferedMinAge;
 
-    private Integer prfferedMaxAge;
+    private Integer prefferedMaxAge;
 
-    private String prefferedLocalization;
+    private String prefferedLocalization; // not used
 
 
 }

@@ -120,3 +120,9 @@ body {
      font-weight: bolder;
      /* color: #801515; */
  }
+
+ .nested-div{
+     background-color: #627780;
+     padding: 2%;
+     border-radius: 5px;
+ }

@@ -14,13 +14,19 @@ import com.eventmate.error.AppException;
 import com.eventmate.error.Error;
 import com.eventmate.mapper.EventOfferMapper;
 import com.eventmate.service.EventOfferService;
+import org.apache.commons.lang3.time.DateUtils;
+import org.apache.tomcat.jni.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
+import java.text.DateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -77,6 +83,14 @@ public class EventOfferServiceImpl extends AbstractServiceImpl<EventOfferDto, Ev
         return entitiesToDtos(eventOffers);
     }
 
+    private LocalDateTime clearSecondsAndMillis(LocalDateTime date) {
+        LocalDateTime result = date;
+        int currentSeconds = date.getSecond();
+        int currentNanos = date.getNano();
+
+        return result.minusSeconds(currentSeconds).minusNanos(currentNanos);
+    }
+
     @Override
     public EventOfferDto create(EventOfferFormDto eventOfferForm, Long eventId) {
         Event event = eventDao.findById(eventId)
@@ -84,8 +98,12 @@ public class EventOfferServiceImpl extends AbstractServiceImpl<EventOfferDto, Ev
         if (event.getRemovalDate() != null) {
             throw new AppException(Error.EVENT_REMOVED);
         }
-        if (eventOfferForm.getPrefferedDate().isAfter(event.getEndDate())
-                || eventOfferForm.getPrefferedDate().isBefore(event.getStartDate())) {
+
+
+        if (clearSecondsAndMillis(eventOfferForm.getPrefferedDate())
+                .isAfter(clearSecondsAndMillis(event.getEndDate()))
+                || clearSecondsAndMillis(eventOfferForm.getPrefferedDate())
+                .isBefore(clearSecondsAndMillis(event.getStartDate()))) {
             throw new AppException(Error.PREFFERED_DATE_DOES_NOT_MATCH);
         }
 
@@ -98,7 +116,7 @@ public class EventOfferServiceImpl extends AbstractServiceImpl<EventOfferDto, Ev
         eventOffer.setEvent(event);
         eventOffer.setPrefferedGender(Gender.valueOf(eventOfferForm.getPrefferedGender()));
         eventOffer.setPrefferedMinAge(eventOfferForm.getPrefferedMinAge());
-        eventOffer.setPrefferedMaxAge(eventOfferForm.getPrfferedMaxAge());
+        eventOffer.setPrefferedMaxAge(eventOfferForm.getPrefferedMaxAge());
         eventOffer.setPrefferedLocalization(eventOfferForm.getPrefferedLocalization());
         eventOffer.setCreationDate(LocalDateTime.now());
         eventOffer.setPrefferedDate(eventOfferForm.getPrefferedDate());
@@ -121,7 +139,7 @@ public class EventOfferServiceImpl extends AbstractServiceImpl<EventOfferDto, Ev
         }
         eventOffer.setPrefferedGender(Gender.valueOf(eventOfferForm.getPrefferedGender()));
         eventOffer.setPrefferedMinAge(eventOfferForm.getPrefferedMinAge());
-        eventOffer.setPrefferedMaxAge(eventOfferForm.getPrfferedMaxAge());
+        eventOffer.setPrefferedMaxAge(eventOfferForm.getPrefferedMaxAge());
         eventOffer.setPrefferedLocalization(eventOfferForm.getPrefferedLocalization());
         eventOffer.setPrefferedDate(eventOfferForm.getPrefferedDate());
         return convert(eventOfferDao.save(eventOffer));

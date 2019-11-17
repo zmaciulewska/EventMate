@@ -2,24 +2,24 @@
   <p class="title-details">{{event?.title}}</p>
   <p class="text-details">{{event?.description}}</p>
   <hr/>
-  <p class="label-details">Where?</p>
+  <p class="label-details">Gdzie?</p>
   <p class="text-details">{{event?.localization}}</p>
-  <p class="label-details">When?</p>
+  <p class="label-details">Kiedy?</p>
   <p class="text-details">{{startDateString}} - {{endDateString}}</p>
-  <p class="label-details">Event type</p>
+  <p class="label-details">Rodzaj wydarzenia</p>
 
-  <p class="text-details" *ngIf="event?.common">Public</p>
-  <p class="text-details" *ngIf="!event?.common">Private</p>
-  <p class="text-details" *ngIf="event?.continous">Continous</p>
-  <p class="text-details" *ngIf="!event?.continous">One-time</p>
+  <p class="text-details" *ngIf="event?.common">Publiczne</p>
+  <p class="text-details" *ngIf="!event?.common">Prywatne</p>
+  <p class="text-details" *ngIf="event?.continous">Ciągłe</p>
+  <p class="text-details" *ngIf="!event?.continous">Jednorazowe</p>
 
   <div *ngIf="event?.costs.length > 0">
     <table class="table table-borderless">
       <thead>
         <tr>
-          <th scope="col">Cost</th>
-          <th scope="col">Description</th>
-          <th scope="col">Price</th>
+          <th scope="col">Bilet</th>
+          <th scope="col">Opis</th>
+          <th scope="col">Cena</th>
         </tr>
       </thead>
       <tbody>
@@ -31,7 +31,7 @@
       </tbody>
     </table>
   </div>
-  <p class="label-details">Categories</p>
+  <p class="label-details">Kategorie</p>
 
   <div *ngFor="let category of event?.categories">
     <p class="text-details"># {{category.name}}</p>
@@ -39,19 +39,23 @@
   </div>
   <div *ngIf="authority === 'admin'">
     <button class="btn btn-danger" (click)="deleteEvent(event.id)">
-      Delete event
+      Usuń wydarzenie
     </button>
     <div *ngIf="isDeleteFailed" class="alert alert-danger">
-        Delete failed: {{errorMessage}}
+      Nie można usunąć wydarzenia: {{errorMessage}}
     </div>
     <button class="btn btn-info" (click)="router.navigate(['/events/edit/', event?.id]);">
-      Edit event
+      Edytuj wydarzenie
     </button>
-    
+
   </div>
-
-
 </div>
+
+<div>
+  <app-event-offer-create></app-event-offer-create>
+  <app-event-offer-list></app-event-offer-list>
+</div>
+
 <!-- <li *ngIf="authority === 'admin'" class="nav-item">
   <a (click)="deleteEvent(event.id)" class="btn btn-danger">Delete</a>
 </li> -->

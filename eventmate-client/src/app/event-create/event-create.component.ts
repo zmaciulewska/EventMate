@@ -24,8 +24,8 @@ export class EventCreateComponent implements OnInit {
   tmpEndDateTime: Date;
 
 
-/*   @ViewChild('form')
-private form: NgForm; */
+  /*   @ViewChild('form')
+  private form: NgForm; */
 
   /* newEventForm: FormGroup; */
 
@@ -35,20 +35,20 @@ private form: NgForm; */
     idField: 'id',
     textField: 'name',
     enableCheckAll: false,
-    unSelectAllText: 'Unselect All',
+    unSelectAllText: 'Odznacz wszystkie',
     itemsShowLimit: 3,
     allowSearchFilter: true
   };
   constructor(private eventService: EventService, private categoryService: CategoryService) {
-   /* this.createForm(); */
+    /* this.createForm(); */
   }
   /* private formBuilder: FormBuilder */
- /*  createForm() {
-    this.newEventForm = this.formBuilder.group({
-       title: ['', Validators.required ],
-       description: ['', Validators.required ]
-    });
-  } */
+  /*  createForm() {
+     this.newEventForm = this.formBuilder.group({
+        title: ['', Validators.required ],
+        description: ['', Validators.required ]
+     });
+   } */
 
   ngOnInit() {
     this.eventForm.title = '';
@@ -141,6 +141,7 @@ private form: NgForm; */
       this.eventForm.endDate = this.tmpEndDateTime + ':00.000';
       console.log('nie zawiera - ');
     } else {
+      this.tmpEndDateTime.setSeconds(0, 0);
       this.eventForm.endDate = this.tmpEndDateTime.toISOString();
       console.log('nie zawiera - ');
     }

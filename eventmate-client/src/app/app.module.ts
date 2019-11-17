@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown-angular7';
+import { CustomFormsModule } from 'ng2-validation';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,6 +25,8 @@ import { CategoryService } from './services/category.service';
 import { DateCorrectDirective } from './utils/date-correct.directive';
 import { ShowErrorComponent } from './utils/show-error.component';
 import { EventEditComponent } from './event-edit/event-edit.component';
+import { EventOfferCreateComponent } from './event-offer-create/event-offer-create.component';
+import { EventOfferListComponent } from './event-offer-list/event-offer-list.component';
 
 
 
@@ -40,7 +43,9 @@ import { EventEditComponent } from './event-edit/event-edit.component';
     EventCreateComponent,
     DateCorrectDirective,
     ShowErrorComponent,
-    EventEditComponent
+    EventEditComponent,
+    EventOfferCreateComponent,
+    EventOfferListComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +54,7 @@ import { EventEditComponent } from './event-edit/event-edit.component';
     HttpClientModule,
     AngularDateTimePickerModule,
     NgMultiSelectDropDownModule,
+    CustomFormsModule
     /* ReactiveFormsModule */
     /* MbscModule */
   ],
