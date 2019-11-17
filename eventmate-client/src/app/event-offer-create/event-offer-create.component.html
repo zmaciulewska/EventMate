@@ -1,0 +1,64 @@
+<div class="nested-div">
+  <form name="form" #form="ngForm" (ngSubmit)="submit()" novalidate>
+
+    <div class="row">
+      <div class="col-xs-6">
+        <div class="md-form">
+          <label class="label-details" for="input">Wybierz preferowaną datę</label>
+          <input type="datetime-local" id="tmpPrefferedDate" class="form-control" [ngModel]="tmpPrefferedDate | date:'yyyy-MM-ddTHH:mm'"
+            (ngModelChange)="tmpPrefferedDate = $event" name="tmpPrefferedDate" mdbInput>
+        </div>
+      </div>
+      <!-- <div class="col-xs-4">
+        <div class="form-group">
+          <label class="label-details" for="prefferedLocalization">Preffered localization</label>
+          <input type="text" class="form-control" id="prefferedLocalization"  [(ngModel)]="eventOfferForm.prefferedLocalization"
+            name="prefferedLocalization" #prefferedLocalization="ngModel" [ngClass]="{ 'is-invalid': form.submitted && prefferedLocalization.invalid }">
+          <show-errors class="invalid-feedback" [control]="prefferedLocalization"></show-errors>
+        </div>
+      </div> -->
+      <div class="col-xs-6">
+        <p class="label-details">
+          Kogo szukasz?
+        </p>
+
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="maleCheckbox" [(ngModel)]="maleCheckbox" name="maleCheckbox">
+          <label class="form-check-label" for="maleCheckbox">Mężczyzn</label>
+        </div>
+
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="femaleCheckbox" [(ngModel)]="femaleCheckbox" name="femaleCheckbox">
+          <label class="form-check-label" for="femaleCheckbox">Kobiet</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="prefferedMinAge">Minimalny wiek</label>
+          <input type="number" class="form-control" id="prefferedMinAge" [(ngModel)]="eventOfferForm.prefferedMinAge" name="prefferedMinAge"
+            #prefferedMinAge="ngModel" required [range]="[18, 130]" [ngClass]="{ 'is-invalid': form.submitted && prefferedMinAge.invalid }">
+          <show-errors class="invalid-feedback" [control]="prefferedMinAge"></show-errors>
+          <p *ngIf="prefferedMinAge.errors?.range">Podany wiek jest poza zakresem 18-130</p>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="prefferedMaxAge">Maksymalny wiek</label>
+          <input type="number" class="form-control" id="prefferedMaxAge" [(ngModel)]="eventOfferForm.prefferedMaxAge" name="prefferedMaxAge"
+            #prefferedMaxAge="ngModel" required [range]="[18, 130]" [ngClass]="{ 'is-invalid': form.submitted && prefferedMaxAge.invalid }">
+          <show-errors class="invalid-feedback" [control]="prefferedMaxAge"></show-errors>
+          <p *ngIf="prefferedMaxAge.errors?.range">Podany wiek jest poza zakresem 18-130</p>
+        </div>
+      </div>
+    </div>
+
+    <button [disabled]="form.invalid || form.pending" type="submit" class="btn btn-success">Zatwierdź ofertę</button>
+    <div *ngIf="isSaveFailed" class="alert alert-danger">
+      Nie można utworzyć oferty: {{errorMessage}}
+    </div>
+  </form>
+
+</div>

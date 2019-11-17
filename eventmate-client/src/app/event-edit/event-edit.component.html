@@ -1,14 +1,14 @@
 <form name="form" #form="ngForm" (ngSubmit)="submit()" novalidate>
 
   <div class="form-group">
-    <label for="title">Title</label>
+    <label for="title">Nazwa</label>
     <input type="text" class="form-control" id="title" [(ngModel)]="eventForm.title" name="title" #title="ngModel" [ngClass]="{ 'is-invalid': form.submitted && title.invalid }"
       required minlength="6">
     <show-errors class="invalid-feedback" [control]="title"></show-errors>
   </div>
 
   <div class="form-group">
-    <label for="description">Description</label>
+    <label for="description">Opis</label>
     <input type="text" class="form-control" id="description" required [(ngModel)]="eventForm.description" name="description"
       #description="ngModel" [ngClass]="{ 'is-invalid': form.submitted && description.invalid }">
     <show-errors class="invalid-feedback" [control]="description"></show-errors>
@@ -18,7 +18,7 @@
     <div class="row">
       <div class="col-xs-6">
         <div class="form-group">
-          <label for="localization">Localization</label>
+          <label for="localization">Lokalizacja</label>
           <input type="text" class="form-control" id="localization" required [(ngModel)]="eventForm.localization" name="localization"
             #localization="ngModel" [ngClass]="{ 'is-invalid': form.submitted && localization.invalid }">
           <show-errors class="invalid-feedback" [control]="localization"></show-errors>
@@ -26,7 +26,7 @@
       </div>
       <div class="col-xs-6">
         <div class="url">
-          <label for="siteUrl">Site URL</label>
+          <label for="siteUrl">Oficjalna strona wydarzenia</label>
           <input type="url" class="form-control" [(ngModel)]="eventForm.siteUrl" name="siteUrl" id="siteUrl">
         </div>
       </div>
@@ -37,7 +37,7 @@
     <div class="row">
       <div class="col-xs-4">
         <div class="md-form">
-          <label for="input">Choose start date</label>
+          <label for="input">Wybierz datę rozpoczęcia wydarzenia</label>
           <input type="datetime-local" id="tmpStartDateTime" class="form-control" [ngModel]="tmpStartDateTime | date:'yyyy-MM-ddTHH:mm'"
             (ngModelChange)="tmpStartDateTime = $event" name="tmpStartDateTime" mdbInput>
         </div>
@@ -45,7 +45,7 @@
       </div>
       <div class="col-xs-4">
         <div class="md-form">
-          <label for="input">Choose end date</label>
+          <label for="input">Wybierz datę zakończenia wydarzenia</label>
           <input type="datetime-local" id="tmpEndDateTime" class="form-control" [ngModel]="tmpEndDateTime | date:'yyyy-MM-ddTHH:mm'"
             (ngModelChange)="tmpEndDateTime = $event" name="tmpEndDateTime" mdbInput>
         </div>
@@ -55,13 +55,13 @@
 
         <div class="form-check">
           <input type="checkbox" class="form-check-input" id="common" [(ngModel)]="eventForm.common" name="common">
-          <label class="form-check-label" for="common">Common event</label>
+          <label class="form-check-label" for="common">Wydarzenie publiczne</label>
           <hr/>
         </div>
 
         <div class="form-check">
           <input type="checkbox" class="form-check-input" id="continous" [(ngModel)]="eventForm.continous" name="continous">
-          <label class="form-check-label" for="continous">Continous event</label>
+          <label class="form-check-label" for="continous">Wydarzenie ciągłe</label>
         </div>
       </div>
     </div>
@@ -69,17 +69,17 @@
 
   <div>
     <p style="font-weight: bolder;">
-      Costs
+      Bilety
     </p>
 
     <div>
       <table class="table table-borderless">
         <thead>
           <tr>
-            <th scope="col">Cost</th>
-            <th scope="col">Description</th>
-            <th scope="col">Price</th>
-            <th scope="col">Delete</th>
+            <th scope="col">Bilet</th>
+            <th scope="col">Opis</th>
+            <th scope="col">Cena</th>
+            <th scope="col">Usuwanie</th>
           </tr>
         </thead>
         <tbody>
@@ -88,7 +88,7 @@
             <td>{{cost.description}}</td>
             <td>{{cost.price}} {{ cost.currency}}</td>
             <td>
-              <button class="btn btn-danger" (click)="removeCost(cost)">Remove cost</button>
+              <button class="btn btn-danger" (click)="removeCost(cost)">Usuń</button>
             </td>
           </tr>
         </tbody>
@@ -99,31 +99,31 @@
       <div class="row">
         <div class="col-xs-4">
           <div class="form-group">
-            <label for="costName">Cost title</label>
+            <label for="costName">Nazwa biletu</label>
             <input type="text" class="form-control" id="costName" [(ngModel)]="costForm.name" name="costName">
           </div>
         </div>
         <div class="col-xs-4">
           <div class="form-group">
-            <label for="costDescription">Cost description</label>
+            <label for="costDescription">Opis</label>
             <input type="text" class="form-control" id="costDescription" [(ngModel)]="costForm.description" name="costDescription">
           </div>
         </div>
         <div class="col-xs-4">
           <div class="form-group">
-            <label for="costPrice">Price</label>
+            <label for="costPrice">Cena</label>
             <input type="number" class="form-control" id="costPrice" [(ngModel)]="costForm.price" name="costPrice">
           </div>
         </div>
       </div>
-      <button class="btn btn-info" type="button" (click)="addCost();  form.control.markAsTouched();">Add cost</button>
+      <button class="btn btn-info" type="button" (click)="addCost();  form.control.markAsTouched();">Dodaj bilet</button>
     </div>
   </div>
   <hr/>
 
   <div class="form-group">
-    <label for="selectedCategories">Categories</label>
-    <ng-multiselect-dropdown-angular7 id="selectedCategories" name="selectedCategories" [placeholder]="'Select categories'" [data]="categories"
+    <label for="selectedCategories">Kategorie</label>
+    <ng-multiselect-dropdown-angular7 id="selectedCategories" name="selectedCategories" [placeholder]="'Wybierz kategorie'" [data]="categories"
       [(ngModel)]="selectedCategories" [settings]="dropdownSettings">
     </ng-multiselect-dropdown-angular7>
   </div>
@@ -131,9 +131,9 @@
   <show-errors [control]="form"></show-errors>
 
 
-  <button [disabled]="form.invalid || form.pending" type="submit" class="btn btn-success">Submit</button>
+  <button [disabled]="form.invalid || form.pending" type="submit" class="btn btn-success">Zatwierdź wydarzenie</button>
 
   <div *ngIf="isUpdateFailed" class="alert alert-danger">
-    Update failed: {{errorMessage}}
+    Nie można zaktualizować wydarzenia: {{errorMessage}}
 </div>
 </form>

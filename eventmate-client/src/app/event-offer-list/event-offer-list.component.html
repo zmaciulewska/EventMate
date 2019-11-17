@@ -1,0 +1,19 @@
+<p>
+  event-offer-list works!
+</p>
+
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let eventOffer of eventOffers">
+    <div ng-click="">
+
+
+      {{ eventOffer.prefferedDate }}
+      <br/> {{ eventOffer.prefferedGender }}
+      <br/> {{ eventOffer.prefferedMinAge }}
+      <br/> {{ eventOffer.prfferedMaxAge }}
+      <br/> {{ eventOffer.prefferedLocalization }}
+      <br/>
+      
+    </div>
+  </li>
+</ul>
