@@ -10,5 +10,7 @@ import java.util.List;
 public interface EventDao extends AbstractDao<Event> {
 
     List<Event> findAllByRemovalDateNull();
+    List<Event> findAllByRemovalDateNullAndAdministratorNullAndCommon(Boolean common);
+    List<Event> findAllByRemovalDateNullAndAdministratorNotNullOrCommonAndRemovalDateNull(Boolean common);
     List<Event> findAllByStartDateLessThanEqualAndStartDateGreaterThanEqual(LocalDateTime endDate, LocalDateTime startDate);
 }

@@ -4,6 +4,8 @@ import com.eventmate.dto.EventDto;
 import com.eventmate.dto.form.EventFormDto;
 import com.eventmate.entity.Event;
 
+import java.util.List;
+
 public interface EventService extends AbstractService<EventDto> {
     EventDto create(EventFormDto eventForm);
 
@@ -11,4 +13,7 @@ public interface EventService extends AbstractService<EventDto> {
 
     EventDto confirmPublicEventProposal(Long id);
 
+    List<EventDto> getAllNotConfirmed();
+
+    List<EventDto> getConfirmedOrPrivate();
 }

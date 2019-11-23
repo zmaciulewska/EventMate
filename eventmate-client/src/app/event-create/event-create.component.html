@@ -12,7 +12,7 @@
 
     <div class="form-group">
       <label for="description">Opis</label>
-      <input type="text" class="form-control" id="description" required [(ngModel)]="eventForm.description" name="description"
+      <input type="text" class="form-control" id="description" required maxlength="255" [(ngModel)]="eventForm.description" name="description"
         #description="ngModel" [ngClass]="{ 'is-invalid': form.submitted && description.invalid }">
       <show-errors class="invalid-feedback" [control]="description"></show-errors>
 

@@ -51,8 +51,9 @@
   </div>
 </div>
 
-<div>
+<div *ngIf="authority">
   <app-event-offer-create></app-event-offer-create>
+  <br/>
   <app-event-offer-list></app-event-offer-list>
 </div>
 

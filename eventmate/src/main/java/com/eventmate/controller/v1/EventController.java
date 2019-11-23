@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/events")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 public class EventController {
 
     private static final Logger logger = LoggerFactory.getLogger(EventController.class);
@@ -37,11 +37,12 @@ public class EventController {
         return eventService.create(eventForm);
     }
 
-    @PutMapping
+    @PutMapping("/{id}/confirm")
     @PreAuthorize("hasRole('ADMIN')")
-    @RequestMapping("/{id}/confirm")
-    public EventDto confirmPublicEventProposal(@Valid @PathVariable Long id) {
-        return eventService.confirmPublicEventProposal(id);
+    // @RequestMapping("/{id}/confirm")
+    public  ResponseEntity<EventDto> confirmPublicEventProposal(@Valid @PathVariable Long id, @Valid @RequestBody EventDto event) {
+        return new ResponseEntity<>( eventService.confirmPublicEventProposal(id), HttpStatus.OK);
+
     }
 
     @GetMapping("/{id}")
@@ -53,6 +54,17 @@ public class EventController {
     @GetMapping
     public ResponseEntity<List<EventDto>> getAll() {
         return ResponseEntity.ok(eventService.getAll());
+    }
+
+    @GetMapping ("/not-confirmed")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<EventDto>> getAllNotConfirmed() {
+        return  ResponseEntity.ok(eventService.getAllNotConfirmed());
+    }
+
+    @GetMapping ("/confirmed-private")
+    public ResponseEntity<List<EventDto>> getConfirmedAndPrivate() {
+        return  ResponseEntity.ok(eventService.getConfirmedOrPrivate());
     }
 
     @PutMapping("/{id}")

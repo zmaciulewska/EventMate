@@ -1,0 +1,32 @@
+<p>
+  admin-event-list works!
+</p>
+<p>
+   {{errorMessage}}
+</p>
+<div>
+  
+<ul class="list-group">
+    <li class="list-group-item" *ngFor="let event of events">
+      <div class="row">
+        <div class="col-xs-9">
+            <div ng-click="">
+                <a class="title-link" [routerLink]="['/events/details/', event.id]">
+                  {{event.title}}
+                </a>
+                <br/>
+                <p style="color: #364D57">
+                  {{event.description}}
+                </p>
+              </div>
+        </div>
+        <div class="col-xs-3">
+            <button *ngIf="areEventsNotConfirmed" (click)="confirmEvent(event)" class="btn btn-success">Zatwierdź</button>
+            <button *ngIf="!areEventsNotConfirmed" (click)="confirmEvent()" class="btn btn-danger">Usuń</button>
+            <button *ngIf="!areEventsNotConfirmed && event.reporterId!=null" (click)="confirmEvent()" class="btn btn-primary">Edytuj</button>
+        </div>
+      </div>
+     
+    </li>
+  </ul>
+</div>

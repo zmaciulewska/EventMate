@@ -13,6 +13,8 @@ import { EventOffer } from '../domain/event-offer';
 export class EventOfferListComponent implements OnInit {
 
   eventOffers: EventOffer[];
+  emptyList = true;
+
   constructor(private route: ActivatedRoute,
     private eventService: EventService,
     private dateFormatPipe: DateFormatPipe,
@@ -27,6 +29,7 @@ export class EventOfferListComponent implements OnInit {
           .getAllEventOffers(params['id'])
           .subscribe(data => {
             this.eventOffers = data;
+            if (this.eventOffers.length > 0) { this.emptyList = false; }
           });
       });
   }

@@ -36,7 +36,7 @@ export class EventsListComponent implements OnInit {
   }
 
   getAllEvents(): void {
-    this.eventService.getAll().subscribe(data => {
+    this.eventService.getAllConfirmedOrPrivate().subscribe(data => {
       this.events = data;
     });
   }

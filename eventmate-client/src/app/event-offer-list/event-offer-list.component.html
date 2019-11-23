@@ -1,19 +1,16 @@
-<p>
-  event-offer-list works!
-</p>
+<div div [hidden]="emptyList" class="nested-div">
 
-<ul class="list-group">
-  <li class="list-group-item" *ngFor="let eventOffer of eventOffers">
-    <div ng-click="">
+    <ul class="list-group">
+        <li class="list-group-item" *ngFor="let eventOffer of eventOffers">
+          <div >
+              <p class="label-details">#todo ta osoba szuka:</p>
+              <p class="text-details" *ngIf="eventOffer.prefferedGender === 'BOTH'">Kobiet lub mężczyzn</p>
+              <p class="text-details">W wieku między {{ eventOffer.prefferedMinAge }} a {{ eventOffer.prfferedMaxAge }} lat</p>
+              
 
-
-      {{ eventOffer.prefferedDate }}
-      <br/> {{ eventOffer.prefferedGender }}
-      <br/> {{ eventOffer.prefferedMinAge }}
-      <br/> {{ eventOffer.prfferedMaxAge }}
-      <br/> {{ eventOffer.prefferedLocalization }}
-      <br/>
-      
-    </div>
-  </li>
-</ul>
+          <button class = "btn btn-info" >Zgołoś się</button>
+            
+          </div>
+        </li>
+      </ul>
+</div>

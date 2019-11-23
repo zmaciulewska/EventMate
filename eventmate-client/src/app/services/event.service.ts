@@ -18,6 +18,18 @@ export class EventService {
     return this.http.get<Event[]>(this.baseUrl);
   }
 
+  getAllConfirmedOrPrivate() {
+    return this.http.get<Event[]>(this.baseUrl + '/confirmed-private');
+  }
+
+  getAllNotConfirmed() {
+    return this.http.get<Event[]>(this.baseUrl + '/not-confirmed');
+  }
+
+  confirmEvent(id: number, event: Event ) {
+    return this.http.put(this.baseUrl + '/' + id + '/confirm', event);
+  }
+
   getOneById(id: number) {
     return this.http.get<Event>(this.baseUrl + '/' + id);
   }

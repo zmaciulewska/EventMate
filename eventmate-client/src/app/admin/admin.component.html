@@ -1,3 +1,9 @@
-<h4>Content from Server</h4>
-{{board}}
 {{errorMessage}}
+<div *ngIf = "areNotConfirmedEventsShown">
+        <button class="btn btn-primary" (click) = hideNotConfirmedEvents()>Zwiń</button>
+        {{notConfirmedEventsError}}
+        <app-admin-event-list [areEventsNotConfirmed]="true" ></app-admin-event-list>
+
+    
+</div>
+<button *ngIf  = "!areNotConfirmedEventsShown" class="btn btn-primary" (click) = showNotConfirmedEvents()>Pokaż wydarzenia do zatwierdzenia</button>

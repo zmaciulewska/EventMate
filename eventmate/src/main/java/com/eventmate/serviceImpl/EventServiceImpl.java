@@ -168,6 +168,16 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
         return convert(getRepository().save(event));
     }
 
+    @Override
+    public List<EventDto> getAllNotConfirmed() {
+        return entitiesToDtos(eventDao.findAllByRemovalDateNullAndAdministratorNullAndCommon(new Boolean(true)));
+    }
+
+    @Override
+    public List<EventDto> getConfirmedOrPrivate() {
+        return entitiesToDtos(eventDao.findAllByRemovalDateNullAndAdministratorNotNullOrCommonAndRemovalDateNull(new Boolean(false)));
+    }
+
     private Event findEventById(Long id) {
         Event event = eventDao.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Object with given id: " + id + " not found."));
