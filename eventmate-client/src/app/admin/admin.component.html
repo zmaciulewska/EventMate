@@ -1,9 +1,16 @@
 {{errorMessage}}
-<div *ngIf = "areNotConfirmedEventsShown">
-        <button class="btn btn-primary" (click) = hideNotConfirmedEvents()>Zwiń</button>
+<div *ngIf="areNotConfirmedEventsShown">
+        <button class="btn btn-primary" (click)=hideNotConfirmedEvents()>Zwiń</button>
         {{notConfirmedEventsError}}
         <app-events-list [areEventsNotConfirmed]="true" [isDisplayOnly]="false"></app-events-list>
-
-    
 </div>
-<button *ngIf  = "!areNotConfirmedEventsShown" class="btn btn-primary" (click) = showNotConfirmedEvents()>Pokaż wydarzenia do zatwierdzenia</button>
+<button *ngIf="!areNotConfirmedEventsShown" class="btn btn-primary" (click)=showNotConfirmedEvents()>Pokaż wydarzenia do zatwierdzenia</button>
+<hr/>
+
+<div *ngIf="arePublishedEventsShown">
+        <button class="btn btn-primary" (click)=hidePublishedEvents()>Zwiń</button>
+        {{notConfirmedEventsError}}
+        <app-events-list [areEventsNotConfirmed]="false" [isDisplayOnly]="false"></app-events-list>
+</div>
+<button *ngIf="!arePublishedEventsShown" class="btn btn-primary" (click)=showPublishedEvents()>Pokaż opublikowane wydarzenia</button>
+<hr/>

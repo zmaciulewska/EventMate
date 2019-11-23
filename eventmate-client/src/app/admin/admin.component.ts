@@ -17,6 +17,8 @@ export class AdminComponent implements OnInit {
   notConfirmedEventsError: string;
 
 
+  arePublishedEventsShown = false;
+
 
   constructor(private userService: UserService,
   private eventService: EventService) { }
@@ -32,20 +34,19 @@ export class AdminComponent implements OnInit {
     );
   }
 
-
   showNotConfirmedEvents() {
     this.areNotConfirmedEventsShown = true;
-    this.eventService.getAllNotConfirmed().subscribe(
-      data => {
-        this.notConfirmedEvents = data;
-      },
-      error => {
-        this.notConfirmedEventsError = error;
-      }
-    );
   }
 
   hideNotConfirmedEvents() {
     this.areNotConfirmedEventsShown = false;
+  }
+
+  showPublishedEvents() {
+    this.arePublishedEventsShown = true;
+  }
+
+  hidePublishedEvents() {
+    this.arePublishedEventsShown = false;
   }
 }
