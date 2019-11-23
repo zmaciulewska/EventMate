@@ -2,7 +2,7 @@
 <div *ngIf = "areNotConfirmedEventsShown">
         <button class="btn btn-primary" (click) = hideNotConfirmedEvents()>Zwiń</button>
         {{notConfirmedEventsError}}
-        <app-admin-event-list [areEventsNotConfirmed]="true" ></app-admin-event-list>
+        <app-events-list [areEventsNotConfirmed]="true" [isDisplayOnly]="false"></app-events-list>
 
     
 </div>

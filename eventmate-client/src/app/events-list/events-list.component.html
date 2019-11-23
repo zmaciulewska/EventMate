@@ -1,4 +1,8 @@
-<div *ngIf="authority">
+<p>
+    {{errorMessage}}
+ </p>
+
+<div *ngIf="authority && isDisplayOnly">
   <p>
     <button class="btn btn-block" routerLink="/events/add">Create Event</button>
     <!-- <a routerLink="/events/add" class="nav-link" routerLinkActive="active">Create Event</a> -->
@@ -8,7 +12,7 @@
 
 <ul class="list-group">
   <li class="list-group-item" *ngFor="let event of events">
-    <div ng-click="">
+    <div *ngIf="isDisplayOnly">
       <a class="title-link" [routerLink]="['/events/details/', event.id]">
         {{event.title}}
       </a>
@@ -17,5 +21,25 @@
         {{event.description}}
       </p>
     </div>
+
+    <div class="row" *ngIf="!isDisplayOnly">
+        <div class="col-xs-9">
+            <div ng-click="">
+                <a class="title-link" [routerLink]="['/events/details/', event.id]">
+                  {{event.title}}
+                </a>
+                <br/>
+                <p style="color: #364D57">
+                  {{event.description}}
+                </p>
+              </div>
+        </div>
+        <div class="col-xs-3">
+            <button *ngIf="areEventsNotConfirmed" (click)="confirmEvent(event)" class="btn btn-success">Zatwierdź</button>
+            <button *ngIf="!areEventsNotConfirmed" (click)="deleteEvent()" class="btn btn-danger">Usuń</button>
+            <button *ngIf="!areEventsNotConfirmed && event.reporterId!=null" (click)="editEvent(event)" class="btn btn-primary">Edytuj</button>
+        </div>
+      </div>
+
   </li>
 </ul>

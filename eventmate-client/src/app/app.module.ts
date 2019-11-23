@@ -27,7 +27,6 @@ import { ShowErrorComponent } from './utils/show-error.component';
 import { EventEditComponent } from './event-edit/event-edit.component';
 import { EventOfferCreateComponent } from './event-offer-create/event-offer-create.component';
 import { EventOfferListComponent } from './event-offer-list/event-offer-list.component';
-import { AdminEventListComponent } from './admin-event-list/admin-event-list.component';
 
 
 
@@ -46,8 +45,7 @@ import { AdminEventListComponent } from './admin-event-list/admin-event-list.com
     ShowErrorComponent,
     EventEditComponent,
     EventOfferCreateComponent,
-    EventOfferListComponent,
-    AdminEventListComponent
+    EventOfferListComponent
   ],
   imports: [
     BrowserModule,

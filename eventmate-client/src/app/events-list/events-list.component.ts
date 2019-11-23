@@ -1,7 +1,8 @@
 import { EventService } from '../services/event.service';
 import { Event } from '../domain/event';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { TokenStorageService } from '../auth/token-storage.service';
+import { Router } from '../../../node_modules/@angular/router';
 
 @Component({
   selector: 'app-events-list',
@@ -14,10 +15,23 @@ export class EventsListComponent implements OnInit {
   private roles: string[];
   private authority: string;
 
-  constructor(private eventService: EventService, private tokenStorage: TokenStorageService) { }
+  errorMessage: string;
+
+  @Input()
+  public areEventsNotConfirmed = false;
+  @Input()
+  public isDisplayOnly = true;
+
+  constructor(private eventService: EventService,
+    private tokenStorage: TokenStorageService,
+    private router: Router) { }
 
   ngOnInit() {
-    this.getAllEvents();
+    if (this.areEventsNotConfirmed) {
+      this.getNotConfirmedEvents();
+    } else {
+      this.getPublishedEvents();
+    }
 
     if (this.tokenStorage.getToken()) {
       this.roles = this.tokenStorage.getAuthorities();
@@ -35,10 +49,33 @@ export class EventsListComponent implements OnInit {
     }
   }
 
-  getAllEvents(): void {
+  getPublishedEvents(): void {
     this.eventService.getAllConfirmedOrPrivate().subscribe(data => {
       this.events = data;
-    });
+    },
+  error => {
+    this.errorMessage = error;
+  });
+  }
+
+  getNotConfirmedEvents(): void {
+    this.eventService.getAllNotConfirmed().subscribe(data => {
+      this.events = data;
+    }, error => {
+      this.errorMessage = error;
+    }
+    );
+  }
+
+  confirmEvent(confirmedEvent: Event) {
+    this.eventService.confirmEvent(confirmedEvent.id, confirmedEvent).subscribe(data => {
+      console.log(data);
+      this.router.navigate(['/events/details/', confirmedEvent.id]);
+    }, error => {
+      this.errorMessage = error;
+    }
+    );
+
   }
 
 }
