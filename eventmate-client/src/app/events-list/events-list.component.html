@@ -37,7 +37,7 @@
         <div class="col-xs-3">
             <button *ngIf="areEventsNotConfirmed" (click)="confirmEvent(event)" class="btn btn-success">Zatwierdź</button>
             <button *ngIf="!areEventsNotConfirmed" (click)="deleteEvent()" class="btn btn-danger">Usuń</button>
-            <button *ngIf="!areEventsNotConfirmed && event.reporterId!=null" (click)="editEvent(event)" class="btn btn-primary">Edytuj</button>
+            <button *ngIf="!areEventsNotConfirmed && event.reporterId==null"  [routerLink]="['/events/edit/', event.id]" class="btn btn-primary">Edytuj</button>
         </div>
       </div>
 

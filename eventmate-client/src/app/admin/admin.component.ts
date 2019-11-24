@@ -19,6 +19,8 @@ export class AdminComponent implements OnInit {
 
   arePublishedEventsShown = false;
 
+  areCategoriesShown = false;
+
 
   constructor(private userService: UserService,
   private eventService: EventService) { }
@@ -48,5 +50,13 @@ export class AdminComponent implements OnInit {
 
   hidePublishedEvents() {
     this.arePublishedEventsShown = false;
+  }
+
+  showCategories() {
+    this.areCategoriesShown = true;
+  }
+
+  hideCategories() {
+    this.areCategoriesShown = false;
   }
 }
