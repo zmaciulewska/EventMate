@@ -13,5 +13,5 @@ public class ShowcaseDto extends AbstractDto {
     private String gender;
     private LocalDate birthDate;
     private String localization;
-    private UserDto user;
+    private Long userId;
 }

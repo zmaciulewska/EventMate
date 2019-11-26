@@ -28,6 +28,8 @@ import { EventEditComponent } from './event-edit/event-edit.component';
 import { EventOfferCreateComponent } from './event-offer-create/event-offer-create.component';
 import { EventOfferListComponent } from './event-offer-list/event-offer-list.component';
 import { CategoriesListComponent } from './categories-list/categories-list.component';
+import { UsersListComponent } from './users-list/users-list.component';
+import { UserDetailsComponent } from './user-details/user-details.component';
 
 
 
@@ -47,7 +49,9 @@ import { CategoriesListComponent } from './categories-list/categories-list.compo
     EventEditComponent,
     EventOfferCreateComponent,
     EventOfferListComponent,
-    CategoriesListComponent
+    CategoriesListComponent,
+    UsersListComponent,
+    UserDetailsComponent
   ],
   imports: [
     BrowserModule,

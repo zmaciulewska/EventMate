@@ -15,7 +15,15 @@
 
 <div *ngIf="areCategoriesShown">
         <button class="btn btn-primary" (click)=hideCategories()>Zwiń</button>
-       <app-categories-list></app-categories-list>
+        <app-categories-list></app-categories-list>
 </div>
 <button *ngIf="!areCategoriesShown" class="btn btn-primary" (click)=showCategories()>Zarządzaj kategoriami</button>
+<hr/>
+
+
+<div *ngIf="areUsersShown">
+        <button class="btn btn-primary" (click)=hideUsers()>Zwiń</button>
+        <app-users-list></app-users-list>
+</div>
+<button *ngIf="!areUsersShown" class="btn btn-primary" (click)=showUsers()>Zarządzaj użytkownikami</button>
 <hr/>

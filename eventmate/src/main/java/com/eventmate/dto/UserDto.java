@@ -30,8 +30,8 @@ public class UserDto extends AbstractDto implements UserDetails {
    // private Set<AuthorityDto> authorityList;
 
     //private Set<OneTimeEventOfferDto> oneTimeEventOffers;
-    private Set<EventOfferDto> eventOffers;
-    private Set<EventOfferResponseDto> eventOfferResponses;
+    private Set<Long> eventOfferIds;
+    private Set<Long> eventOfferResponseIds;
     private ShowcaseDto showcase;
 
     public UserDto(Long id, String username, String password, String email,

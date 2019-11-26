@@ -41,7 +41,7 @@ export class CategoriesListComponent implements OnInit {
         },
         error => {
           console.log('Event not deleted');
-         // this.isDeleteFailed = true;
+          // this.isDeleteFailed = true;
           this.errorMessage = error.error.message;
         });
     }
@@ -49,14 +49,14 @@ export class CategoriesListComponent implements OnInit {
 
   submit() {
     this.categoryService.add(this.categoryForm)
-    .subscribe(data => {
-      console.log(data);
-      this.categories.push(data);
-    },
-     error => { 
-       this.errorMessage = (error);
-     }
-    );
+      .subscribe(data => {
+        console.log(data);
+        this.categories.push(data);
+      },
+        error => {
+          this.errorMessage = (error);
+        }
+      );
     this.categoryForm = new Category();
   }
 

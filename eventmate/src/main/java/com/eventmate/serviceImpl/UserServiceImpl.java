@@ -5,11 +5,12 @@ import com.eventmate.dao.UserDao;
 import com.eventmate.dto.UserDto;
 import com.eventmate.dto.security.SignUpForm;
 import com.eventmate.entity.Role;
-import com.eventmate.entity.enumeration.RoleName;
 import com.eventmate.entity.User;
+import com.eventmate.entity.enumeration.RoleName;
 import com.eventmate.mapper.UserMapper;
 import com.eventmate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,11 +19,12 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.HashSet;
-import java.util.Optional;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserDetailsService, UserService {
+public class UserServiceImpl extends AbstractServiceImpl<UserDto, User> implements UserDetailsService, UserService {
 
     private final UserMapper userMapper;
 
@@ -85,13 +87,45 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return userDao.existsByUsername(username);
     }
 
-    @Override
-    public Optional<User> findUser(Long id) {
-        return userDao.findById(id);
-    }
+//    @Override
+//    public Optional<User> findUser(Long id) {
+//        return userDao.findById(id);
+//    }
 
     @Override
     public UserDto findUserByEmail(String email) {
         return userMapper.convert(userDao.findByEmail(email));
+    }
+
+    @Override
+    public UserDto getOneByUsername(String username) {
+        User user = userDao.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User with given username: " + username + " not found."));
+        return convert(user);
+    }
+
+    @Override
+    public JpaRepository<User, Long> getRepository() {
+        return userDao;
+    }
+
+    @Override
+    public UserDto convert(User entity) {
+        return userMapper.convert(entity);
+    }
+
+    @Override
+    public User convert(UserDto dto) {
+        return userMapper.convert(dto);
+    }
+
+    @Override
+    public List<UserDto> entitiesToDtos(List<User> entities) {
+        return entities.stream().map(e -> convert(e)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<User> dtosToEntities(List<UserDto> dtos) {
+        return dtos.stream().map(e -> convert(e)).collect(Collectors.toList());
     }
 }

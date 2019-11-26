@@ -1,0 +1,63 @@
+<p>
+  users-list works!
+</p>
+
+<!-- <form name="form" #form="ngForm" (ngSubmit)="submit()" novalidate>
+  <div class="row">
+    <div class="col-xs-3">
+        <div class="form-group">
+            <label for="code">Kod</label>
+            <input type="text" class="form-control" id="code" [(ngModel)]="categoryForm.code" name="code" #code="ngModel" [ngClass]="{ 'is-invalid': form.submitted && code.invalid }"
+              required minlength="3">
+            <show-errors class="invalid-feedback" [control]="code"></show-errors>
+          </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="form-group">
+            <label for="name">Nazwa</label>
+            <input type="text" class="form-control" id="name" [(ngModel)]="categoryForm.name" name="name" #name="ngModel" [ngClass]="{ 'is-invalid': form.submitted && name.invalid }"
+              required minlength="3">
+            <show-errors class="invalid-feedback" [control]="name"></show-errors>
+          </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="form-group">
+            <label for="description">Opis</label>
+            <input type="text" class="form-control" id="description" [(ngModel)]="categoryForm.description" name="description" #description="ngModel" [ngClass]="{ 'is-invalid': form.submitted && description.invalid }"
+              required minlength="3">
+            <show-errors class="invalid-feedback" [control]="description"></show-errors>
+          </div>
+    </div>
+    <div class="col-xs-3">
+        <button [disabled]="form.invalid || form.pending" type="submit" class="btn btn-success">Zatwierdź kategorię</button>
+    </div>
+  </div>
+</form> -->
+
+{{errorMessage}}
+
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let user of users">
+    <div class="row">
+      <div class="col-xs-10">
+        <div ng-click="">
+          <a class="title-link" [routerLink]="['/users/details/', user.id]">
+            {{user.username}}
+          </a>
+          <br/>
+          <p style="color: rgb(156, 186, 199)">
+            {{user.email}}
+          </p>
+          <p style="color: #364D57">
+          nananna
+          </p>
+        </div>
+      </div>
+      <div class="col-xs-2">
+        <button (click)="deleteUser(user.id)" class="btn btn-danger">Usuń</button>
+      <!--   <button [routerLink]="['/category/edit/', category.id]" class="btn btn-primary">Edytuj</button> -->
+      </div>
+    </div>
+
+  </li>
+</ul>
