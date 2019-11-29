@@ -1,3 +1,27 @@
 <p>
   user-details works!
 </p>
+<p class="label-details">{{user?.username}}</p>
+<p class="label-details">{{user?.email}}</p>
+
+<hr/>
+<p class="label-details">{{user.showcase.nickname}}</p>
+<p class="label-details">{{user.showcase.description}}</p>
+<p class="label-details">{{user.showcase.gender}}</p>
+<p class="label-details">{{birthDateString}}</p>
+<p class="label-details">{{user.showcase.localization}}</p>
+
+<button *ngIf="!isEditShowcaseShown" class="btn btn-primary" (click)=showForm()>Edytuj wizytówkę</button>
+<div *ngIf=isEditShowcaseShown>
+  <app-showcase-edit></app-showcase-edit>
+  <button class="btn btn-primary" (click)=hideForm()>Anuluj</button>
+</div>
+<hr/>
+
+
+<div *ngIf="areUserEventsShown">
+    <button class="btn btn-primary" (click)=hideUserEvents()>Zwiń</button>
+    <app-events-list [userEvents]="true" [isDisplayOnly]="false"></app-events-list>
+</div>
+<button *ngIf="!areUserEventsShown" class="btn btn-primary" (click)=showUserEvents()>Pokaż wydarzenia tego użytkownika</button>
+<hr/>

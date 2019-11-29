@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../domain/user';
+import { Showcase } from '../domain/showcase';
 
 @Injectable({
   providedIn: 'root'
@@ -29,4 +30,19 @@ export class UserService {
   delete(id: number) {
     return this.http.delete(this.usersUrl + '/' + id);
   }
+
+  getOneById(id: number) {
+    return this.http.get<User>(this.usersUrl + '/' + id);
+  }
+
+  update(id: number, showcaseForm: Showcase ) {
+    return this.http.put(this.usersUrl + '/' + id + '/showcase', showcaseForm);
+  }
+
+  getUserEvents(id: number) {
+    return this.http.get<Event[]>(this.usersUrl + '/' + id + '/events');
+  }
+
+
+
 }

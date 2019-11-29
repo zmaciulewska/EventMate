@@ -25,6 +25,7 @@ public class UserMapperImpl implements UserMapper {
         newUser.setUsername(user.getUsername());
         newUser.setPassword(user.getPassword());
         newUser.setEmail(user.getEmail());
+        newUser.setShowcase(showcaseMapper.convert(user.getShowcase()));
        /* newUser.setRoles(user.getAuthorities()
                 .stream().map(e-> ((GrantedAuthority) e).getAuthority())).collect(Collectors.to);*/
         return newUser;

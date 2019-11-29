@@ -1,16 +1,28 @@
 package com.eventmate.serviceImpl;
 
+import com.eventmate.dao.EventDao;
 import com.eventmate.dao.RoleDao;
 import com.eventmate.dao.UserDao;
+import com.eventmate.dto.EventDto;
+import com.eventmate.dto.ShowcaseDto;
 import com.eventmate.dto.UserDto;
 import com.eventmate.dto.security.SignUpForm;
+import com.eventmate.entity.Event;
 import com.eventmate.entity.Role;
+import com.eventmate.entity.Showcase;
 import com.eventmate.entity.User;
 import com.eventmate.entity.enumeration.RoleName;
+import com.eventmate.error.AppException;
+import com.eventmate.error.Error;
+import com.eventmate.mapper.ShowcaseMapper;
 import com.eventmate.mapper.UserMapper;
+import com.eventmate.service.EventService;
 import com.eventmate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,15 +42,26 @@ public class UserServiceImpl extends AbstractServiceImpl<UserDto, User> implemen
 
     private final UserDao userDao;
 
+    private final EventDao eventDao;
+
+    private final EventService eventService;
+
     private final RoleDao roleDao;
+
+    @Autowired
+    ShowcaseMapper showcaseMapper;
+
 
     @Autowired
     PasswordEncoder encoder;
 
-    public UserServiceImpl(UserMapper userMapper, UserDao userDao, RoleDao roleDao) {
+    public UserServiceImpl(UserMapper userMapper, UserDao userDao, RoleDao roleDao,
+                           EventDao eventDao, EventService eventService) {
         this.userDao = userDao;
         this.userMapper = userMapper;
         this.roleDao = roleDao;
+        this.eventDao = eventDao;
+        this.eventService = eventService;
     }
 
     @Override
@@ -102,6 +125,38 @@ public class UserServiceImpl extends AbstractServiceImpl<UserDto, User> implemen
         User user = userDao.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User with given username: " + username + " not found."));
         return convert(user);
+    }
+
+    @Override
+    public UserDto updateShowcase(ShowcaseDto showcaseDto, Long id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto principal = (UserDto) auth.getPrincipal();
+
+        User user = userDao.findById(id).orElseThrow(() -> new AppException(Error.USER_NOT_EXISTS));
+
+        if(!user.getId().equals(principal.getId())
+                &&    !principal.getAuthorities().contains(new SimpleGrantedAuthority(RoleName.ROLE_ADMIN.name()))) {
+            throw new AppException(Error.USER_NOT_ALLOWED);
+        }
+        Showcase showcase = showcaseMapper.convert(showcaseDto);
+        showcase.setUser(user);
+        user.setShowcase(showcase);
+        return convert(userDao.save(user));
+    }
+
+    @Override
+    public List<EventDto> getUserEvents(Long id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDto principal = (UserDto) auth.getPrincipal();
+
+        User user = userDao.findById(id).orElseThrow(() -> new AppException(Error.USER_NOT_EXISTS));
+
+        if(!user.getId().equals(principal.getId())
+                &&    !principal.getAuthorities().contains(new SimpleGrantedAuthority(RoleName.ROLE_ADMIN.name()))) {
+            throw new AppException(Error.USER_NOT_ALLOWED);
+        }
+
+        return eventService.getUserEvents(user);
     }
 
     @Override

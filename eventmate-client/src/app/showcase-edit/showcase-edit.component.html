@@ -1,0 +1,55 @@
+<p>
+  showcase-edit works!
+</p>
+
+<form name="form" #form="ngForm" (ngSubmit)="submit()" novalidate>
+
+  <div class="form-group">
+    <label for="nickname">Nazwa użytkownika</label>
+    <input type="text" class="form-control" id="nickname" [(ngModel)]="showcaseForm.nickname" name="nickname" #nickname="ngModel"
+      [ngClass]="{ 'is-invalid': form.submitted && nickname.invalid }" required minlength="3">
+    <show-errors class="invalid-feedback" [control]="nickname"></show-errors>
+  </div>
+
+
+
+  <div class="form-group">
+    <label for="description">Opis</label>
+    <input type="text" class="form-control" id="description" [(ngModel)]="showcaseForm.description" name="description" #description="ngModel"
+      [ngClass]="{ 'is-invalid': form.submitted && description.invalid }" required minlength="10">
+    <show-errors class="invalid-feedback" [control]="description"></show-errors>
+  </div>
+
+
+
+  <div class="form-group">
+    <label for="localization">Lokalizacja</label>
+    <input type="text" class="form-control" id="localization" [(ngModel)]="showcaseForm.localization" name="localization" #localization="ngModel"
+      [ngClass]="{ 'is-invalid': form.submitted && localization.invalid }" required>
+    <show-errors class="invalid-feedback" [control]="localization"></show-errors>
+  </div>
+
+
+  <div class="md-form">
+    <label for="input">Data urodzenia</label>
+    <input type="datetime-local" id="tmpBirthDate" class="form-control" [ngModel]="tmpBirthDate | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="tmpBirthDate = $event"
+      name="tmpBirthDate" mdbInput>
+  </div>
+
+  <label for="input">Pleć</label>
+  <label>
+    <input type="radio" [(ngModel)]="showcaseForm.gender" name="gender" value="MALE">Mężczyzna
+  </label>
+  <label>
+    <input type="radio"  [(ngModel)]="showcaseForm.gender" name="gender" value="FEMALE">Kobieta
+  </label>
+
+
+  <div class="col-xs-3">
+    <button [disabled]="form.invalid || form.pending" type="submit" class="btn btn-success">Zatwierdź wizytówkę</button>
+  </div>
+</form>
+
+<p>
+  {{errorMessage}}
+</p>

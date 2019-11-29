@@ -2,7 +2,8 @@ import { EventService } from '../services/event.service';
 import { Event } from '../domain/event';
 import { Component, OnInit, Input } from '@angular/core';
 import { TokenStorageService } from '../auth/token-storage.service';
-import { Router } from '../../../node_modules/@angular/router';
+import { Router, ActivatedRoute } from '../../../node_modules/@angular/router';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-events-list',
@@ -21,18 +22,25 @@ export class EventsListComponent implements OnInit {
   public areEventsNotConfirmed = false;
   @Input()
   public isDisplayOnly = true;
+  @Input()
+  public userEvents = false;
 
   constructor(private eventService: EventService,
     private tokenStorage: TokenStorageService,
-    private router: Router) { }
+    private router: Router,
+    private userService: UserService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
-    if (this.areEventsNotConfirmed) {
-      this.getNotConfirmedEvents();
+    if (this.userEvents) {
+      this.getUserEvents();
     } else {
-      this.getPublishedEvents();
+      if (this.areEventsNotConfirmed) {
+        this.getNotConfirmedEvents();
+      } else {
+        this.getPublishedEvents();
+      }
     }
-
     if (this.tokenStorage.getToken()) {
       this.roles = this.tokenStorage.getAuthorities();
       this.roles.every(role => {
@@ -49,13 +57,28 @@ export class EventsListComponent implements OnInit {
     }
   }
 
+  getUserEvents(): void {
+    this.route
+      .params
+      .subscribe(params => {
+        this.userService
+          .getUserEvents(params['id'])
+          .subscribe(data => {
+            this.events = data;
+          },
+            error => {
+              this.errorMessage = error.error.message;
+            });
+      });
+  }
+
   getPublishedEvents(): void {
     this.eventService.getAllConfirmedOrPrivate().subscribe(data => {
       this.events = data;
     },
-  error => {
-    this.errorMessage = error;
-  });
+      error => {
+        this.errorMessage = error;
+      });
   }
 
   getNotConfirmedEvents(): void {
@@ -75,7 +98,23 @@ export class EventsListComponent implements OnInit {
       this.errorMessage = error;
     }
     );
+  }
 
+  deleteEvent(id: number) {
+
+    if (confirm('Na pewno chcesz usunąć te wydarzenie?')) {
+      console.log('Delete confirmed');
+      this.eventService.delete(id).subscribe(
+        res => {
+          console.log('Event deleted');
+          this.router.navigate(['/home']);
+        },
+        error => {
+          console.log('Event not deleted');
+          // this.isDeleteFailed = true;
+          this.errorMessage = error.error.message;
+        });
+    }
   }
 
 }

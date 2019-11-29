@@ -8,6 +8,7 @@ import com.eventmate.dto.UserDto;
 import com.eventmate.dto.form.EventFormDto;
 import com.eventmate.entity.Cost;
 import com.eventmate.entity.Event;
+import com.eventmate.entity.User;
 import com.eventmate.entity.enumeration.RoleName;
 import com.eventmate.error.AppException;
 import com.eventmate.error.Error;
@@ -176,6 +177,11 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
     @Override
     public List<EventDto> getConfirmedOrPrivate() {
         return entitiesToDtos(eventDao.findAllByRemovalDateNullAndAdministratorNotNullOrCommonAndRemovalDateNull(new Boolean(false)));
+    }
+
+    @Override
+    public List<EventDto> getUserEvents(User user) {
+        return entitiesToDtos(eventDao.findAllByRemovalDateNullAndReporter(user));
     }
 
     private Event findEventById(Long id) {

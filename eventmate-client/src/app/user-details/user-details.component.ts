@@ -1,4 +1,8 @@
+import { UserService } from './../services/user.service';
 import { Component, OnInit } from '@angular/core';
+import { User } from '../domain/user';
+import { Router, ActivatedRoute } from '../../../node_modules/@angular/router';
+import { DateFormatPipe } from '../utils/DateFormatPipe';
 
 @Component({
   selector: 'app-user-details',
@@ -7,9 +11,50 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserDetailsComponent implements OnInit {
 
-  constructor() { }
+  user: User;
+
+  errorMessage: string;
+  isEditShowcaseShown = false;
+  birthDateString: string;
+
+  areUserEventsShown = false;
+
+
+  constructor(private userService: UserService,
+    private router: Router,
+    private route: ActivatedRoute,
+  private dateFormatPipe: DateFormatPipe,) { }
 
   ngOnInit() {
+    this.route
+      .params
+      .subscribe(params => {
+        this.userService
+          .getOneById(params['id'])
+          .subscribe(data => {
+            this.user = data;
+            this.birthDateString = this.dateFormatPipe.transform(new Date(this.user.showcase.birthDate));
+          },
+        error => {
+          this.errorMessage = error.error.message;
+        });
+      });
+  }
+
+  showForm() {
+    this.isEditShowcaseShown = true;
+  }
+
+  hideForm() {
+    this.isEditShowcaseShown = false;
+  }
+
+  showUserEvents() {
+    this.areUserEventsShown = true;
+  }
+
+  hideUserEvents() {
+    this.areUserEventsShown = false;
   }
 
 }

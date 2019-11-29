@@ -1,21 +1,22 @@
 package com.eventmate.controller.v1;
 
 import com.eventmate.dto.EventDto;
+import com.eventmate.dto.ShowcaseDto;
 import com.eventmate.dto.UserDto;
-import com.eventmate.service.EventService;
+import com.eventmate.dto.form.EventFormDto;
 import com.eventmate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
     @Autowired
@@ -40,13 +41,17 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{username}")
+    @PutMapping("/{id}/showcase")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public UserDto getOneByEmail(@Valid @PathVariable String username) {
-        return userService.getOneByUsername(username);
+    public ResponseEntity<UserDto> update(@Valid @RequestBody ShowcaseDto showcaseDto, @Valid @PathVariable Long id) {
+        return new ResponseEntity<>(userService.updateShowcase(showcaseDto, id), HttpStatus.OK);
     }
 
-
+    @GetMapping("/{id}/events")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public List<EventDto> getUserEvents(@Valid @PathVariable Long id) {
+        return userService.getUserEvents(id);
+    }
 
 
 

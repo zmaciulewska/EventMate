@@ -30,6 +30,7 @@ import { EventOfferListComponent } from './event-offer-list/event-offer-list.com
 import { CategoriesListComponent } from './categories-list/categories-list.component';
 import { UsersListComponent } from './users-list/users-list.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
+import { ShowcaseEditComponent } from './showcase-edit/showcase-edit.component';
 
 
 
@@ -51,7 +52,8 @@ import { UserDetailsComponent } from './user-details/user-details.component';
     EventOfferListComponent,
     CategoriesListComponent,
     UsersListComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    ShowcaseEditComponent
   ],
   imports: [
     BrowserModule,

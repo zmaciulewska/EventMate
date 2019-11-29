@@ -28,7 +28,13 @@ public class ShowcaseMapperImpl implements ShowcaseMapper {
         if(dto == null) {
             return null;
         }
-        return new Showcase();
-        //todo dopisac jak bedzie potrzebne
+        Showcase entity = new Showcase();
+        entity.setBirthDate(dto.getBirthDate());
+        entity.setDescription(dto.getDescription());
+        entity.setGender(dto.getGender());
+        entity.setLocalization(dto.getLocalization());
+        entity.setNickname(dto.getNickname());
+        entity.setId(dto.getId());
+        return entity;
     }
 }

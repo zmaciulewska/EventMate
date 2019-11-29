@@ -7,7 +7,8 @@ public enum Error {
     EVENT_ALREADY_CONFIRMED("This event already has administrator responsible for."),
     CANNOT_CONFIRM_PIVATE_EVENT("Private event cannot be confirmed."),
     EVENT_REMOVED("This event has been removed."),
-    PREFFERED_DATE_DOES_NOT_MATCH("Given preffered date is beyond event's dates.");
+    PREFFERED_DATE_DOES_NOT_MATCH("Given preffered date is beyond event's dates."),
+    USER_NOT_EXISTS("User with given id doesn't exist.");
 
     private String message;
 
