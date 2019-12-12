@@ -5,6 +5,9 @@ import com.eventmate.entity.Showcase;
 import com.eventmate.mapper.ShowcaseMapper;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.Period;
+
 @Component
 public class ShowcaseMapperImpl implements ShowcaseMapper {
     @Override
@@ -20,6 +23,8 @@ public class ShowcaseMapperImpl implements ShowcaseMapper {
         dto.setNickname(entity.getNickname());
         dto.setUserId(entity.getUser().getId());
         dto.setId(entity.getId());
+        Period age = Period.between(entity.getBirthDate(), LocalDate.now());
+        dto.setAge(age.getYears());
         return dto;
     }
 

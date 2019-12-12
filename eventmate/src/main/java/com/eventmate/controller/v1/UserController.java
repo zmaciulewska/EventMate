@@ -1,9 +1,6 @@
 package com.eventmate.controller.v1;
 
-import com.eventmate.dto.EventDto;
-import com.eventmate.dto.ShowcaseDto;
-import com.eventmate.dto.UserDto;
-import com.eventmate.dto.form.EventFormDto;
+import com.eventmate.dto.*;
 import com.eventmate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,6 +50,21 @@ public class UserController {
         return userService.getUserEvents(id);
     }
 
+    @GetMapping("/{id}/event-offers")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public List<EventOfferDto> getUserEventOffers(@Valid @PathVariable Long id) {
+        return userService.getUserEventOffers(id);
+    }
 
+    @GetMapping("/{id}/showcase")
+    // @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ShowcaseDto getUserShowcase(@Valid @PathVariable Long id) {
+        return userService.getUserShowcase(id);
+    }
 
+    @GetMapping("/{id}/contacts")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public List<ContactDto> getUserContacts(@Valid @PathVariable Long id) {
+        return userService.getUserContacts(id);
+    }
 }

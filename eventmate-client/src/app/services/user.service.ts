@@ -1,8 +1,10 @@
+import { EventOffer } from './../domain/event-offer';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../domain/user';
 import { Showcase } from '../domain/showcase';
+import { Event } from '../domain/event';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +26,7 @@ export class UserService {
   }
 
   getAll() {
-    return this.http.get<User[]> (this.usersUrl);
+    return this.http.get<User[]>(this.usersUrl);
   }
 
   delete(id: number) {
@@ -35,7 +37,7 @@ export class UserService {
     return this.http.get<User>(this.usersUrl + '/' + id);
   }
 
-  update(id: number, showcaseForm: Showcase ) {
+  update(id: number, showcaseForm: Showcase) {
     return this.http.put(this.usersUrl + '/' + id + '/showcase', showcaseForm);
   }
 
@@ -44,5 +46,11 @@ export class UserService {
   }
 
 
+  getUserEventOffers(id: number) {
+    return this.http.get<EventOffer[]>(this.usersUrl + '/' + id + '/event-offers');
+  }
 
+  getUserShowcase(id: number) {
+    return this.http.get(this.usersUrl + '/' + id + '/showcase');
+  }
 }

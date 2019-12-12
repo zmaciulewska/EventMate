@@ -29,8 +29,10 @@ public class Contact extends AbstractEntity {
         if (this == o) return true;
         if (!(o instanceof Contact)) return false;
         Contact contact = (Contact) o;
-        return Objects.equals(firstPerson, contact.firstPerson) &&
-                Objects.equals(secondPerson, contact.secondPerson);
+        return (Objects.equals(firstPerson, contact.firstPerson) &&
+                Objects.equals(secondPerson, contact.secondPerson)) ||
+                (Objects.equals(firstPerson, contact.secondPerson) &&
+                        Objects.equals(secondPerson, contact.firstPerson));
     }
 
     @Override

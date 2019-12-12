@@ -61,6 +61,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/categories/**").permitAll()
                 .antMatchers("/api/v1/costs/**").permitAll()
                 .antMatchers("/api/v1/users/**").permitAll()
+                .antMatchers("/api/v1/contacts/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()

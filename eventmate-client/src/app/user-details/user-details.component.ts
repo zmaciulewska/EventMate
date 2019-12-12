@@ -15,17 +15,23 @@ export class UserDetailsComponent implements OnInit {
 
   errorMessage: string;
   isEditShowcaseShown = false;
-  birthDateString: string;
+
 
   areUserEventsShown = false;
+  areUserEventOffersShown = false;
+  areUserContactsShown = false;
 
 
   constructor(private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
-  private dateFormatPipe: DateFormatPipe,) { }
+    private dateFormatPipe: DateFormatPipe) { }
 
   ngOnInit() {
+    this.isEditShowcaseShown = false;
+    this.areUserEventsShown = false;
+    this.areUserEventOffersShown = false;
+
     this.route
       .params
       .subscribe(params => {
@@ -33,11 +39,11 @@ export class UserDetailsComponent implements OnInit {
           .getOneById(params['id'])
           .subscribe(data => {
             this.user = data;
-            this.birthDateString = this.dateFormatPipe.transform(new Date(this.user.showcase.birthDate));
+            // this.birthDateString = this.dateFormatPipe.transform(new Date(this.user.showcase.birthDate));
           },
-        error => {
-          this.errorMessage = error.error.message;
-        });
+            error => {
+              this.errorMessage = error.error.message;
+            });
       });
   }
 
@@ -55,6 +61,22 @@ export class UserDetailsComponent implements OnInit {
 
   hideUserEvents() {
     this.areUserEventsShown = false;
+  }
+
+  showUserEventOffers() {
+    this.areUserEventOffersShown = true;
+  }
+
+  hideUserEventOffers() {
+    this.areUserEventOffersShown = false;
+  }
+
+  showUserContacts() {
+    this.areUserContactsShown = true;
+  }
+
+  hideUserContacts() {
+    this.areUserContactsShown = false;
   }
 
 }

@@ -11,6 +11,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { EventCreateComponent } from './event-create/event-create.component';
 import { EventEditComponent } from './event-edit/event-edit.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
+import { ShowcaseEditComponent } from './showcase-edit/showcase-edit.component';
 
 const routes: Routes = [
   {
@@ -58,8 +59,12 @@ const routes: Routes = [
   {
     path: 'users/details/:id',
     component: UserDetailsComponent
-
+  },
+  {
+    path: 'users/details/:id/edit',
+    component: ShowcaseEditComponent
   }
+
 ];
 
 

@@ -9,4 +9,5 @@ export class EventOffer {
     prefferedMinAge: number;
     prefferedMaxAge: number;
     prefferedLocalization: string; // not used
+    description: string;
 }

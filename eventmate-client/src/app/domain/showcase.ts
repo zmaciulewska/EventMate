@@ -6,4 +6,5 @@ export class Showcase {
     birthDate: Date;
     localization: String;
     userId: number;
+    age: number;
 }

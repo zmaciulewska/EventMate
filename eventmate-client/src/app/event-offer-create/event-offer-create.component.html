@@ -9,14 +9,7 @@
             (ngModelChange)="tmpPrefferedDate = $event" name="tmpPrefferedDate" mdbInput>
         </div>
       </div>
-      <!-- <div class="col-xs-4">
-        <div class="form-group">
-          <label class="label-details" for="prefferedLocalization">Preffered localization</label>
-          <input type="text" class="form-control" id="prefferedLocalization"  [(ngModel)]="eventOfferForm.prefferedLocalization"
-            name="prefferedLocalization" #prefferedLocalization="ngModel" [ngClass]="{ 'is-invalid': form.submitted && prefferedLocalization.invalid }">
-          <show-errors class="invalid-feedback" [control]="prefferedLocalization"></show-errors>
-        </div>
-      </div> -->
+  
       <div class="col-xs-6">
         <p class="label-details">
           Kogo szukasz?
@@ -53,7 +46,14 @@
           <p *ngIf="prefferedMaxAge.errors?.range">Podany wiek jest poza zakresem 18-130</p>
         </div>
       </div>
+      
     </div>
+    <div class="form-group">
+        <label class="label-details" for="description">Dodatkowe informacje</label>
+        <input type="text" class="form-control" id="description"  [(ngModel)]="eventOfferForm.description"
+          name="description" #description="ngModel" [ngClass]="{ 'is-invalid': form.submitted && description.invalid }">
+        <show-errors class="invalid-feedback" [control]="description"></show-errors>
+      </div>
 
     <button [disabled]="form.invalid || form.pending" type="submit" class="btn btn-success">Zatwierdź ofertę</button>
     <div *ngIf="isSaveFailed" class="alert alert-danger">

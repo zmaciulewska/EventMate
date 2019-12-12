@@ -5,23 +5,34 @@
 <p class="label-details">{{user?.email}}</p>
 
 <hr/>
-<p class="label-details">{{user.showcase.nickname}}</p>
-<p class="label-details">{{user.showcase.description}}</p>
-<p class="label-details">{{user.showcase.gender}}</p>
-<p class="label-details">{{birthDateString}}</p>
-<p class="label-details">{{user.showcase.localization}}</p>
-
+<app-showcase-display [userId]=user.id></app-showcase-display>
+<br/>
 <button *ngIf="!isEditShowcaseShown" class="btn btn-primary" (click)=showForm()>Edytuj wizytówkę</button>
 <div *ngIf=isEditShowcaseShown>
   <app-showcase-edit></app-showcase-edit>
+  <br/>
   <button class="btn btn-primary" (click)=hideForm()>Anuluj</button>
 </div>
 <hr/>
 
 
 <div *ngIf="areUserEventsShown">
-    <button class="btn btn-primary" (click)=hideUserEvents()>Zwiń</button>
-    <app-events-list [userEvents]="true" [isDisplayOnly]="false"></app-events-list>
+  <button class="btn btn-primary" (click)=hideUserEvents()>Zwiń</button>
+  <app-events-list [userEvents]="true" [isDisplayOnly]="false"></app-events-list>
 </div>
 <button *ngIf="!areUserEventsShown" class="btn btn-primary" (click)=showUserEvents()>Pokaż wydarzenia tego użytkownika</button>
+<hr/>
+
+<div *ngIf="areUserEventOffersShown">
+  <button class="btn btn-primary" (click)=hideUserEventOffers()>Zwiń</button>
+  <app-event-offer-list [userOffers]="true"></app-event-offer-list>
+</div>
+<button *ngIf="!areUserEventOffersShown" class="btn btn-primary" (click)=showUserEventOffers()>Pokaż oferty tego użytkownika</button>
+<hr/>
+
+<div *ngIf="areUserContactsShown">
+  <button class="btn btn-primary" (click)=hideUserContacts()>Zwiń</button>
+  <app-contacts-list></app-contacts-list>
+</div>
+<button *ngIf="!areUserContactsShown" class="btn btn-primary" (click)=showUserContacts()>Pokaż kontakty tego użytkownika</button>
 <hr/>

@@ -3,6 +3,7 @@ import { UserService } from '../services/user.service';
 import { Showcase } from '../domain/showcase';
 import { ActivatedRoute, Router } from '../../../node_modules/@angular/router';
 import { User } from '../domain/user';
+import { UserDetailsComponent } from '../user-details/user-details.component';
 
 @Component({
   selector: 'app-showcase-edit',
@@ -46,16 +47,12 @@ export class ShowcaseEditComponent implements OnInit {
   }
 
   submit() {
-    // console.log('method submit');
     if (this.tmpBirthDate.toString().indexOf('-') !== -1) {
       this.showcaseForm.birthDate = this.tmpBirthDate + ':00.000';
-      // console.log(' zawiera - ');
     } else {
       this.showcaseForm.birthDate = this.tmpBirthDate.toISOString();
-      // console.log('nie zawiera - ');
     }
     this.showcaseForm.userId = this.existingUser.id;
-    // this.existingUser.showcase = this.showcaseForm;
     this.save();
   }
 
@@ -64,13 +61,11 @@ export class ShowcaseEditComponent implements OnInit {
     this.userService.update(this.existingUser.id, this.showcaseForm)
       .subscribe(data => {
         console.log(data);
-        this.router.navigate(['/users/details/', this.existingUser.id]);
+        location.reload();
       }, error => {
         console.log(error);
         this.errorMessage = error.error.message;
       });
-
-    // this.eventForm = new EventForm();
   }
 
 }

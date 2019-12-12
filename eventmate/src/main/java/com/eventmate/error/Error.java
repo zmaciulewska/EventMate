@@ -8,15 +8,23 @@ public enum Error {
     CANNOT_CONFIRM_PIVATE_EVENT("Private event cannot be confirmed."),
     EVENT_REMOVED("This event has been removed."),
     PREFFERED_DATE_DOES_NOT_MATCH("Given preffered date is beyond event's dates."),
-    USER_NOT_EXISTS("User with given id doesn't exist.");
+    USER_NOT_EXISTS("User with given id doesn't exist."),
+    IDENTICAL_USER_CONTACT("Cannot create contact between one user.");
 
     private String message;
+    //private Long id;
 
     Error(String message) {
         this.message = message;
     }
 
+    /*Error(String message, Long id) {
+        this.message = message;
+        this.id = id;
+    }*/
+
     public String getMessage() {
         return message;
     }
+
 }

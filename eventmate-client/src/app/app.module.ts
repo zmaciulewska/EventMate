@@ -31,6 +31,8 @@ import { CategoriesListComponent } from './categories-list/categories-list.compo
 import { UsersListComponent } from './users-list/users-list.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { ShowcaseEditComponent } from './showcase-edit/showcase-edit.component';
+import { ShowcaseDisplayComponent } from './showcase-display/showcase-display.component';
+import { ContactsListComponent } from './contacts-list/contacts-list.component';
 
 
 
@@ -53,7 +55,9 @@ import { ShowcaseEditComponent } from './showcase-edit/showcase-edit.component';
     CategoriesListComponent,
     UsersListComponent,
     UserDetailsComponent,
-    ShowcaseEditComponent
+    ShowcaseEditComponent,
+    ShowcaseDisplayComponent,
+    ContactsListComponent
   ],
   imports: [
     BrowserModule,

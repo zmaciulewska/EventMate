@@ -1,0 +1,11 @@
+<div *ngIf="showcase !== null" class="frame-div">
+  <p class="showcase-value-big">{{showcase?.nickname}}, {{gender}}, lat {{showcase?.age}}</p>
+  <div style="display:flex; flex-direction: row; justify-content: left; align-items: left">
+      <p class="showcase-label">Opis:&nbsp;&nbsp;</p>
+      <p class="showcase-value">{{showcase?.description}}</p>
+  </div>
+  <div style="display:flex; flex-direction: row; justify-content: left; align-items: left">
+      <p class="showcase-label">Lokalizacja:&nbsp;&nbsp;</p>
+      <p class="showcase-value">{{showcase?.localization}}</p>
+  </div>
+</div>

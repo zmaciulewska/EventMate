@@ -1,12 +1,13 @@
 package com.eventmate.service;
 
-import com.eventmate.dto.EventDto;
-import com.eventmate.dto.ShowcaseDto;
-import com.eventmate.dto.UserDto;
+import com.eventmate.dto.*;
 import com.eventmate.dto.security.SignUpForm;
+import com.eventmate.entity.Contact;
+import com.eventmate.entity.User;
 import netscape.security.UserTarget;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService extends AbstractService<UserDto> {
     void signUpUser(SignUpForm signUpRequest);
@@ -14,7 +15,9 @@ public interface UserService extends AbstractService<UserDto> {
     boolean existsUserByEmail(String email);
 
     boolean existsUserByUsername(String username);
-    //Optional<User> findUser(Long id);
+
+   // boolean existsUserById(Long id);
+    Optional<User> findUser(Long id);
 
     UserDto findUserByEmail(String email);
 
@@ -23,4 +26,10 @@ public interface UserService extends AbstractService<UserDto> {
     UserDto updateShowcase(ShowcaseDto showcaseDto, Long id);
 
     List<EventDto> getUserEvents(Long id);
+
+    List<EventOfferDto> getUserEventOffers(Long id);
+
+    ShowcaseDto getUserShowcase(Long id);
+
+    List<ContactDto> getUserContacts(Long id);
 }

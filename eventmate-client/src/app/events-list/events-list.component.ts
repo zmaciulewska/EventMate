@@ -1,9 +1,9 @@
 import { EventService } from '../services/event.service';
-import { Event } from '../domain/event';
 import { Component, OnInit, Input } from '@angular/core';
 import { TokenStorageService } from '../auth/token-storage.service';
 import { Router, ActivatedRoute } from '../../../node_modules/@angular/router';
 import { UserService } from '../services/user.service';
+import { Event } from '../domain/event';
 
 @Component({
   selector: 'app-events-list',
@@ -93,6 +93,7 @@ export class EventsListComponent implements OnInit {
   confirmEvent(confirmedEvent: Event) {
     this.eventService.confirmEvent(confirmedEvent.id, confirmedEvent).subscribe(data => {
       console.log(data);
+      // window.location.reload();
       this.router.navigate(['/events/details/', confirmedEvent.id]);
     }, error => {
       this.errorMessage = error;

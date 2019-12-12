@@ -8,6 +8,7 @@ import com.eventmate.dto.UserDto;
 import com.eventmate.dto.form.EventOfferFormDto;
 import com.eventmate.entity.Event;
 import com.eventmate.entity.EventOffer;
+import com.eventmate.entity.User;
 import com.eventmate.entity.enumeration.Gender;
 import com.eventmate.entity.enumeration.RoleName;
 import com.eventmate.error.AppException;
@@ -143,6 +144,11 @@ public class EventOfferServiceImpl extends AbstractServiceImpl<EventOfferDto, Ev
         eventOffer.setPrefferedLocalization(eventOfferForm.getPrefferedLocalization());
         eventOffer.setPrefferedDate(eventOfferForm.getPrefferedDate());
         return convert(eventOfferDao.save(eventOffer));
+    }
+
+    @Override
+    public List<EventOfferDto> getUserEventOffers(User user) {
+        return entitiesToDtos(eventOfferDao.findAllByOwner(user));
     }
 
     private EventOffer findEventOfferById(Long id) {

@@ -43,6 +43,8 @@ public class User extends AbstractEntity {
     @OneToMany(mappedBy = "owner")
     private Set<EventOfferResponse> eventOfferResponses;
 
+//    @OneToMany(mappedBy = "owner")
+//    private Set<Contact> contacts;
     @OneToOne(mappedBy = "user", cascade={CascadeType.ALL})
     private Showcase showcase;
 

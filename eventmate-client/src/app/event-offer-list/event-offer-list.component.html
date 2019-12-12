@@ -1,16 +1,38 @@
-<div div [hidden]="emptyList" class="nested-div">
+<div div [hidden]="emptyList">
 
     <ul class="list-group">
-        <li class="list-group-item" *ngFor="let eventOffer of eventOffers">
-          <div >
-              <p class="label-details">#todo ta osoba szuka:</p>
-              <p class="text-details" *ngIf="eventOffer.prefferedGender === 'BOTH'">Kobiet lub mężczyzn</p>
-              <p class="text-details">W wieku między {{ eventOffer.prefferedMinAge }} a {{ eventOffer.prfferedMaxAge }} lat</p>
-              
+        <li class="simple-list-item" *ngFor="let eventOffer of eventOffers">
+            <div class="dark-div">
+                <app-showcase-display [userId]=eventOffer.ownerId></app-showcase-display>
+                <br/>
+                <div style="display:flex; flex-direction: row; justify-content: left; align-items: left">
+                    <div class="showcase-label">
+                        Szuka:&nbsp;&nbsp;
+                    </div>
+                    <div class="showcase-value" *ngIf="eventOffer.prefferedGender === 'BOTH'">
+                        Kobiet lub mężczyzn&nbsp;
+                    </div>
+                    <div class="showcase-value" *ngIf="eventOffer.prefferedGender === 'MALE'">
+                        Mężczyzn&nbsp;
+                    </div>
+                    <div class="showcase-value" *ngIf="eventOffer.prefferedGender === 'FEMALE'">
+                        Kobiet&nbsp;
+                    </div>
+                    <div class="showcase-value">
+                        w wieku {{ eventOffer.prefferedMinAge }} - {{ eventOffer.prfferedMaxAge }} lat
+                    </div>
+                </div>
+                <div *ngIf="eventOffer.description" style="display:flex; flex-direction: row; justify-content: left; align-items: left">
+                    <div class="showcase-label">
+                        Dodatkowe informacje:&nbsp;&nbsp;
+                    </div>
+                    <div class="showcase-value">
+                           {{ eventOffer.description}}
+                    </div>
+                </div>
 
-          <button class = "btn btn-info" >Zgołoś się</button>
-            
-          </div>
+                <button class="btn btn-info">Zgołoś się</button>
+            </div>
         </li>
-      </ul>
+    </ul>
 </div>

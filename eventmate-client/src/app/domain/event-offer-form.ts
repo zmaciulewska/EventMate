@@ -4,4 +4,5 @@ export class EventOfferForm {
     prefferedMinAge: number;
     prefferedMaxAge: number;
     prefferedLocalization: string; // not used
+    description: string;
 }
