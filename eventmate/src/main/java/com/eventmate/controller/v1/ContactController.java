@@ -1,6 +1,7 @@
 package com.eventmate.controller.v1;
 
 import com.eventmate.dto.ContactDto;
+import com.eventmate.dto.form.ContactFormDto;
 import com.eventmate.service.ContactService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,10 +34,15 @@ public class ContactController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping()
+    /*@PostMapping()
     @PreAuthorize("hasRole('USER')")
     public ContactDto createOrRetrieveExisting(@Valid @RequestBody ContactDto contactForm, @Valid @PathVariable Long id) {
         return contactService.createOrRetrieveExisting(contactForm);
-    }
+    }*/
 
+    @PostMapping()
+    @PreAuthorize("hasRole('USER')")
+    public ContactDto createOrRetrieveExisting(@Valid @RequestBody ContactFormDto contactForm) {
+        return contactService.createOrRetrieveExisting(contactForm);
+    }
 }

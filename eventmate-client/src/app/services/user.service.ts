@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { User } from '../domain/user';
 import { Showcase } from '../domain/showcase';
 import { Event } from '../domain/event';
+import { Contact } from '../domain/contact';
 
 @Injectable({
   providedIn: 'root'
@@ -52,5 +53,9 @@ export class UserService {
 
   getUserShowcase(id: number) {
     return this.http.get(this.usersUrl + '/' + id + '/showcase');
+  }
+
+  getUserContacts(id: number) {
+    return this.http.get<Contact[]>(this.usersUrl + '/' + id + '/contacts');
   }
 }

@@ -4,6 +4,7 @@ import com.eventmate.dao.ContactDao;
 import com.eventmate.dao.UserDao;
 import com.eventmate.dto.ContactDto;
 import com.eventmate.dto.UserDto;
+import com.eventmate.dto.form.ContactFormDto;
 import com.eventmate.entity.Contact;
 import com.eventmate.entity.User;
 import com.eventmate.error.AppException;
@@ -62,18 +63,18 @@ public class ContactServiceImpl extends AbstractServiceImpl<ContactDto, Contact>
     }
 
     @Override
-    public ContactDto createOrRetrieveExisting(ContactDto contactForm) {
+    public ContactDto createOrRetrieveExisting(ContactFormDto contactForm) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto principal = (UserDto) auth.getPrincipal();
 
-        if (contactForm.getFirstPerson().getId().equals(principal.getId())) {
+        if (contactForm.getSecondUserId().equals(principal.getId())) {
             throw new AppException(Error.IDENTICAL_USER_CONTACT);
         }
 
 
-        User firstUser = userDao.findById(contactForm.getFirstPerson().getId()).orElseThrow(() -> new AppException(Error.USER_NOT_EXISTS));
-        User secondUser =  userDao.findById(principal.getId()).orElseThrow(() -> new AppException(Error.USER_NOT_EXISTS));
+        User firstUser = userDao.findById(principal.getId()).orElseThrow(() -> new AppException(Error.USER_NOT_EXISTS));
+        User secondUser =  userDao.findById(contactForm.getSecondUserId()).orElseThrow(() -> new AppException(Error.USER_NOT_EXISTS));
 
         Optional<Contact> existingContact;
         existingContact = contactDao.findByFirstPersonAndSecondPerson(firstUser, secondUser);

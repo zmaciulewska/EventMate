@@ -1,6 +1,7 @@
 package com.eventmate.controller.v1;
 
 import com.eventmate.configuration.JwtProvider;
+import com.eventmate.dto.UserDto;
 import com.eventmate.dto.security.JwtResponse;
 import com.eventmate.dto.security.LoginForm;
 import com.eventmate.dto.security.SignUpForm;
@@ -44,6 +45,15 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getAuthorities(), userDetails.getUsername()));
     }
 
+    @GetMapping("/user")
+    public UserDto getLoggedInUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDto principal = (UserDto) authentication.getPrincipal();
+        return principal;
+    }
+
+
+
     @PostMapping("/signup")
     public ResponseEntity<CustomHttpResponse> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {
         CustomHttpResponse httpResponse = new CustomHttpResponse();
@@ -62,4 +72,6 @@ public class AuthController {
         httpResponse.setStatus(HttpStatus.OK.value());
         return ResponseEntity.ok().body(httpResponse);
     }
+
+
 }

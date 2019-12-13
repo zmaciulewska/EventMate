@@ -91,5 +91,4 @@ public class EventController {
         return eventOfferService.create(eventOfferForm, id);
     }
 
-
 }

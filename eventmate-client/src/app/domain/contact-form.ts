@@ -1,3 +1,4 @@
 export class ContactForm {
-    firstPersonId: number;
+    public secondUserId: number;
+    public eventId: number;
 }

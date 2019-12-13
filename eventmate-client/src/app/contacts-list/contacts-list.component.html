@@ -1,3 +1,19 @@
-<p>
-  contacts-list works!
-</p>
+
+<div div [hidden]="emptyList">
+  <ul class="list-group">
+      <li class="simple-list-item" *ngFor="let contact of contacts">
+          <div class="dark-div">
+              <div *ngIf="contact.secondPerson.id==userId">
+
+            dupa1
+                  <app-showcase-display [userId]=contact.firstPerson.id></app-showcase-display>
+              </div>
+              <div *ngIf="contact.firstPerson.id==userId">
+                  dupa2
+                  <app-showcase-display [userId]=contact.secondPerson.id></app-showcase-display>
+              </div>
+              <br/>
+          </div>
+      </li>
+  </ul>
+</div>

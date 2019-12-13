@@ -10,7 +10,7 @@ import { Router } from '../../../node_modules/@angular/router';
 })
 export class CategoriesListComponent implements OnInit {
 
-  categories: Category[];
+  categories: any;
   errorMessage: string;
 
   categoryForm: Category;
