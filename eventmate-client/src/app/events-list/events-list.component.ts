@@ -24,6 +24,7 @@ export class EventsListComponent implements OnInit {
   public isDisplayOnly = true;
   @Input()
   public userEvents = false;
+  @Input() userId: number;
 
   constructor(private eventService: EventService,
     private tokenStorage: TokenStorageService,
@@ -58,18 +59,30 @@ export class EventsListComponent implements OnInit {
   }
 
   getUserEvents(): void {
-    this.route
-      .params
-      .subscribe(params => {
-        this.userService
-          .getUserEvents(params['id'])
-          .subscribe(data => {
-            this.events = data;
-          },
-            error => {
-              this.errorMessage = error.error.message;
-            });
-      });
+    if (this.userId === null) {
+      this.route
+        .params
+        .subscribe(params => {
+          this.userService
+            .getUserEvents(params['id'])
+            .subscribe(data => {
+              this.events = data;
+            },
+              error => {
+                this.errorMessage = error.error.message;
+              });
+        });
+    } else {
+      this.userService
+        .getUserEvents(this.userId)
+        .subscribe(data => {
+          this.events = data;
+        },
+          error => {
+            this.errorMessage = error.error.message;
+          });
+    }
+
   }
 
   getPublishedEvents(): void {

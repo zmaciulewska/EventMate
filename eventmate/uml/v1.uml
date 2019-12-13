@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.DATABASE:eventmate_dev</OriginalElement>
+  <nodes>
+    <node x="907.3228776182482" y="694.3810546517793">1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.event_offer_response</node>
+    <node x="875.0108695652176" y="181.7275729223996">1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.category</node>
+    <node x="426.60264171711606" y="586.3648871766648">1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.one_time_event_offer</node>
+    <node x="1208.6335993395708" y="2.9067143643367785">1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.user_authority</node>
+    <node x="1087.25" y="297.0">1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.contact</node>
+    <node x="1015.7537037037038" y="0.0">1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.users</node>
+    <node x="895.8362508591956" y="437.85393316814736">1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.event_offer</node>
+    <node x="331.2052834342323" y="180.8409466152999">1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.continous_event_offer</node>
+    <node x="1201.7073472757293" y="439.3439735828289">1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.showcase</node>
+    <node x="662.8728673637864" y="181.76444689047878">1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.event</node>
+    <node x="893.8497523390204" y="342.7658227848101">1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.event_category</node>
+    <node x="1303.0873692900384" y="160.00220143093009">1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.authority</node>
+    <node x="687.6026417171161" y="587.2586681342873">1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.cost</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.event_offer" target="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.users">
+      <point x="60.25" y="-114.0" />
+      <point x="1076.75" y="178.0" />
+      <point x="1094.0537037037038" y="178.0" />
+      <point x="-8.699999999999989" y="59.0" />
+    </edge>
+    <edge source="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.event_category" target="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.category">
+      <point x="37.75" y="-36.5" />
+      <point x="0.0" y="59.0" />
+    </edge>
+    <edge source="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.cost" target="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.event">
+      <point x="0.0" y="-81.0" />
+      <point x="0.0" y="158.0" />
+    </edge>
+    <edge source="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.event_offer_response" target="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.users">
+      <point x="75.33333333333331" y="-59.0" />
+      <point x="1095.3398148148146" y="817.0" />
+      <point x="1488.75" y="817.0" />
+      <point x="1488.75" y="148.0" />
+      <point x="1163.6537037037037" y="148.0" />
+      <point x="60.900000000000034" y="59.0" />
+    </edge>
+    <edge source="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.event_offer_response" target="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.continous_event_offer">
+      <point x="-75.33333333333331" y="-59.0" />
+      <point x="900.8371547524408" y="812.1293340671436" />
+      <point x="367.1222230302217" y="816.7567646531138" />
+      <point x="0.0" y="114.0" />
+    </edge>
+    <edge source="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.event_category" target="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.event">
+      <point x="-37.75" y="-36.5" />
+      <point x="932.1151275820171" y="319.07594167679224" />
+      <point x="859.9569122055705" y="317.74730923216725" />
+      <point x="37.40000000000009" y="158.0" />
+    </edge>
+    <edge source="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.continous_event_offer" target="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.event">
+      <point x="60.25" y="-114.0" />
+      <point x="624.6772605939273" y="180.62996329662997" />
+      <point x="627.2885885885887" y="498.5645645645646" />
+      <point x="-74.79999999999995" y="158.0" />
+    </edge>
+    <edge source="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.one_time_event_offer" target="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.users">
+      <point x="-60.25" y="-103.0" />
+      <point x="316.3284117450784" y="587.0056723390056" />
+      <point x="314.4429596262931" y="115.51751751751749" />
+      <point x="-60.89999999999998" y="59.0" />
+    </edge>
+    <edge source="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.event" target="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.users">
+      <point x="-46.75" y="-158.0" />
+      <point x="709.476059392726" y="161.9372706039373" />
+      <point x="1059.2537037037039" y="158.0" />
+      <point x="-43.5" y="59.0" />
+    </edge>
+    <edge source="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.user_authority" target="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.users">
+      <point x="-38.5" y="-36.5" />
+      <point x="1247.1335993395708" y="128.25866813428726" />
+      <point x="1181.0537037037038" y="138.0" />
+      <point x="78.30000000000001" y="59.0" />
+    </edge>
+    <edge source="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.showcase" target="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.users">
+      <point x="0.0" y="-92.0" />
+      <point x="1290.460236653825" y="156.37644468904787" />
+      <point x="1146.2537037037039" y="158.0" />
+      <point x="43.50000000000006" y="59.0" />
+    </edge>
+    <edge source="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.event_offer" target="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.event">
+      <point x="-60.25" y="-114.0" />
+      <point x="956.25" y="534.0" />
+      <point x="830.4686746987953" y="535.2255920232653" />
+      <point x="74.80000000000007" y="158.0" />
+    </edge>
+    <edge source="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.contact" target="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.users">
+      <point x="46.75" y="-59.0" />
+      <point x="1227.5" y="168.0" />
+      <point x="1128.8537037037038" y="168.0" />
+      <point x="26.100000000000023" y="59.0" />
+    </edge>
+    <edge source="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.event_offer_response" target="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.event_offer">
+      <point x="0.0" y="-59.0" />
+      <point x="1184.8687592539495" y="712.7308159380698" />
+      <point x="1187.6295615872475" y="666.756041509064" />
+      <point x="0.0" y="114.0" />
+    </edge>
+    <edge source="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.user_authority" target="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.authority">
+      <point x="38.5" y="-36.5" />
+      <point x="0.0" y="37.0" />
+    </edge>
+    <edge source="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.one_time_event_offer" target="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.event">
+      <point x="60.25" y="-103.0" />
+      <point x="606.9498847681866" y="538.5296424658012" />
+      <point x="654.0306549257017" y="521.2702256466704" />
+      <point x="-37.39999999999998" y="158.0" />
+    </edge>
+    <edge source="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.continous_event_offer" target="1757b6b3-45c2-4ca5-8a36-cacd06ef43ac.TABLE:eventmate_dev.public.users">
+      <point x="-60.25" y="-114.0" />
+      <point x="384.9610621904238" y="136.37644468904784" />
+      <point x="1024.4537037037037" y="138.0" />
+      <point x="-78.30000000000001" y="59.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.6159322033898305" x="1063.8010164473844" y="509.23842534056365" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Key columns</Category>
+    <Category>Columns</Category>
+  </Categories>
+</Diagram>
+

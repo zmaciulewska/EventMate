@@ -18,21 +18,22 @@
 
 <div *ngIf="areUserEventsShown">
   <button class="btn btn-primary" (click)=hideUserEvents()>Zwiń</button>
-  <app-events-list [userEvents]="true" [isDisplayOnly]="false"></app-events-list>
+  <app-events-list [userEvents]="true" [isDisplayOnly]="false" [userId]="userId" ></app-events-list>
 </div>
 <button *ngIf="!areUserEventsShown" class="btn btn-primary" (click)=showUserEvents()>Pokaż wydarzenia tego użytkownika</button>
 <hr/>
 
 <div *ngIf="areUserEventOffersShown">
   <button class="btn btn-primary" (click)=hideUserEventOffers()>Zwiń</button>
-  <app-event-offer-list [userOffers]="true"></app-event-offer-list>
+  <app-event-offer-list [userOffers]="true" [userId]="userId" ></app-event-offer-list>
 </div>
 <button *ngIf="!areUserEventOffersShown" class="btn btn-primary" (click)=showUserEventOffers()>Pokaż oferty tego użytkownika</button>
 <hr/>
 
 <div *ngIf="areUserContactsShown">
   <button class="btn btn-primary" (click)=hideUserContacts()>Zwiń</button>
-  <app-contacts-list></app-contacts-list>
+  <app-contacts-list [userId]="userId"></app-contacts-list>
 </div>
+{{userId}}
 <button *ngIf="!areUserContactsShown" class="btn btn-primary" (click)=showUserContacts()>Pokaż kontakty tego użytkownika</button>
 <hr/>
