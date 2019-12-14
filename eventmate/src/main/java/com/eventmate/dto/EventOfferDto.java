@@ -24,4 +24,6 @@ public class EventOfferDto extends AbstractDto {
     private String prefferedLocalization; //TODO google api?
 
     private LocalDateTime creationDate;
+
+    private LocalDateTime removalDate;
 }

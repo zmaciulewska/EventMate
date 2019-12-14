@@ -47,8 +47,8 @@ public class UserMapperImpl implements UserMapper {
         newUser.setShowcase(showcaseMapper.convert(user.getShowcase()));
         newUser.setEventOfferIds(user.getEventOffers()
                 .stream().map(e -> e.getId()).collect(Collectors.toSet()));
-        newUser.setEventOfferResponseIds(user.getEventOfferResponses()
-                .stream().map(e -> e.getId()).collect(Collectors.toSet()));
+       /* newUser.setEventOfferResponseIds(user.getEventOfferResponses()
+                .stream().map(e -> e.getId()).collect(Collectors.toSet()));*/
         return newUser;
     }
 }

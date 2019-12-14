@@ -39,8 +39,8 @@ public class Event extends AbstractEntity {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories;
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    private Set<EventOffer> continousEventOffers;
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<EventOffer> eventOffers;
 
     public Boolean isCommon() {
         return common;

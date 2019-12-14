@@ -19,4 +19,8 @@ public interface EventService extends AbstractService<EventDto> {
     List<EventDto> getConfirmedOrPrivate();
 
     List<EventDto> getUserEvents(User user);
+
+    List<Event> getExpiredEvents();
+
+    void softDeleteEvent(Event event);
 }

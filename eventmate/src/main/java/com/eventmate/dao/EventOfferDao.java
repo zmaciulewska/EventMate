@@ -11,5 +11,5 @@ import java.util.List;
 public interface EventOfferDao extends AbstractDao<EventOffer> {
      List<EventOffer> findAllByEvent(Event event);
 
-     List<EventOffer> findAllByOwner(User owner);
+     List<EventOffer>  findAllByOwnerAndRemovalDateNull(User owner);
 }

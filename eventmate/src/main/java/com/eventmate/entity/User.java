@@ -40,8 +40,8 @@ public class User extends AbstractEntity {
     @OneToMany(mappedBy = "owner")
     private Set<EventOffer> eventOffers;
 
-    @OneToMany(mappedBy = "owner")
-    private Set<EventOfferResponse> eventOfferResponses;
+    /*@OneToMany(mappedBy = "owner")
+    private Set<EventOfferResponse> eventOfferResponses;*/
 
 //    @OneToMany(mappedBy = "owner")
 //    private Set<Contact> contacts;

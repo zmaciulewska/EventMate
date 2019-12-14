@@ -146,9 +146,16 @@ public class EventOfferServiceImpl extends AbstractServiceImpl<EventOfferDto, Ev
         return convert(eventOfferDao.save(eventOffer));
     }
 
+   /* @Override
+    public EventOffer softDelete(EventOffer eventOffer) {
+        eventOffer.setRemovalDate(LocalDateTime.now());
+        eventOfferDao.save(eventOffer);
+        return
+    }*/
+
     @Override
     public List<EventOfferDto> getUserEventOffers(User user) {
-        return entitiesToDtos(eventOfferDao.findAllByOwner(user));
+        return entitiesToDtos(eventOfferDao.findAllByOwnerAndRemovalDateNull(user));
     }
 
     private EventOffer findEventOfferById(Long id) {

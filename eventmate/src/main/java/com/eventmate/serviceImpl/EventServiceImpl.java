@@ -2,12 +2,14 @@ package com.eventmate.serviceImpl;
 
 import com.eventmate.dao.CategoryDao;
 import com.eventmate.dao.EventDao;
+import com.eventmate.dao.EventOfferDao;
 import com.eventmate.dao.UserDao;
 import com.eventmate.dto.EventDto;
 import com.eventmate.dto.UserDto;
 import com.eventmate.dto.form.EventFormDto;
 import com.eventmate.entity.Cost;
 import com.eventmate.entity.Event;
+import com.eventmate.entity.EventOffer;
 import com.eventmate.entity.User;
 import com.eventmate.entity.enumeration.RoleName;
 import com.eventmate.error.AppException;
@@ -22,13 +24,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> implements EventService {
 
     private static final Logger logger = LoggerFactory.getLogger(EventServiceImpl.class);
@@ -36,16 +41,18 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
     private final CostMapper costMapper;
     private final EventDao eventDao;
     private final UserDao userDao;
+    private final EventOfferDao eventOfferDao;
     private final CategoryDao categoryDao;
 
     public EventServiceImpl(EventMapper eventMapper, EventDao eventDao, UserDao userDao,
                             CategoryDao categoryDao,
-                            CostMapper costMapper) {
+                            CostMapper costMapper, EventOfferDao eventOfferDao) {
         this.eventMapper = eventMapper;
         this.eventDao = eventDao;
         this.userDao = userDao;
         this.categoryDao = categoryDao;
         this.costMapper = costMapper;
+        this.eventOfferDao = eventOfferDao;
     }
 
     @Override
@@ -93,14 +100,10 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto principal = (UserDto) auth.getPrincipal();
 
-
         Event event = findEventById(id);
-        if (event.getRemovalDate() != null) {
-            throw new AppException(Error.EVENT_REMOVED);
-        }
         validateUserResourcesAccess(principal, event);
-        event.setRemovalDate(LocalDateTime.now());
-        eventDao.save(event);
+        softDeleteEvent(event);
+
     }
 
     private void validateUserResourcesAccess(UserDto principal, Event event) {
@@ -182,6 +185,26 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
     @Override
     public List<EventDto> getUserEvents(User user) {
         return entitiesToDtos(eventDao.findAllByRemovalDateNullAndReporter(user));
+    }
+
+    @Override
+    public List<Event> getExpiredEvents() {
+        return eventDao.findAllByRemovalDateNullAndEndDateLessThan(LocalDateTime.now());
+    }
+
+    @Override
+    public void softDeleteEvent(Event event) {
+        if (event.getRemovalDate() != null) {
+            throw new AppException(Error.EVENT_REMOVED);
+        }
+        event.setRemovalDate(LocalDateTime.now());
+        Set<EventOffer> eventOffers = event.getEventOffers();
+        eventOffers.stream().forEach(e -> {
+            e.setRemovalDate(LocalDateTime.now());
+            eventOfferDao.save(e);
+        });
+        eventDao.save(event);
+
     }
 
     private Event findEventById(Long id) {

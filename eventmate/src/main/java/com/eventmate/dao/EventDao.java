@@ -15,4 +15,5 @@ public interface EventDao extends AbstractDao<Event> {
     List<Event> findAllByRemovalDateNullAndAdministratorNotNullOrCommonAndRemovalDateNull(Boolean common);
     List<Event> findAllByStartDateLessThanEqualAndStartDateGreaterThanEqual(LocalDateTime endDate, LocalDateTime startDate);
     List<Event> findAllByRemovalDateNullAndReporter(User reporter);
+    List<Event> findAllByRemovalDateNullAndEndDateLessThan(LocalDateTime endDate);
 }

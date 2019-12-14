@@ -32,8 +32,10 @@ public class EventOffer extends AbstractEntity {
 
     private LocalDateTime creationDate;
 
-    @OneToMany(mappedBy = "eventOffer")
-    private Set<EventOfferResponse> eventOfferResponses;
+    private LocalDateTime removalDate;
+
+   /* @OneToMany(mappedBy = "eventOffer")
+    private Set<EventOfferResponse> eventOfferResponses;*/
 
     private LocalDateTime prefferedDate;
 
