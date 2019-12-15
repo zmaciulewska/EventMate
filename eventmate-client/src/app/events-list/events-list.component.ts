@@ -12,9 +12,20 @@ import { Event } from '../domain/event';
 })
 export class EventsListComponent implements OnInit {
 
+  currentPage = 0;
+  pageSize = 5;
+ /*  prevPage = 'Poprzednia strona';
+  nextPage = 'Następna strona'; */
+  /* pages: Array<number>; */
   events: Event[];
   private roles: string[];
   private authority: string;
+
+  response: any;
+
+  config: any;
+
+
 
   errorMessage: string;
 
@@ -30,9 +41,10 @@ export class EventsListComponent implements OnInit {
     private tokenStorage: TokenStorageService,
     private router: Router,
     private userService: UserService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) {
+  }
 
-  ngOnInit() {
+  loadEvents() {
     if (this.userEvents) {
       this.getUserEvents();
     } else {
@@ -42,6 +54,11 @@ export class EventsListComponent implements OnInit {
         this.getPublishedEvents();
       }
     }
+  }
+
+  ngOnInit() {
+    this.loadEvents();
+
     if (this.tokenStorage.getToken()) {
       this.roles = this.tokenStorage.getAuthorities();
       this.roles.every(role => {
@@ -85,9 +102,28 @@ export class EventsListComponent implements OnInit {
 
   }
 
+  setConfig() {
+    this.config = {
+      itemsPerPage: 5,
+      currentPage: this.currentPage,
+      totalItems: this.response.totalElements - 1 ,
+     /*  previousLabel: this.prevPage,
+      nextLabel: this.nextPage */
+      /* directionLinks: true,
+      autoHide: true,
+      responsive: true, */
+      /*  screenReaderPaginationLabel: 'Pagination',
+       screenReaderPageLabel: 'Strona',
+       screenReaderCurrentLabel: 'Jesteś na stronie', */
+    };
+  }
+
   getPublishedEvents(): void {
-    this.eventService.getAllConfirmedOrPrivate().subscribe(data => {
-      this.events = data;
+    this.eventService.getAll(this.currentPage, this.pageSize).subscribe(data => {
+      this.events = data.content;
+      this.response = data;
+      this.setConfig();
+      console.log(this.response);
     },
       error => {
         this.errorMessage = error;
@@ -131,4 +167,14 @@ export class EventsListComponent implements OnInit {
     }
   }
 
+  pageChange(newPage: number) {
+    this.currentPage = newPage;
+    this.loadEvents();
+  }
+
+  /*  setPage(i, event: any) {
+     event.prevendDefault();
+     this.page = i;
+     this.getPublishedEvents();
+   } */
 }

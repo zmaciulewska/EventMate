@@ -19,6 +19,8 @@ import com.eventmate.mapper.EventMapper;
 import com.eventmate.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,6 +32,7 @@ import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -205,6 +208,33 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
         });
         eventDao.save(event);
 
+    }
+
+    @Override
+    public List<EventDto> getEvents(int page, int limit) {
+      /*  List<EventDto> returnedEvents = new ArrayList<>();
+        Pageable pageableRequest = PageRequest.of(page, limit);
+        Page<Event> events =eventDao.findAllByRemovalDateNull(pageableRequest);*/
+        return null;
+    }
+
+
+    @Override
+    public Page<EventDto> getEvents(Pageable pageable) {
+        Page<Event> entities = eventDao.findAllByRemovalDateNull(pageable);
+        Page<EventDto> dtoPage = entities.map(new Function<Event, EventDto>() {
+            @Override
+            public EventDto apply(Event entity) {
+                EventDto dto = convert(entity);
+                return dto;
+            }
+        });
+        // return entitiesToDtos(eventDao.findAllByRemovalDateNull(pageable));
+        return dtoPage;
+        /*  List<EventDto> returnedEvents = new ArrayList<>();
+        Pageable pageableRequest = PageRequest.of(page, limit);
+        Page<Event> events =eventDao.findAllByRemovalDateNull(pageableRequest);*/
+        //return null;
     }
 
     private Event findEventById(Long id) {

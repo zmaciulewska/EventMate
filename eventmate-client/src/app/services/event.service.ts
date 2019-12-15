@@ -14,8 +14,8 @@ export class EventService {
 
   constructor(private http: HttpClient) { }
 
-  getAll() {
-    return this.http.get<Event[]>(this.baseUrl);
+  getAll(page: number, size: number) {
+    return this.http.get(this.baseUrl + '?page=' + page + '&size=' + size );
   }
 
   getAllConfirmedOrPrivate() {
@@ -26,7 +26,7 @@ export class EventService {
     return this.http.get<Event[]>(this.baseUrl + '/not-confirmed');
   }
 
-  confirmEvent(id: number, event: Event ) {
+  confirmEvent(id: number, event: Event) {
     return this.http.put(this.baseUrl + '/' + id + '/confirm', event);
   }
 
@@ -42,7 +42,7 @@ export class EventService {
     return this.http.delete(this.baseUrl + '/' + id);
   }
 
-  update(id: number, eventForm: EventForm ) {
+  update(id: number, eventForm: EventForm) {
     return this.http.put(this.baseUrl + '/' + id, eventForm);
   }
 

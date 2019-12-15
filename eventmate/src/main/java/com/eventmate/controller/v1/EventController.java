@@ -9,6 +9,8 @@ import com.eventmate.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -51,10 +53,18 @@ public class EventController {
         return eventService.getOne(id);
     }
 
+
+
+    /*public Page<EventDto> getAll(@RequestParam(value = "page", defaultValue = "0") int page,
+                                 @RequestParam(value = "limit", defaultValue = "30") int limit) {*/
     @GetMapping
+    public Page<EventDto> getAll(Pageable pageable) {
+        return eventService.getEvents(pageable);
+    }
+    /*@GetMapping
     public ResponseEntity<List<EventDto>> getAll() {
         return ResponseEntity.ok(eventService.getAll());
-    }
+    }*/
 
     @GetMapping ("/not-confirmed")
     @PreAuthorize("hasRole('ADMIN')")
