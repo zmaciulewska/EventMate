@@ -1,6 +1,6 @@
 <p>
-    {{errorMessage}}
- </p>
+  {{errorMessage}}
+</p>
 
 <div *ngIf="authority && isDisplayOnly">
   <p>
@@ -11,7 +11,7 @@
 
 
 <ul class="list-group">
-  <li class="list-group-item" *ngFor="let event of events">
+  <li class="list-group-item" *ngFor="let event of events | paginate: config">
     <div *ngIf="isDisplayOnly">
       <a class="title-link" [routerLink]="['/events/details/', event.id]">
         {{event.title}}
@@ -23,24 +23,36 @@
     </div>
 
     <div class="row" *ngIf="!isDisplayOnly">
-        <div class="col-xs-9">
-            <div ng-click="">
-                <a class="title-link" [routerLink]="['/events/details/', event.id]">
-                  {{event.title}}
-                </a>
-                <br/>
-                <p style="color: #364D57">
-                  {{event.description}}
-                </p>
-              </div>
-        </div>
-        <div class="col-xs-3">
-            <button *ngIf="areEventsNotConfirmed" (click)="confirmEvent(event)" class="btn btn-success">Zatwierdź</button>
-            <button *ngIf="areEventsNotConfirmed" (click)="deleteEvent()" class="btn btn-danger">Odrzuć</button>
-            <button *ngIf="!areEventsNotConfirmed" (click)="deleteEvent()" class="btn btn-danger">Usuń</button>
-            <button *ngIf="!areEventsNotConfirmed && event.reporterId==null"  [routerLink]="['/events/edit/', event.id]" class="btn btn-primary">Edytuj</button>
+      <div class="col-xs-9">
+        <div ng-click="">
+          <a class="title-link" [routerLink]="['/events/details/', event.id]">
+            {{event.title}}
+          </a>
+          <br/>
+          <p style="color: #364D57">
+            {{event.description}}
+          </p>
         </div>
       </div>
+      <div class="col-xs-3">
+        <button *ngIf="areEventsNotConfirmed" (click)="confirmEvent(event)" class="btn btn-success">Zatwierdź</button>
+        <button *ngIf="areEventsNotConfirmed" (click)="deleteEvent()" class="btn btn-danger">Odrzuć</button>
+        <button *ngIf="!areEventsNotConfirmed" (click)="deleteEvent()" class="btn btn-danger">Usuń</button>
+        <button *ngIf="!areEventsNotConfirmed && event.reporterId==null" [routerLink]="['/events/edit/', event.id]" class="btn btn-primary">Edytuj</button>
+      </div>
+    </div>
 
   </li>
 </ul>
+<!-- <ul class="nav nav-pills" *ngFor="let p of pages; let i=index ">
+  <li class="nav-item">
+    <a class="nav-link active" href="#" (click)="setPage(i, $event)">{{i}}</a>
+  </li>
+</ul> -->
+<pagination-controls (pageChange)="pageChange($event)" 
+[previousLabel]="'Poprzednia strona'"
+[nextLabel]="'Następna strona'"
+[autoHide]="autoHide"
+[responsive]="responsive"></pagination-controls>
+
+<!-- <pagination-controls (pageChange)="$event"></pagination-controls> -->
