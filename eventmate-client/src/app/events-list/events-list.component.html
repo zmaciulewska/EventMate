@@ -8,7 +8,49 @@
     <!-- <a routerLink="/events/add" class="nav-link" routerLinkActive="active">Create Event</a> -->
   </p>
 </div>
+<div>
+  <div class="row">
+    <div class="col-xs-2">
+      <div class="form-group">
+        <label class="label-details" for="input">Tytul</label>
+        <input type="text" class="form-control" id="title" [(ngModel)]="searchForm.title" name="title" placeholder="Tytul">
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <div class="form-group">
+        <label class="label-details" for="input">Lokalizacja</label>
+        <input type="text" class="form-control" id="localization" [(ngModel)]="searchForm.localization" name="localization" placeholder="Lokalizacja">
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <div class="form-group">
+        <label class="label-details" for="input">Data początkowa</label>
+        <input type="text" class="form-control" id="startDate" [(ngModel)]="searchForm.startDate" name="startDate" placeholder="Od kiedy">
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <div class="form-group">
+        <label class="label-details" for="input">Data końcowa</label>
+        <input type="text" class="form-control" id="endDate" [(ngModel)]="searchForm.endDate" name="endDate" placeholder="Do kiedy">
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <div class="form-group">
+        <label class="label-details" for="input">Kategoria</label>
+        <input type="text" class="form-control" id="categoryCode" [(ngModel)]="searchForm.categoryCode" name="categoryCode" placeholder="Kod kategorii">
+      </div>
+    </div>
 
+    <div class="col-xs-2">
+        <div class="form-group">
+            <button class="btn btn-block" (click) = loadEvents()>Szukaj</button>
+            <button class="btn btn-block" (click) = clearFilters() >Wyczysc</button>
+        </div>
+      </div>
+
+  </div>
+
+</div>
 
 <ul class="list-group">
   <li class="list-group-item" *ngFor="let event of events | paginate: config">
@@ -49,10 +91,7 @@
     <a class="nav-link active" href="#" (click)="setPage(i, $event)">{{i}}</a>
   </li>
 </ul> -->
-<pagination-controls (pageChange)="pageChange($event)" 
-[previousLabel]="'Poprzednia strona'"
-[nextLabel]="'Następna strona'"
-[autoHide]="autoHide"
-[responsive]="responsive"></pagination-controls>
+<pagination-controls (pageChange)="pageChange($event)" [previousLabel]="'Poprzednia strona'" [nextLabel]="'Następna strona'"
+  [autoHide]="autoHide" [responsive]="responsive"></pagination-controls>
 
 <!-- <pagination-controls (pageChange)="$event"></pagination-controls> -->

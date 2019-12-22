@@ -5,11 +5,11 @@
           <div class="dark-div">
               <div *ngIf="contact.secondPerson.id==userId">
 
-            dupa1
+        
                   <app-showcase-display [userId]=contact.firstPerson.id></app-showcase-display>
               </div>
               <div *ngIf="contact.firstPerson.id==userId">
-                  dupa2
+                  
                   <app-showcase-display [userId]=contact.secondPerson.id></app-showcase-display>
               </div>
               <br/>

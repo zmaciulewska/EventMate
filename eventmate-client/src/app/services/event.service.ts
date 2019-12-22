@@ -1,9 +1,10 @@
 import { EventOfferForm } from './../domain/event-offer-form';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Event } from '../domain/event';
 import { EventForm } from '../domain/event-form';
 import { EventOffer } from '../domain/event-offer';
+import { Page } from '../domain/page';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,30 @@ export class EventService {
 
   private baseUrl = 'http://localhost:8080/api/v1/events';
 
+  private requestUrl: string;
+  private params: HttpParams;
+  private paramUrl: string;
+
   constructor(private http: HttpClient) { }
 
-  getAll(page: number, size: number) {
-    return this.http.get(this.baseUrl + '?page=' + page + '&size=' + size );
+  getAll(page: number, size: number, searchParameters: Map<String, Object>) {
+    this.params = new HttpParams();
+    console.log(searchParameters);
+    this.paramUrl = '';
+
+    searchParameters.forEach((value: Object, key: string) => {
+      if (value !== undefined) {
+        this.params.set(key, value.toString());
+        console.log(value.toString());
+        this.paramUrl = this.paramUrl + '&' + key + '=' + value.toString();
+      }
+    });
+    this.requestUrl = this.baseUrl + '?page=' + page + '&size=' + size + this.paramUrl;
+
+   // this.requestUrl = this.requestUrl + this.paramUrl;
+
+    console.log(this.requestUrl);
+    return this.http.get<Page<Event>>(this.requestUrl);
   }
 
   getAllConfirmedOrPrivate() {

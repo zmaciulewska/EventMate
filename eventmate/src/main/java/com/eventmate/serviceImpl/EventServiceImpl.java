@@ -211,15 +211,6 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
     }
 
     @Override
-    public List<EventDto> getEvents(int page, int limit) {
-      /*  List<EventDto> returnedEvents = new ArrayList<>();
-        Pageable pageableRequest = PageRequest.of(page, limit);
-        Page<Event> events =eventDao.findAllByRemovalDateNull(pageableRequest);*/
-        return null;
-    }
-
-
-    @Override
     public Page<EventDto> getEvents(Pageable pageable) {
         Page<Event> entities = eventDao.findAllByRemovalDateNull(pageable);
         Page<EventDto> dtoPage = entities.map(new Function<Event, EventDto>() {
@@ -229,12 +220,33 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
                 return dto;
             }
         });
-        // return entitiesToDtos(eventDao.findAllByRemovalDateNull(pageable));
         return dtoPage;
-        /*  List<EventDto> returnedEvents = new ArrayList<>();
-        Pageable pageableRequest = PageRequest.of(page, limit);
-        Page<Event> events =eventDao.findAllByRemovalDateNull(pageableRequest);*/
-        //return null;
+
+    }
+
+    @Override
+    public Page<EventDto> getEvents(String title, String localization, LocalDateTime startDate, LocalDateTime endDate, String caategoryCode, Pageable pageable) {
+        if (title == null) {
+            title = "";
+        } /*else {
+          title = "%" + title + "%";
+        }*/
+
+        if (localization == null) localization = "";
+
+        if (startDate == null) startDate = LocalDateTime.now().minusYears(10);
+        if (endDate == null) endDate = LocalDateTime.now().plusYears(10);
+        if (caategoryCode == null) caategoryCode = "";
+
+        Page<Event> entities = eventDao.findEvents(title, localization, startDate, endDate, caategoryCode, pageable);
+        Page<EventDto> dtoPage = entities.map(new Function<Event, EventDto>() {
+            @Override
+            public EventDto apply(Event entity) {
+                EventDto dto = convert(entity);
+                return dto;
+            }
+        });
+        return dtoPage;
     }
 
     private Event findEventById(Long id) {

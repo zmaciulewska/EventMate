@@ -2,9 +2,7 @@ package com.eventmate.service;
 
 import com.eventmate.dto.*;
 import com.eventmate.dto.security.SignUpForm;
-import com.eventmate.entity.Contact;
 import com.eventmate.entity.User;
-import netscape.security.UserTarget;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +14,7 @@ public interface UserService extends AbstractService<UserDto> {
 
     boolean existsUserByUsername(String username);
 
-   // boolean existsUserById(Long id);
+    // boolean existsUserById(Long id);
     Optional<User> findUser(Long id);
 
     UserDto findUserByEmail(String email);

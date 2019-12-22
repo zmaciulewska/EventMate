@@ -1,9 +1,11 @@
+import { EventSearchForm } from './event-search-form';
 import { EventService } from '../services/event.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { TokenStorageService } from '../auth/token-storage.service';
 import { Router, ActivatedRoute } from '../../../node_modules/@angular/router';
 import { UserService } from '../services/user.service';
 import { Event } from '../domain/event';
+import { Page } from '../domain/page';
 
 @Component({
   selector: 'app-events-list',
@@ -14,18 +16,20 @@ export class EventsListComponent implements OnInit {
 
   currentPage = 0;
   pageSize = 5;
- /*  prevPage = 'Poprzednia strona';
-  nextPage = 'Następna strona'; */
+
+  /*  prevPage = 'Poprzednia strona';
+   nextPage = 'Następna strona'; */
   /* pages: Array<number>; */
   events: Event[];
   private roles: string[];
   private authority: string;
 
-  response: any;
+  currentData: Page<Event>;
 
   config: any;
 
-
+  searchForm: EventSearchForm;
+  parameterMap: Map<String, Object>;
 
   errorMessage: string;
 
@@ -44,7 +48,15 @@ export class EventsListComponent implements OnInit {
     private route: ActivatedRoute) {
   }
 
+  clearFilters() {
+
+    this.searchForm = new EventSearchForm();
+
+    this.loadEvents();
+  }
+
   loadEvents() {
+    this.prepareSearchCriteria();
     if (this.userEvents) {
       this.getUserEvents();
     } else {
@@ -56,8 +68,21 @@ export class EventsListComponent implements OnInit {
     }
   }
 
+  prepareSearchCriteria() {
+    this.parameterMap = new Map();
+    this.parameterMap.set('title', this.searchForm.title);
+    this.parameterMap.set('localization', this.searchForm.localization);
+    this.parameterMap.set('startDate', this.searchForm.startDate);
+    this.parameterMap.set('endDate', this.searchForm.endDate);
+    this.parameterMap.set('categoryCode', this.searchForm.categoryCode);
+  }
+
   ngOnInit() {
+
+    this.searchForm = new EventSearchForm();
+
     this.loadEvents();
+
 
     if (this.tokenStorage.getToken()) {
       this.roles = this.tokenStorage.getAuthorities();
@@ -105,25 +130,17 @@ export class EventsListComponent implements OnInit {
   setConfig() {
     this.config = {
       itemsPerPage: 5,
-      currentPage: this.currentPage,
-      totalItems: this.response.totalElements - 1 ,
-     /*  previousLabel: this.prevPage,
-      nextLabel: this.nextPage */
-      /* directionLinks: true,
-      autoHide: true,
-      responsive: true, */
-      /*  screenReaderPaginationLabel: 'Pagination',
-       screenReaderPageLabel: 'Strona',
-       screenReaderCurrentLabel: 'Jesteś na stronie', */
+      currentPage: this.currentData.number,
+      totalItems: this.currentData.totalElements - 1,
     };
   }
 
   getPublishedEvents(): void {
-    this.eventService.getAll(this.currentPage, this.pageSize).subscribe(data => {
+    this.eventService.getAll(this.currentPage, this.pageSize, this.parameterMap).subscribe(data => {
       this.events = data.content;
-      this.response = data;
+      this.currentData = data;
       this.setConfig();
-      console.log(this.response);
+      console.log(this.currentData);
     },
       error => {
         this.errorMessage = error;

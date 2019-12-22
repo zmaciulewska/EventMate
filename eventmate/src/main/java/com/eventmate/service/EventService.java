@@ -7,6 +7,7 @@ import com.eventmate.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface EventService extends AbstractService<EventDto> {
@@ -26,6 +27,8 @@ public interface EventService extends AbstractService<EventDto> {
 
     void softDeleteEvent(Event event);
 
-    List<EventDto> getEvents(int page, int limit);
+ //   List<EventDto> getEvents(int page, int limit);
     Page<EventDto> getEvents(Pageable pageable);
+
+    Page<EventDto> getEvents(String title, String localization, LocalDateTime startDate, LocalDateTime endDate, String categoryCode, Pageable pageable);
 }
