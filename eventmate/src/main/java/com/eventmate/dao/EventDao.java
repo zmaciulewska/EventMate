@@ -33,13 +33,15 @@ public interface EventDao extends AbstractDao<Event> {
             "WHERE (:title='' OR UPPER(e.title) LIKE (UPPER(CONCAT('%',:title,'%')))) " +
             "AND (:localization='' OR UPPER(e.localization) LIKE (UPPER(CONCAT('%',:localization,'%')))) " +
             "AND (e.start_date BETWEEN :start_date AND :end_date) " +
-            "AND (:category_code='' or c.code = :category_code)",
+            "AND (:category_code='' or c.code = :category_code)" +
+            "AND e.removal_date IS NULL",
             countQuery = "SELECT count(*) e FROM event e JOIN event_category ec ON e.id = ec.event_id " +
                     "JOIN category c ON ec.category_id = c.id " +
                     "WHERE (:title='' OR UPPER(e.title) LIKE (UPPER(CONCAT('%',:title,'%')))) " +
                     "AND (:localization='' OR UPPER(e.localization) LIKE (UPPER(CONCAT('%',:localization,'%')))) " +
                     "AND (e.start_date BETWEEN :start_date AND :end_date) " +
-                    "AND (:category_code='' or c.code = :category_code)",
+                    "AND (:category_code='' or c.code = :category_code)" +
+                    "AND e.removal_date IS NULL",
             nativeQuery = true)
     Page<Event> findEvents(@Param("title") String title,
                            @Param("localization") String localization,

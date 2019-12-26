@@ -29,6 +29,9 @@ export class EventsListComponent implements OnInit {
   config: any;
 
   searchForm: EventSearchForm;
+  tmpStartDateTime: Date;
+  tmpEndDateTime: Date;
+
   parameterMap: Map<String, Object>;
 
   errorMessage: string;
@@ -49,11 +52,16 @@ export class EventsListComponent implements OnInit {
   }
 
   clearFilters() {
-
-    this.searchForm = new EventSearchForm();
-
+    this.prepareSerachForm();
     this.loadEvents();
   }
+
+  prepareSerachForm() {
+    this.searchForm = new EventSearchForm();
+    // this.tmpStartDateTime = new Date();
+    // this.tmpEndDateTime = new Date();
+  }
+
 
   loadEvents() {
     this.prepareSearchCriteria();
@@ -70,6 +78,17 @@ export class EventsListComponent implements OnInit {
 
   prepareSearchCriteria() {
     this.parameterMap = new Map();
+
+    if (this.tmpStartDateTime !== undefined) { this.searchForm.startDate = this.tmpStartDateTime + ':00.000'; }
+    if (this.tmpEndDateTime !== undefined) { this.searchForm.endDate = this.tmpEndDateTime + ':00.000'; }
+
+    /*    if (this.tmpStartDateTime.toString().indexOf('-') !== -1) {
+         this.searchForm.startDate = this.tmpStartDateTime + ':00.000';
+       }
+       if (this.tmpEndDateTime.toString().indexOf('-') !== -1) {
+         this.searchForm.endDate = this.tmpEndDateTime + ':00.000';
+       }
+    */
     this.parameterMap.set('title', this.searchForm.title);
     this.parameterMap.set('localization', this.searchForm.localization);
     this.parameterMap.set('startDate', this.searchForm.startDate);
@@ -78,20 +97,14 @@ export class EventsListComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    this.searchForm = new EventSearchForm();
-
+    this.prepareSerachForm();
     this.loadEvents();
-
 
     if (this.tokenStorage.getToken()) {
       this.roles = this.tokenStorage.getAuthorities();
       this.roles.every(role => {
         if (role === 'ROLE_ADMIN') {
           this.authority = 'admin';
-          return false;
-        } else if (role === 'ROLE_PM') {
-          this.authority = 'pm';
           return false;
         }
         this.authority = 'user';
@@ -188,10 +201,4 @@ export class EventsListComponent implements OnInit {
     this.currentPage = newPage;
     this.loadEvents();
   }
-
-  /*  setPage(i, event: any) {
-     event.prevendDefault();
-     this.page = i;
-     this.getPublishedEvents();
-   } */
 }
