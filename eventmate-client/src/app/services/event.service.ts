@@ -39,9 +39,9 @@ export class EventService {
     return this.http.get<Page<Event>>(this.requestUrl);
   }
 
-  getAllConfirmedOrPrivate() {
+  /* getAllConfirmedOrPrivate() {
     return this.http.get<Event[]>(this.baseUrl + '/confirmed-private');
-  }
+  } */
 
   getAllNotConfirmed() {
     return this.http.get<Event[]>(this.baseUrl + '/not-confirmed');

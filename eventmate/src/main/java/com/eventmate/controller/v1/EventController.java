@@ -62,9 +62,9 @@ public class EventController {
                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
                                  @RequestParam(name = "endDate", required = false)
                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
-                                 @RequestParam(name = "categoryCode", required = false) String categoryCode) {
-
-        return eventService.getEvents(title, localization, startDate, endDate, categoryCode, pageable);
+                                 @RequestParam(name = "categoryCode", required = false) String categoryCode,
+                                @RequestParam(name = "areConfirmed") Boolean areConfirmed ){
+        return eventService.getEvents(title, localization, startDate, endDate, categoryCode, pageable, areConfirmed);
     }
 
     /*public Page<EventDto> getAll(@RequestParam(value = "page", defaultValue = "0") int page,
@@ -84,10 +84,10 @@ public class EventController {
         return ResponseEntity.ok(eventService.getAllNotConfirmed());
     }
 
-    @GetMapping("/confirmed-private")
+   /* @GetMapping("/confirmed-private")
     public ResponseEntity<List<EventDto>> getConfirmedAndPrivate() {
         return ResponseEntity.ok(eventService.getConfirmedOrPrivate());
-    }
+    }*/
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")

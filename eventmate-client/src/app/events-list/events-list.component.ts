@@ -94,6 +94,11 @@ export class EventsListComponent implements OnInit {
     this.parameterMap.set('startDate', this.searchForm.startDate);
     this.parameterMap.set('endDate', this.searchForm.endDate);
     this.parameterMap.set('categoryCode', this.searchForm.categoryCode);
+    if (this.areEventsNotConfirmed) {
+      this.parameterMap.set('areConfirmed', false);
+    } else {
+      this.parameterMap.set('areConfirmed', true);
+    }
   }
 
   ngOnInit() {
@@ -161,12 +166,21 @@ export class EventsListComponent implements OnInit {
   }
 
   getNotConfirmedEvents(): void {
-    this.eventService.getAllNotConfirmed().subscribe(data => {
+    this.eventService.getAll(this.currentPage, this.pageSize, this.parameterMap).subscribe(data => {
+      this.events = data.content;
+      this.currentData = data;
+      this.setConfig();
+      console.log(this.currentData);
+    },
+      error => {
+        this.errorMessage = error;
+      });
+   /*  this.eventService.getAllNotConfirmed().subscribe(data => {
       this.events = data;
     }, error => {
       this.errorMessage = error;
     }
-    );
+    ); */
   }
 
   confirmEvent(confirmedEvent: Event) {

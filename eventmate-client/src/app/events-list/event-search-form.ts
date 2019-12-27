@@ -4,5 +4,6 @@ export class EventSearchForm {
     startDate: string;
     endDate: string;
     categoryCode: String;
+    areConfirmed: boolean;
 
 }

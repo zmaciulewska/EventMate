@@ -28,26 +28,52 @@ public interface EventDao extends AbstractDao<Event> {
 
     Page<Event> findAllByRemovalDateNull(Pageable pageableRequest);
 
-    @Query(value = "SELECT e.* FROM event e JOIN event_category ec ON e.id = ec.event_id " +
-            "JOIN category c ON ec.category_id = c.id " +
+    @Query(value ="SELECT DISTINCT(e.*) FROM event e LEFT OUTER JOIN event_category ec ON e.id = ec.event_id " +
+            " LEFT OUTER JOIN category c ON ec.category_id = c.id " +
             "WHERE (:title='' OR UPPER(e.title) LIKE (UPPER(CONCAT('%',:title,'%')))) " +
             "AND (:localization='' OR UPPER(e.localization) LIKE (UPPER(CONCAT('%',:localization,'%')))) " +
             "AND (e.start_date BETWEEN :start_date AND :end_date) " +
             "AND (:category_code='' or c.code = :category_code)" +
-            "AND e.removal_date IS NULL",
+            "AND e.removal_date IS NULL " +
+            "AND e.administrator_id IS NULL AND e.common = 'yes' ",
             countQuery = "SELECT count(*) e FROM event e JOIN event_category ec ON e.id = ec.event_id " +
                     "JOIN category c ON ec.category_id = c.id " +
                     "WHERE (:title='' OR UPPER(e.title) LIKE (UPPER(CONCAT('%',:title,'%')))) " +
                     "AND (:localization='' OR UPPER(e.localization) LIKE (UPPER(CONCAT('%',:localization,'%')))) " +
                     "AND (e.start_date BETWEEN :start_date AND :end_date) " +
                     "AND (:category_code='' or c.code = :category_code)" +
-                    "AND e.removal_date IS NULL",
+                    "AND e.removal_date IS NULL " +
+                    "AND e.administrator_id IS NULL AND e.common = 'yes' ",
             nativeQuery = true)
-    Page<Event> findEvents(@Param("title") String title,
+    Page<Event> findNotConfirmedEvents(@Param("title") String title,
                            @Param("localization") String localization,
                            @Param("start_date") LocalDateTime startDate,
                            @Param("end_date") LocalDateTime endDate,
                            @Param("category_code") String categoryCode,
                            Pageable pageable);
+
+    @Query(value = "SELECT DISTINCT(e.*) FROM event e LEFT OUTER JOIN event_category ec ON e.id = ec.event_id " +
+            " LEFT OUTER JOIN category c ON ec.category_id = c.id " +
+            "WHERE (:title='' OR UPPER(e.title) LIKE (UPPER(CONCAT('%',:title,'%')))) " +
+            "AND (:localization='' OR UPPER(e.localization) LIKE (UPPER(CONCAT('%',:localization,'%')))) " +
+            "AND (e.start_date BETWEEN :start_date AND :end_date) " +
+            "AND (:category_code='' or c.code = :category_code)" +
+            "AND e.removal_date IS NULL " +
+            "AND (administrator_id IS NOT NULL OR e.common='false' )",
+            countQuery = "SELECT count( DISTINCT(e.*)) e FROM event e LEFT OUTER JOIN event_category ec ON e.id = ec.event_id " +
+                    " LEFT OUTER JOIN category c ON ec.category_id = c.id " +
+                    "WHERE (:title='' OR UPPER(e.title) LIKE (UPPER(CONCAT('%',:title,'%')))) " +
+                    "AND (:localization='' OR UPPER(e.localization) LIKE (UPPER(CONCAT('%',:localization,'%')))) " +
+                    "AND (e.start_date BETWEEN :start_date AND :end_date) " +
+                    "AND (:category_code='' or c.code = :category_code)" +
+                    "AND e.removal_date IS NULL " +
+                    "AND (administrator_id IS NOT NULL OR e.common='false' )",
+            nativeQuery = true)
+    Page<Event> findEvents(@Param("title") String title,
+                                       @Param("localization") String localization,
+                                       @Param("start_date") LocalDateTime startDate,
+                                       @Param("end_date") LocalDateTime endDate,
+                                       @Param("category_code") String categoryCode,
+                                       Pageable pageable);
 
 }

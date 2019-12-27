@@ -225,20 +225,21 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
     }
 
     @Override
-    public Page<EventDto> getEvents(String title, String localization, LocalDateTime startDate, LocalDateTime endDate, String caategoryCode, Pageable pageable) {
+    public Page<EventDto> getEvents(String title, String localization, LocalDateTime startDate, LocalDateTime endDate, String caategoryCode, Pageable pageable, Boolean areConfirmed) {
         if (title == null) {
             title = "";
-        } /*else {
-          title = "%" + title + "%";
-        }*/
-
+        }
         if (localization == null) localization = "";
-
         if (startDate == null) startDate = LocalDateTime.now().minusYears(10);
         if (endDate == null) endDate = LocalDateTime.now().plusYears(10);
         if (caategoryCode == null) caategoryCode = "";
+        Page<Event> entities;
+        if(areConfirmed) {
+            entities = eventDao.findEvents(title, localization, startDate, endDate, caategoryCode, pageable);
+        } else {
+            entities = eventDao.findNotConfirmedEvents(title, localization, startDate, endDate, caategoryCode, pageable);
+        }
 
-        Page<Event> entities = eventDao.findEvents(title, localization, startDate, endDate, caategoryCode, pageable);
         Page<EventDto> dtoPage = entities.map(new Function<Event, EventDto>() {
             @Override
             public EventDto apply(Event entity) {
