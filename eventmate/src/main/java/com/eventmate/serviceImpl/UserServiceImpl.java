@@ -18,6 +18,8 @@ import com.eventmate.service.EventOfferService;
 import com.eventmate.service.EventService;
 import com.eventmate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,6 +31,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -146,11 +149,13 @@ public class UserServiceImpl extends AbstractServiceImpl<UserDto, User> implemen
     }
 
     @Override
-    public List<EventDto> getUserEvents(Long id) {
+    public Page<EventDto> getUserEvents(Long id, String title, String localization, LocalDateTime startDate,
+                                        LocalDateTime endDate, String caategoryCode,
+                                        Pageable pageable) {
         User user = userDao.findById(id).orElseThrow(() -> new AppException(Error.USER_NOT_EXISTS));
         validateUserAccess(user);
 
-        return eventService.getUserEvents(user);
+        return eventService.getUserEvents(user, title, localization, startDate, endDate, caategoryCode, pageable);
     }
 
     @Override

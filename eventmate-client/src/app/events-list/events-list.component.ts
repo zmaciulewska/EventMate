@@ -94,7 +94,7 @@ export class EventsListComponent implements OnInit {
     this.parameterMap.set('startDate', this.searchForm.startDate);
     this.parameterMap.set('endDate', this.searchForm.endDate);
     this.parameterMap.set('categoryCode', this.searchForm.categoryCode);
-    if (this.areEventsNotConfirmed) {
+    if (this.areEventsNotConfirmed || this.userEvents) {
       this.parameterMap.set('areConfirmed', false);
     } else {
       this.parameterMap.set('areConfirmed', true);
@@ -123,20 +123,24 @@ export class EventsListComponent implements OnInit {
       this.route
         .params
         .subscribe(params => {
-          this.userService
-            .getUserEvents(params['id'])
-            .subscribe(data => {
-              this.events = data;
-            },
-              error => {
-                this.errorMessage = error.error.message;
-              });
+          this.userService.getUserEvents(params['id'], this.currentPage, this.pageSize, this.parameterMap).subscribe(data => {
+            this.events = data.content;
+            this.currentData = data;
+            this.setConfig();
+            console.log(this.currentData);
+          },
+            error => {
+              this.errorMessage = error.error.message;
+            });
         });
     } else {
       this.userService
-        .getUserEvents(this.userId)
+        .getUserEvents(this.userId, this.currentPage, this.pageSize, this.parameterMap)
         .subscribe(data => {
-          this.events = data;
+          this.events = data.content;
+          this.currentData = data;
+          this.setConfig();
+          console.log(this.currentData);
         },
           error => {
             this.errorMessage = error.error.message;
@@ -175,12 +179,12 @@ export class EventsListComponent implements OnInit {
       error => {
         this.errorMessage = error;
       });
-   /*  this.eventService.getAllNotConfirmed().subscribe(data => {
-      this.events = data;
-    }, error => {
-      this.errorMessage = error;
-    }
-    ); */
+    /*  this.eventService.getAllNotConfirmed().subscribe(data => {
+       this.events = data;
+     }, error => {
+       this.errorMessage = error;
+     }
+     ); */
   }
 
   confirmEvent(confirmedEvent: Event) {

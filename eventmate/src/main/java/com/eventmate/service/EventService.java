@@ -21,7 +21,8 @@ public interface EventService extends AbstractService<EventDto> {
 
     List<EventDto> getConfirmedOrPrivate();
 
-    List<EventDto> getUserEvents(User user);
+    Page<EventDto> getUserEvents(User user, String title, String localization, LocalDateTime startDate,
+                                 LocalDateTime endDate, String categoryCode, Pageable pageable);
 
     List<Event> getExpiredEvents();
 

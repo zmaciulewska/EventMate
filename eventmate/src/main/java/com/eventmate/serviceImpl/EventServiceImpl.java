@@ -186,8 +186,26 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
     }
 
     @Override
-    public List<EventDto> getUserEvents(User user) {
-        return entitiesToDtos(eventDao.findAllByRemovalDateNullAndReporter(user));
+    public Page<EventDto> getUserEvents(User user, String title, String localization, LocalDateTime startDate,
+                                        LocalDateTime endDate, String caategoryCode,
+                                        Pageable pageable) {
+        if (title == null) {
+            title = "";
+        }
+        if (localization == null) localization = "";
+        if (startDate == null) startDate = LocalDateTime.now().minusYears(10);
+        if (endDate == null) endDate = LocalDateTime.now().plusYears(10);
+        if (caategoryCode == null) caategoryCode = "";
+
+        Page<Event> entities = eventDao.findUserEvents(user.getId(), title, localization, startDate, endDate, caategoryCode, pageable);
+        Page<EventDto> dtoPage = entities.map(new Function<Event, EventDto>() {
+            @Override
+            public EventDto apply(Event entity) {
+                EventDto dto = convert(entity);
+                return dto;
+            }
+        });
+        return dtoPage;
     }
 
     @Override
@@ -225,7 +243,9 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
     }
 
     @Override
-    public Page<EventDto> getEvents(String title, String localization, LocalDateTime startDate, LocalDateTime endDate, String caategoryCode, Pageable pageable, Boolean areConfirmed) {
+    public Page<EventDto> getEvents(String title, String localization, LocalDateTime startDate,
+                                    LocalDateTime endDate, String caategoryCode,
+                                    Pageable pageable, Boolean areConfirmed) {
         if (title == null) {
             title = "";
         }

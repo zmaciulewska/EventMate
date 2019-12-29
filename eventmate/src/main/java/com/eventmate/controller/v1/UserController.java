@@ -3,12 +3,16 @@ package com.eventmate.controller.v1;
 import com.eventmate.dto.*;
 import com.eventmate.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -46,8 +50,18 @@ public class UserController {
 
     @GetMapping("/{id}/events")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public List<EventDto> getUserEvents(@Valid @PathVariable Long id) {
-        return userService.getUserEvents(id);
+    public Page<EventDto> getUserEvents(@Valid @PathVariable Long id,
+                                        Pageable pageable,
+                                        @RequestParam(name = "title", required = false) String title,
+                                        @RequestParam(name = "localization", required = false) String localization,
+                                        @RequestParam(name = "startDate", required = false)
+                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                                        @RequestParam(name = "endDate", required = false)
+                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+                                        @RequestParam(name = "categoryCode", required = false) String categoryCode,
+                                        @RequestParam(name = "areConfirmed") Boolean areConfirmed
+    ) {
+        return userService.getUserEvents(id, title, localization, startDate, endDate, categoryCode, pageable);
     }
 
     @GetMapping("/{id}/event-offers")
