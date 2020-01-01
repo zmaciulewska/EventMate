@@ -8,6 +8,8 @@ import com.eventmate.dto.form.EventOfferFormDto;
 import com.eventmate.service.CategoryService;
 import com.eventmate.service.EventOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,8 +41,10 @@ public class CategoryController {
 
 
     @GetMapping
-    public ResponseEntity<List<CategoryDto>> getAll() {
-        return ResponseEntity.ok(categoryService.getAll());
+    public ResponseEntity<Page<CategoryDto>> getAll(Pageable pageable,
+                                                    @RequestParam(name = "code", required = false) String code,
+                                                    @RequestParam(name = "code", required = false) String name) {
+        return ResponseEntity.ok(categoryService.getAll(pageable, code, name));
     }
 
     @PutMapping("/{id}")
