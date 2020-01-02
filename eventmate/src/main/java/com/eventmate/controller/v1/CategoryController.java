@@ -43,7 +43,7 @@ public class CategoryController {
     @GetMapping
     public ResponseEntity<Page<CategoryDto>> getAll(Pageable pageable,
                                                     @RequestParam(name = "code", required = false) String code,
-                                                    @RequestParam(name = "code", required = false) String name) {
+                                                    @RequestParam(name = "name", required = false) String name) {
         return ResponseEntity.ok(categoryService.getAll(pageable, code, name));
     }
 

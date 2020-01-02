@@ -4,37 +4,58 @@
 <form name="form" #form="ngForm" (ngSubmit)="submit()" novalidate>
   <div class="row">
     <div class="col-xs-3">
-        <div class="form-group">
-            <label for="code">Kod</label>
-            <input type="text" class="form-control" id="code" [(ngModel)]="categoryForm.code" name="code" #code="ngModel" [ngClass]="{ 'is-invalid': form.submitted && code.invalid }"
-              required minlength="3">
-            <show-errors class="invalid-feedback" [control]="code"></show-errors>
-          </div>
+      <div class="form-group">
+        <label for="code">Kod</label>
+        <input type="text" class="form-control" id="code" [(ngModel)]="categoryForm.code" name="code" #code="ngModel" [ngClass]="{ 'is-invalid': form.submitted && code.invalid }"
+          required minlength="3">
+        <show-errors class="invalid-feedback" [control]="code"></show-errors>
+      </div>
     </div>
     <div class="col-xs-3">
-        <div class="form-group">
-            <label for="name">Nazwa</label>
-            <input type="text" class="form-control" id="name" [(ngModel)]="categoryForm.name" name="name" #name="ngModel" [ngClass]="{ 'is-invalid': form.submitted && name.invalid }"
-              required minlength="3">
-            <show-errors class="invalid-feedback" [control]="name"></show-errors>
-          </div>
+      <div class="form-group">
+        <label for="name">Nazwa</label>
+        <input type="text" class="form-control" id="name" [(ngModel)]="categoryForm.name" name="name" #name="ngModel" [ngClass]="{ 'is-invalid': form.submitted && name.invalid }"
+          required minlength="3">
+        <show-errors class="invalid-feedback" [control]="name"></show-errors>
+      </div>
     </div>
     <div class="col-xs-3">
-        <div class="form-group">
-            <label for="description">Opis</label>
-            <input type="text" class="form-control" id="description" [(ngModel)]="categoryForm.description" name="description" #description="ngModel" [ngClass]="{ 'is-invalid': form.submitted && description.invalid }"
-              required minlength="3">
-            <show-errors class="invalid-feedback" [control]="description"></show-errors>
-          </div>
+      <div class="form-group">
+        <label for="description">Opis</label>
+        <input type="text" class="form-control" id="description" [(ngModel)]="categoryForm.description" name="description" #description="ngModel"
+          [ngClass]="{ 'is-invalid': form.submitted && description.invalid }" required minlength="3">
+        <show-errors class="invalid-feedback" [control]="description"></show-errors>
+      </div>
     </div>
     <div class="col-xs-3">
-        <button [disabled]="form.invalid || form.pending" type="submit" class="btn btn-success">Zatwierdź kategorię</button>
+      <button [disabled]="form.invalid || form.pending" type="submit" class="btn btn-success">Zatwierdź kategorię</button>
     </div>
   </div>
 </form>
 {{errorMessage}}
+
+<div class="row">
+  <div class="col-xs-5">
+    <div class="form-group">
+      <label class="label-details" for="input">Kod</label>
+      <input type="text" class="form-control" id="code" [(ngModel)]="searchForm.code" name="title" placeholder="Kod">
+    </div>
+  </div>
+  <div class="col-xs-5">
+    <div class="form-group">
+      <label class="label-details" for="input">Nazwa</label>
+      <input type="text" class="form-control" id="name" [(ngModel)]="searchForm.name" name="name" placeholder="Nazwa">
+    </div>
+  </div>
+  <div class="col-xs-2">
+    <div class="form-group">
+      <button class="btn btn-block" (click)=loadCategories()>Szukaj</button>
+      <button class="btn btn-block" (click)=clearFilters()>Wyczysc</button>
+    </div>
+  </div>
+</div>
 <ul class="list-group">
-  <li class="list-group-item" *ngFor="let category of categories">
+  <li class="list-group-item" *ngFor="let category of categories | paginate: config">
     <div class="row">
       <div class="col-xs-10">
         <div ng-click="">
@@ -52,9 +73,11 @@
       </div>
       <div class="col-xs-2">
         <button (click)="deleteCategory(category.id)" class="btn btn-danger">Usuń</button>
-      <!--   <button [routerLink]="['/category/edit/', category.id]" class="btn btn-primary">Edytuj</button> -->
+        <!--   <button [routerLink]="['/category/edit/', category.id]" class="btn btn-primary">Edytuj</button> -->
       </div>
     </div>
 
   </li>
 </ul>
+<pagination-controls (pageChange)="pageChange($event)" [previousLabel]="'Poprzednia strona'" [nextLabel]="'Następna strona'"
+  [autoHide]="autoHide" [responsive]="responsive"></pagination-controls>

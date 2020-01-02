@@ -152,13 +152,13 @@ export class EventsListComponent implements OnInit {
   setConfig() {
     this.config = {
       itemsPerPage: 5,
-      currentPage: this.currentData.number,
-      totalItems: this.currentData.totalElements - 1,
+      currentPage: this.currentPage,
+      totalItems: this.currentData.totalElements,
     };
   }
 
   getPublishedEvents(): void {
-    this.eventService.getAll(this.currentPage, this.pageSize, this.parameterMap).subscribe(data => {
+    this.eventService.getAll(this.currentPage - 1, this.pageSize, this.parameterMap).subscribe(data => {
       this.events = data.content;
       this.currentData = data;
       this.setConfig();
