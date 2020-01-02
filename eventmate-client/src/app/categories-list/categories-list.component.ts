@@ -33,14 +33,11 @@ export class CategoriesListComponent implements OnInit {
     this.categoryForm = new Category();
     this.prepareSerachForm();
     this.loadCategories();
-
-
   }
 
   prepareSerachForm() {
     console.log('Preparing search form.');
     this.searchForm = new CategorySearchForm();
-
   }
 
   prepareSearchCriteria() {

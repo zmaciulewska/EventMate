@@ -34,4 +34,6 @@ public interface UserService extends AbstractService<UserDto> {
     ShowcaseDto getUserShowcase(Long id);
 
     List<ContactDto> getUserContacts(Long id);
+
+    Page<UserDto> getAll(Pageable pageable, String username, String email);
 }

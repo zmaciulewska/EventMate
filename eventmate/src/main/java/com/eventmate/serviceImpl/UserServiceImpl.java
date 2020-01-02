@@ -4,7 +4,6 @@ import com.eventmate.dao.RoleDao;
 import com.eventmate.dao.UserDao;
 import com.eventmate.dto.*;
 import com.eventmate.dto.security.SignUpForm;
-import com.eventmate.entity.Contact;
 import com.eventmate.entity.Role;
 import com.eventmate.entity.Showcase;
 import com.eventmate.entity.User;
@@ -36,6 +35,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -178,11 +178,31 @@ public class UserServiceImpl extends AbstractServiceImpl<UserDto, User> implemen
         return contactService.getUserContacts(user);
     }
 
+    @Override
+    public Page<UserDto> getAll(Pageable pageable, String username, String email) {
+        if (username == null) {
+            username = "";
+        }
+        if (email == null) {
+            email = "";
+        }
+
+        Page<User> entities = userDao.findAll(username, email, pageable);
+        Page<UserDto> dtoPage = entities.map(new Function<User, UserDto>() {
+            @Override
+            public UserDto apply(User entity) {
+                UserDto dto = convert(entity);
+                return dto;
+            }
+        });
+        return dtoPage;
+    }
+
     private void validateUserAccess(User user) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto principal = (UserDto) auth.getPrincipal();
-        if(!user.getId().equals(principal.getId())
-                &&    !principal.getAuthorities().contains(new SimpleGrantedAuthority(RoleName.ROLE_ADMIN.name()))) {
+        if (!user.getId().equals(principal.getId())
+                && !principal.getAuthorities().contains(new SimpleGrantedAuthority(RoleName.ROLE_ADMIN.name()))) {
             throw new AppException(Error.USER_NOT_ALLOWED);
         }
     }

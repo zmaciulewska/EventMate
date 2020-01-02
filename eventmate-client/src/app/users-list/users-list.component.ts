@@ -2,6 +2,8 @@ import { UserService } from './../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '../../../node_modules/@angular/router';
 import { User } from '../domain/user';
+import { Page } from '../domain/page';
+import { UserSearchForm } from './user-search-form';
 
 @Component({
   selector: 'app-users-list',
@@ -13,20 +15,66 @@ export class UsersListComponent implements OnInit {
   users: User[];
   errorMessage: string;
 
+  currentPage = 1;
+  pageSize = 5;
+  currentData: Page<User>;
+  config: any;
+
+  searchForm: UserSearchForm;
+  parameterMap: Map<String, Object>;
+
   constructor(private userService: UserService,
     private router: Router) { }
 
   ngOnInit() {
+    this.prepareSerachForm();
+    this.loadUsers();
+  }
 
-    this.userService.getAll().subscribe(
+  prepareSerachForm() {
+    this.searchForm = new UserSearchForm();
+  }
+
+  prepareSearchCriteria() {
+    this.parameterMap = new Map();
+    this.parameterMap.set('username', this.searchForm.username);
+    this.parameterMap.set('email', this.searchForm.email);
+  }
+
+  pageChange(newPage: number) {
+    console.log('newPage: ' + newPage);
+    this.currentPage = newPage;
+    this.loadUsers();
+  }
+
+  setConfig() {
+    this.config = {
+      itemsPerPage: 5,
+      currentPage: this.currentPage,
+      totalItems: this.currentData.totalElements,
+    };
+  }
+
+
+  clearFilters() {
+    this.prepareSerachForm();
+    this.loadUsers();
+  }
+
+  loadUsers() {
+    this.prepareSearchCriteria();
+    this.userService.getAllPaginated((this.currentPage - 1), this.pageSize, this.parameterMap).subscribe(
       data => {
-        this.users = data;
-        console.log(this.users);
+        this.users = data.content;
+        this.currentData = data;
+        this.setConfig();
+        console.log(this.currentData);
       },
       error => {
         this.errorMessage = error.error.message;
       });
   }
+
 
   deleteUser(id: number) {
     if (confirm('Czy chcesz usunąć tego użytkownika?')) {

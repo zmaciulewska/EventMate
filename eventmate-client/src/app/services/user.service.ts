@@ -24,6 +24,23 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  getAllPaginated(page: number, size: number, searchParameters: Map<String, Object>) {
+    this.params = new HttpParams();
+    console.log(searchParameters);
+    this.paramUrl = '';
+
+    searchParameters.forEach((value: Object, key: string) => {
+      if (value !== undefined) {
+        this.params.set(key, value.toString());
+        console.log(value.toString());
+        this.paramUrl = this.paramUrl + '&' + key + '=' + value.toString();
+      }
+    });
+    this.requestUrl = this.usersUrl + '?page=' + page + '&size=' + size + this.paramUrl;
+    console.log(this.requestUrl);
+    return this.http.get<Page<User>>(this.requestUrl);
+  }
+
   getUserBoard(): Observable<string> {
     return this.http.get(this.userSampleUrl, { responseType: 'text' });
   }

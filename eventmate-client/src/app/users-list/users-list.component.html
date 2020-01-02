@@ -1,43 +1,28 @@
-<p>
-  users-list works!
-</p>
-
-<!-- <form name="form" #form="ngForm" (ngSubmit)="submit()" novalidate>
-  <div class="row">
-    <div class="col-xs-3">
-        <div class="form-group">
-            <label for="code">Kod</label>
-            <input type="text" class="form-control" id="code" [(ngModel)]="categoryForm.code" name="code" #code="ngModel" [ngClass]="{ 'is-invalid': form.submitted && code.invalid }"
-              required minlength="3">
-            <show-errors class="invalid-feedback" [control]="code"></show-errors>
-          </div>
-    </div>
-    <div class="col-xs-3">
-        <div class="form-group">
-            <label for="name">Nazwa</label>
-            <input type="text" class="form-control" id="name" [(ngModel)]="categoryForm.name" name="name" #name="ngModel" [ngClass]="{ 'is-invalid': form.submitted && name.invalid }"
-              required minlength="3">
-            <show-errors class="invalid-feedback" [control]="name"></show-errors>
-          </div>
-    </div>
-    <div class="col-xs-3">
-        <div class="form-group">
-            <label for="description">Opis</label>
-            <input type="text" class="form-control" id="description" [(ngModel)]="categoryForm.description" name="description" #description="ngModel" [ngClass]="{ 'is-invalid': form.submitted && description.invalid }"
-              required minlength="3">
-            <show-errors class="invalid-feedback" [control]="description"></show-errors>
-          </div>
-    </div>
-    <div class="col-xs-3">
-        <button [disabled]="form.invalid || form.pending" type="submit" class="btn btn-success">Zatwierdź kategorię</button>
-    </div>
-  </div>
-</form> -->
-
 {{errorMessage}}
 
+<div class="row">
+  <div class="col-xs-5">
+    <div class="form-group">
+      <label class="label-details" for="input">Nazwa użytkownika</label>
+      <input type="text" class="form-control" id="username" [(ngModel)]="searchForm.username" name="username" placeholder="Nazwa użytkownika">
+    </div>
+  </div>
+  <div class="col-xs-5">
+    <div class="form-group">
+      <label class="label-details" for="input">Email</label>
+      <input type="text" class="form-control" id="email" [(ngModel)]="searchForm.email" name="email" placeholder="Email">
+    </div>
+  </div>
+  <div class="col-xs-2">
+    <div class="form-group">
+      <button class="btn btn-block" (click)=loadUsers()>Szukaj</button>
+      <button class="btn btn-block" (click)=clearFilters()>Wyczyść</button>
+    </div>
+  </div>
+</div>
+
 <ul class="list-group">
-  <li class="list-group-item" *ngFor="let user of users">
+  <li class="list-group-item" *ngFor="let user of users | paginate: config ">
     <div class="row">
       <div class="col-xs-10">
         <div ng-click="">
@@ -48,16 +33,14 @@
           <p style="color: rgb(156, 186, 199)">
             {{user.email}}
           </p>
-          <p style="color: #364D57">
-          nananna
-          </p>
         </div>
       </div>
       <div class="col-xs-2">
         <button (click)="deleteUser(user.id)" class="btn btn-danger">Usuń</button>
-      <!--   <button [routerLink]="['/category/edit/', category.id]" class="btn btn-primary">Edytuj</button> -->
       </div>
     </div>
-
   </li>
 </ul>
+
+<pagination-controls (pageChange)="pageChange($event)" [previousLabel]="'Poprzednia strona'" [nextLabel]="'Następna strona'"
+  [autoHide]="autoHide" [responsive]="responsive"></pagination-controls>

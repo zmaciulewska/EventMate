@@ -2,6 +2,7 @@ package com.eventmate.controller.v1;
 
 import com.eventmate.dto.*;
 import com.eventmate.service.UserService;
+import javafx.scene.control.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,8 +32,10 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<UserDto>> getAll() {
-        return ResponseEntity.ok(userService.getAll());
+    public ResponseEntity<Page<UserDto>> getAll(Pageable pageable,
+                                                @RequestParam(name = "username", required = false) String username,
+                                                @RequestParam(name = "email", required = false) String email) {
+        return ResponseEntity.ok(userService.getAll(pageable, username, email));
     }
 
     @DeleteMapping("/{id}")
