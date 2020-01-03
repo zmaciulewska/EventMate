@@ -13,6 +13,7 @@ import java.util.Set;
 public class Event extends AbstractEntity {
 
     private String title;
+    @Lob
     private String description;
     private String localization;
     private LocalDateTime startDate;

@@ -26,6 +26,12 @@ export class EventOfferListComponent implements OnInit {
 
   @Input() userId: number;
 
+  errorMessage: string;
+  isError = false;
+
+  isSuccess = false;
+  successMessage = '';
+
 
   constructor(private route: ActivatedRoute,
     private eventService: EventService,
@@ -70,11 +76,11 @@ export class EventOfferListComponent implements OnInit {
         });
     } else {
       this.userService
-            .getUserEventOffers(this.userId)
-            .subscribe(data => {
-              this.eventOffers = data;
-              if (this.eventOffers.length > 0) { this.emptyList = false; }
-            });
+        .getUserEventOffers(this.userId)
+        .subscribe(data => {
+          this.eventOffers = data;
+          if (this.eventOffers.length > 0) { this.emptyList = false; }
+        });
     }
   }
 
@@ -85,8 +91,12 @@ export class EventOfferListComponent implements OnInit {
     this.contactService.createContact(this.contactForm).subscribe(
       data => {
         console.log(data);
+        this.isSuccess = true;
+        this.successMessage = 'Sukces! Nowy kontakt został nawiązany.';
       },
       error => {
+        this.isError = true;
+        this.errorMessage = error.error.message;
         console.log(error);
       }
     );

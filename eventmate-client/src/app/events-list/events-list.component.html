@@ -1,6 +1,6 @@
-<p>
-  {{errorMessage}}
-</p>
+<div *ngIf="isSuccess" class="alert alert-success">
+    {{succesMessage}}
+ </div>
 
 <div *ngIf="authority && isDisplayOnly">
   <p>
@@ -81,9 +81,9 @@
         {{event.title}}
       </a>
       <br/>
-      <p style="color: #364D57">
+      <div style="color: #364D57; white-space: pre-wrap">
         {{event.description}}
-      </p>
+      </div>
     </div>
 
     <div class="row" *ngIf="!isDisplayOnly">
@@ -93,9 +93,10 @@
             {{event.title}}
           </a>
           <br/>
-          <p style="color: #364D57">
+          <div style="color: #364D57; white-space: pre-wrap">
             {{event.description}}
-          </p>
+          </div>
+        
         </div>
       </div>
       <div class="col-xs-3">

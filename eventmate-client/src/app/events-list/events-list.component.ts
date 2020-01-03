@@ -34,7 +34,11 @@ export class EventsListComponent implements OnInit {
 
   parameterMap: Map<String, Object>;
 
+  isError = false;
   errorMessage: string;
+
+  isSuccess = false;
+  successMessage: string;
 
   @Input()
   public areEventsNotConfirmed = false;
@@ -130,6 +134,7 @@ export class EventsListComponent implements OnInit {
             console.log(this.currentData);
           },
             error => {
+              this.isError = true;
               this.errorMessage = error.error.message;
             });
         });
@@ -143,6 +148,7 @@ export class EventsListComponent implements OnInit {
           console.log(this.currentData);
         },
           error => {
+            this.isError = true;
             this.errorMessage = error.error.message;
           });
     }
@@ -165,6 +171,7 @@ export class EventsListComponent implements OnInit {
       console.log(this.currentData);
     },
       error => {
+        this.isError = true;
         this.errorMessage = error;
       });
   }
@@ -177,6 +184,7 @@ export class EventsListComponent implements OnInit {
       console.log(this.currentData);
     },
       error => {
+        this.isError = true;
         this.errorMessage = error;
       });
     /*  this.eventService.getAllNotConfirmed().subscribe(data => {
@@ -191,9 +199,12 @@ export class EventsListComponent implements OnInit {
     this.eventService.confirmEvent(confirmedEvent.id, confirmedEvent).subscribe(data => {
       console.log(data);
       // window.location.reload();
+      this.isSuccess = true;
+      this.successMessage = 'Wydarzenie zostało zatwierdzone.';
       this.router.navigate(['/events/details/', confirmedEvent.id]);
     }, error => {
-      this.errorMessage = error;
+      this.isError = true;
+      this.errorMessage = error.error.message;
     }
     );
   }
@@ -205,11 +216,13 @@ export class EventsListComponent implements OnInit {
       this.eventService.delete(id).subscribe(
         res => {
           console.log('Event deleted');
+          this.isSuccess = true;
+          this.successMessage = 'Wydarzenie zostało usunięte.';
           this.router.navigate(['/home']);
         },
         error => {
           console.log('Event not deleted');
-          // this.isDeleteFailed = true;
+          this.isError = true;
           this.errorMessage = error.error.message;
         });
     }

@@ -27,11 +27,21 @@
                         Dodatkowe informacje:&nbsp;&nbsp;
                     </div>
                     <div class="showcase-value">
-                           {{ eventOffer.description}}
+                        {{ eventOffer.description}}
                     </div>
                 </div>
 
                 <button class="btn btn-info" (click)=createContact(eventOffer)>Zgołoś się</button>
+                <br/>
+                <div *ngIf="isSuccess" class="alert alert-success">
+                    {{successMessage}}<br/>
+                    <a class="title-link" [routerLink]="['/users/details/', eventOffer.ownerId]">
+                        Zobacz profil
+                    </a>
+                </div>
+                <div *ngIf="isError" class="alert alert-danger">
+                    {{errorMessage}}
+                </div>
             </div>
         </li>
     </ul>
