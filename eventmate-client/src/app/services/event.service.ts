@@ -12,6 +12,7 @@ import { Page } from '../domain/page';
 export class EventService {
 
   private baseUrl = 'http://localhost:8080/api/v1/events';
+  private eventOfferUrl = 'http://localhost:8080/api/v1/event-offers';
 
   private requestUrl: string;
   private params: HttpParams;
@@ -75,4 +76,7 @@ export class EventService {
     return this.http.get<EventOffer[]>(this.baseUrl + '/' + id + '/event-offers');
   }
 
+  deleteEventOffer(eventOfferId: number) {
+    return this.http.delete(this.eventOfferUrl + '/' + eventOfferId);
+  }
 }

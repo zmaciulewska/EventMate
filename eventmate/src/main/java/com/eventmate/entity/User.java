@@ -37,7 +37,8 @@ public class User extends AbstractEntity {
     private Set<Role> roles = new HashSet<>();
 
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", orphanRemoval = true,
+            cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.REMOVE})
     private Set<EventOffer> eventOffers;
 
     /*@OneToMany(mappedBy = "owner")

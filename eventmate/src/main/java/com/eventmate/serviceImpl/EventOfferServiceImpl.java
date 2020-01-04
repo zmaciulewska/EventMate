@@ -4,6 +4,7 @@ import com.eventmate.dao.EventDao;
 import com.eventmate.dao.EventOfferDao;
 import com.eventmate.dao.UserDao;
 import com.eventmate.dto.EventOfferDto;
+import com.eventmate.dto.ShowcaseDto;
 import com.eventmate.dto.UserDto;
 import com.eventmate.dto.form.EventOfferFormDto;
 import com.eventmate.entity.Event;
@@ -15,19 +16,14 @@ import com.eventmate.error.AppException;
 import com.eventmate.error.Error;
 import com.eventmate.mapper.EventOfferMapper;
 import com.eventmate.service.EventOfferService;
-import org.apache.commons.lang3.time.DateUtils;
-import org.apache.tomcat.jni.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.text.DateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -111,9 +107,13 @@ public class EventOfferServiceImpl extends AbstractServiceImpl<EventOfferDto, Ev
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserDto principal = (UserDto) auth.getPrincipal();
+       // ShowcaseDto showcase = principal.getShowcase();
+
+        User userEntity = userDao.findByEmail(principal.getEmail());
+        if ( userEntity.getShowcase() == null) throw new AppException(Error.USER_WITHOUT_SHOWCASE);
 
         EventOffer eventOffer = new EventOffer();
-        eventOffer.setOwner(userDao.findByEmail(principal.getEmail()));
+        eventOffer.setOwner(userEntity);
         eventOffer.setEvent(event);
         eventOffer.setPrefferedGender(Gender.valueOf(eventOfferForm.getPrefferedGender()));
         eventOffer.setPrefferedMinAge(eventOfferForm.getPrefferedMinAge());
@@ -121,8 +121,12 @@ public class EventOfferServiceImpl extends AbstractServiceImpl<EventOfferDto, Ev
         eventOffer.setPrefferedLocalization(eventOfferForm.getPrefferedLocalization());
         eventOffer.setCreationDate(LocalDateTime.now());
         eventOffer.setPrefferedDate(eventOfferForm.getPrefferedDate());
+try {
+    return convert(eventOfferDao.save(eventOffer));
 
-        return convert(eventOfferDao.save(eventOffer));
+} catch (Exception e ) {
+    throw new AppException(Error.EVENT_OFFER_ALREADY_EXISTS);
+}
 
     }
 
@@ -154,6 +158,7 @@ public class EventOfferServiceImpl extends AbstractServiceImpl<EventOfferDto, Ev
     }*/
 
     @Override
+    @Transactional
     public List<EventOfferDto> getUserEventOffers(User user) {
         return entitiesToDtos(eventOfferDao.findAllByOwnerAndRemovalDateNull(user));
     }
@@ -172,6 +177,6 @@ public class EventOfferServiceImpl extends AbstractServiceImpl<EventOfferDto, Ev
                 && !principal.getAuthorities().contains(RoleName.ROLE_ADMIN)) {
             throw new AppException(Error.USER_NOT_ALLOWED);
         }
-        eventOfferDao.delete(eventOffer);
+        eventOfferDao.deleteById(id);
     }
 }

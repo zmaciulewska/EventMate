@@ -46,7 +46,7 @@
 
 <div *ngIf="authority && event?.common">
   <div *ngIf="authority !== 'admin'">
-    <app-event-offer-create></app-event-offer-create>
+    <app-event-offer-create  [continous]="event.continous" ></app-event-offer-create>
   </div>
   <br/>
   <app-event-offer-list></app-event-offer-list>

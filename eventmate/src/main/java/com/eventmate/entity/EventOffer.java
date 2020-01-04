@@ -11,6 +11,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@Table(uniqueConstraints=
+@UniqueConstraint(columnNames={"event_id", "owner_id"}))
 //todo index on event
 public class EventOffer extends AbstractEntity {
     @ManyToOne

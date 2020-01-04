@@ -32,6 +32,9 @@ export class EventOfferListComponent implements OnInit {
   isSuccess = false;
   successMessage = '';
 
+  isDeleteEventOffferFailed = false;
+  deleteEventOfferErrorMessage = '';
+
 
   constructor(private route: ActivatedRoute,
     private eventService: EventService,
@@ -100,6 +103,23 @@ export class EventOfferListComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  deleteEventOffer(eventOffer: EventOffer) {
+    if (confirm('Na pewno chcesz usunąć ofertę?')) {
+      console.log('Delete confirmed');
+      this.eventService.deleteEventOffer(eventOffer.id).subscribe(
+        res => {
+          // console.log('Event deleted');
+          this.eventOffers = this.eventOffers.filter(item => item !== eventOffer);
+         // this.router.navigate(['/home']);
+        },
+        error => {
+          // console.log('Event not deleted');
+          this.isDeleteEventOffferFailed = true;
+          this.deleteEventOfferErrorMessage = error.error.message;
+        });
+    }
   }
 }
 

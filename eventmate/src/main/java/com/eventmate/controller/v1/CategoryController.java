@@ -39,6 +39,10 @@ public class CategoryController {
         return categoryService.getOne(id);
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<List<CategoryDto>> getCategoriesList() {
+        return ResponseEntity.ok(categoryService.getAll());
+    }
 
     @GetMapping
     public ResponseEntity<Page<CategoryDto>> getAll(Pageable pageable,

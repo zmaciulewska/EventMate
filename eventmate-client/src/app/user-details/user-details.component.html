@@ -9,7 +9,7 @@
 <br/>
 <button *ngIf="!isEditShowcaseShown" class="btn btn-primary" (click)=showForm()>Edytuj wizytówkę</button>
 <div *ngIf=isEditShowcaseShown>
-  <app-showcase-edit></app-showcase-edit>
+  <app-showcase-edit [userId]=user.id ></app-showcase-edit>
   <br/>
   <button class="btn btn-primary" (click)=hideForm()>Anuluj</button>
 </div>

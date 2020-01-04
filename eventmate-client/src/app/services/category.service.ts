@@ -18,7 +18,7 @@ export class CategoryService {
   constructor(private http: HttpClient) { }
 
   getAll() {
-    return this.http.get<Category[]>(this.requestUrl);
+    return this.http.get<Category[]>(this.baseUrl + '/list');
   }
 
   getAllPaginated(page: number, size: number, searchParameters: Map<String, Object>) {

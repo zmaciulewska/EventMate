@@ -9,6 +9,8 @@ public enum Error {
     EVENT_REMOVED("This event has been removed."),
     PREFFERED_DATE_DOES_NOT_MATCH("Given preffered date is beyond event's dates."),
     USER_NOT_EXISTS("User with given id doesn't exist."),
+    USER_WITHOUT_SHOWCASE("Użytkownik nieposiadający wizytówki nie może wykonać tej operacji."),
+    EVENT_OFFER_ALREADY_EXISTS("Nie można stworzyć poraz kolejny ofery do tego wydarzenia"),
     IDENTICAL_USER_CONTACT("Cannot create contact between one user.");
 
     private String message;

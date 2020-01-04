@@ -30,17 +30,29 @@
                         {{ eventOffer.description}}
                     </div>
                 </div>
-
-                <button class="btn btn-info" (click)=createContact(eventOffer)>Zgołoś się</button>
-                <br/>
-                <div *ngIf="isSuccess" class="alert alert-success">
-                    {{successMessage}}<br/>
-                    <a class="title-link" [routerLink]="['/users/details/', eventOffer.ownerId]">
-                        Zobacz profil
-                    </a>
+                <div *ngIf="!userOffers">
+                    <button class="btn btn-info" (click)=createContact(eventOffer)>Zgołoś się</button>
+                    <br/>
+                    <div *ngIf="isSuccess" class="alert alert-success">
+                        {{successMessage}}
+                        <br/>
+                        <a class="title-link" [routerLink]="['/users/details/', eventOffer.ownerId]">
+                            Zobacz profil
+                        </a>
+                    </div>
+                    <div *ngIf="isError" class="alert alert-danger">
+                        {{errorMessage}}
+                    </div>
                 </div>
-                <div *ngIf="isError" class="alert alert-danger">
-                    {{errorMessage}}
+                <div *ngIf="userOffers">
+                    <button (click)="deleteEventOffer(eventOffer)" class="btn btn-danger">Usuń</button>
+                    <div *ngIf="isDeleteEventOffferFailed" class="alert alert-danger">
+                        Nie można usunąć oferty: {{deleteEventOfferErrorMessage}}
+                    </div>
+                    <br/>
+                   <!--  <div *ngIf="isDeleteEventOffferSuccess" class="alert alert-success">
+                        {{successMessage}}
+                    </div> -->
                 </div>
             </div>
         </li>

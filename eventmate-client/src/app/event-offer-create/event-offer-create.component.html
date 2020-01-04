@@ -2,13 +2,17 @@
   <form name="form" #form="ngForm" (ngSubmit)="submit()" novalidate>
 
     <div class="row">
-      <div class="col-xs-6">
-        <div class="md-form">
-          <label class="label-details" for="input">Wybierz preferowaną datę</label>
-          <input type="datetime-local" id="tmpPrefferedDate" class="form-control" [ngModel]="tmpPrefferedDate | date:'yyyy-MM-ddTHH:mm'"
-            (ngModelChange)="tmpPrefferedDate = $event" name="tmpPrefferedDate" mdbInput>
-        </div>
-      </div>
+     <div *ngIf="continous" >
+        <div class="col-xs-6">
+            <div class="md-form">
+              <label class="label-details" for="input">Wybierz preferowaną datę</label>
+              <input type="datetime-local" id="tmpPrefferedDate" class="form-control" [ngModel]="tmpPrefferedDate | date:'yyyy-MM-ddTHH:mm'"
+                (ngModelChange)="tmpPrefferedDate = $event" name="tmpPrefferedDate" mdbInput>
+            </div>
+          </div>
+     </div>
+     
+    
   
       <div class="col-xs-6">
         <p class="label-details">

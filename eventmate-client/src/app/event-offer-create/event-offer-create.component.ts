@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { EventOfferForm } from '../domain/event-offer-form';
 import { EventService } from '../services/event.service';
 import { ActivatedRoute, Router } from '../../../node_modules/@angular/router';
@@ -21,7 +21,8 @@ export class EventOfferCreateComponent implements OnInit {
   isSaveFailed;
   errorMessage;
 
-
+  @Input()
+  public continous = false;
   constructor(private eventService: EventService,
     private route: ActivatedRoute,
     private router: Router
