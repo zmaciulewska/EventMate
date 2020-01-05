@@ -5,7 +5,6 @@
 <div *ngIf="authority && isDisplayOnly">
   <p>
     <button class="btn btn-block" routerLink="/events/add">Create Event</button>
-    <!-- <a routerLink="/events/add" class="nav-link" routerLinkActive="active">Create Event</a> -->
   </p>
 </div>
 <div>
@@ -103,7 +102,7 @@
         <button *ngIf="areEventsNotConfirmed" (click)="confirmEvent(event)" class="btn btn-success">Zatwierdź</button>
         <button *ngIf="areEventsNotConfirmed" (click)="deleteEvent()" class="btn btn-danger">Odrzuć</button>
         <button *ngIf="!areEventsNotConfirmed" (click)="deleteEvent()" class="btn btn-danger">Usuń</button>
-        <button *ngIf="!areEventsNotConfirmed && event.reporterId==null" [routerLink]="['/events/edit/', event.id]" class="btn btn-primary">Edytuj</button>
+        <button *ngIf="!areEventsNotConfirmed && event.reporterId==null || event.reporterId == userId" [routerLink]="['/events/edit/', event.id]" class="btn btn-primary">Edytuj</button>
       </div>
     </div>
 

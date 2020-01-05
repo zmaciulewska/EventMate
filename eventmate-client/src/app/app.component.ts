@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenStorageService } from './auth/token-storage.service';
+import { Router } from '../../node_modules/@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,8 @@ export class AppComponent implements OnInit {
   private roles: string[];
   private authority: string;
 
-  constructor(private tokenStorage: TokenStorageService) { }
+  constructor(private tokenStorage: TokenStorageService,
+    private router: Router) { }
 
   ngOnInit() {
     if (this.tokenStorage.getToken()) {
@@ -33,7 +35,10 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.tokenStorage.signOut();
-    window.location.reload();
+    window.location.href = 'http://localhost:4200/home';
+
+    // window.location.reload();
+    // this.router.navigate(['/home']);
   }
 
 }

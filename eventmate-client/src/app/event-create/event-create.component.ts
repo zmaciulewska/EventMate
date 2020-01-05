@@ -5,6 +5,7 @@ import { EventForm } from '../domain/event-form';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Category } from '../domain/category';
 import { Time } from '@angular/common';
+import { TokenStorageService } from '../auth/token-storage.service';
 /* import { FormGroup, FormBuilder, Validators } from '@angular/forms'; */
 
 @Component({
@@ -23,6 +24,11 @@ export class EventCreateComponent implements OnInit {
   tmpStartDateTime: Date;
   tmpEndDateTime: Date;
 
+  private authority: string;
+  private roles: string[];
+
+  isAdmin = false;
+
 
   /*   @ViewChild('form')
   private form: NgForm; */
@@ -39,7 +45,9 @@ export class EventCreateComponent implements OnInit {
     itemsShowLimit: 3,
     allowSearchFilter: true
   };
-  constructor(private eventService: EventService, private categoryService: CategoryService) {
+  constructor(private eventService: EventService,
+    private tokenStorage: TokenStorageService,
+    private categoryService: CategoryService) {
     /* this.createForm(); */
   }
   /* private formBuilder: FormBuilder */
@@ -51,6 +59,22 @@ export class EventCreateComponent implements OnInit {
    } */
 
   ngOnInit() {
+    if (this.tokenStorage.getToken()) {
+      this.roles = this.tokenStorage.getAuthorities();
+      this.roles.every(role => {
+        if (role === 'ROLE_ADMIN') {
+          this.authority = 'admin';
+          this.isAdmin = true;
+          console.log('role: ' + this.authority);
+          return false;
+        }
+        this.authority = 'user';
+        this.isAdmin = false;
+        console.log('role: ' + this.authority);
+        return true;
+      });
+    }
+
     this.eventForm.title = '';
     this.eventForm.description = '';
     this.eventForm.localization = '';
@@ -58,7 +82,7 @@ export class EventCreateComponent implements OnInit {
     this.eventForm.endDate = '';
     this.tmpStartDateTime = new Date();
     this.tmpEndDateTime = new Date();
-    this.eventForm.common = false;
+    this.eventForm.common = true;
     this.eventForm.continous = false;
     this.eventForm.siteUrl = '';
     this.eventForm.costs = [];
@@ -69,6 +93,8 @@ export class EventCreateComponent implements OnInit {
     this.costForm.currency = 'PLN';
     this.selectedCategories = [];
     this.categoryService.getAll().subscribe(data => this.categories = data);
+
+
   }
 
   newEvent(): void {
