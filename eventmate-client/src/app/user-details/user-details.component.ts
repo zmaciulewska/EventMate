@@ -5,6 +5,7 @@ import { User } from '../domain/user';
 import { Router, ActivatedRoute } from '../../../node_modules/@angular/router';
 import { DateFormatPipe } from '../utils/DateFormatPipe';
 import { AuthService } from '../auth/auth.service';
+import { TokenStorageService } from '../auth/token-storage.service';
 
 @Component({
   selector: 'app-user-details',
@@ -16,6 +17,8 @@ export class UserDetailsComponent implements OnInit {
   user: User;
   userId: number;
 
+  visitingUser: User;
+
   errorMessage: string;
   isEditShowcaseShown = false;
 
@@ -23,14 +26,21 @@ export class UserDetailsComponent implements OnInit {
   areUserEventsShown = false;
   areUserEventOffersShown = false;
   areUserContactsShown = false;
+  isVisitorOwner = false;
+
+  areRestrictedInformationShown = false;
+
+  private authority: string;
+  private roles: string[];
 
   @Input()
-  adminMode = true;
+  vistorMode = true;
 
   constructor(private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
     private dateFormatPipe: DateFormatPipe,
+    private tokenStorage: TokenStorageService,
     private authService: AuthService) { }
 
   ngOnInit() {
@@ -38,8 +48,12 @@ export class UserDetailsComponent implements OnInit {
     this.areUserEventsShown = false;
     this.areUserEventOffersShown = false;
 
-    if (this.adminMode) {
+    if (this.vistorMode) {
       console.log('dupa');
+
+      this.getVisitingUser();
+      this.getVisitorRole();
+
       this.route
         .params
         .subscribe(params => {
@@ -48,6 +62,16 @@ export class UserDetailsComponent implements OnInit {
             .subscribe(data => {
               this.user = data;
               this.userId = data.id;
+
+              if (this.visitingUser.id === this.userId) {
+                this.areRestrictedInformationShown = true;
+                this.isVisitorOwner = true;
+              }
+
+              if (this.authority === 'admin') {
+                this.areRestrictedInformationShown = true;
+              }
+
               // this.birthDateString = this.dateFormatPipe.transform(new Date(this.user.showcase.birthDate));
             },
               error => {
@@ -55,17 +79,49 @@ export class UserDetailsComponent implements OnInit {
               });
         });
     } else {
+      /* this.user = this.visitingUser;
+      this.userId = this.visitingUser.id;
+      this.areRestrictedInformationShown = true; */
       this.authService.getCurrentUser().subscribe(
         data => {
           this.user = data;
           this.userId = data.id;
           console.log('current usr: ' + this.user);
+          this.areRestrictedInformationShown = true;
+          this.isVisitorOwner = true;
         },
         error => {
           this.errorMessage = `${error.status}: ${JSON.parse(error.error).message}`;
         });
     }
 
+
+  }
+
+  getVisitingUser() {
+    this.authService.getCurrentUser().subscribe(
+      data => {
+        this.visitingUser = data;
+      },
+      error => {
+        this.errorMessage = `${error.status}: ${JSON.parse(error.error).message}`;
+      });
+  }
+
+  getVisitorRole() {
+    if (this.tokenStorage.getToken()) {
+      this.roles = this.tokenStorage.getAuthorities();
+      this.roles.every(role => {
+        if (role === 'ROLE_ADMIN') {
+          this.authority = 'admin';
+          console.log('role: ' + this.authority);
+          return false;
+        }
+        this.authority = 'user';
+        console.log('role: ' + this.authority);
+        return true;
+      });
+    }
   }
 
   showForm() {
@@ -99,5 +155,7 @@ export class UserDetailsComponent implements OnInit {
   hideUserContacts() {
     this.areUserContactsShown = false;
   }
+
+
 
 }

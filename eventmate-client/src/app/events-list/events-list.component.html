@@ -75,7 +75,7 @@
 </div>
 
 <ul class="list-group">
-  <li class="list-group-item" *ngFor="let event of events | paginate: config">
+  <li class="list-group-item" *ngFor="let event of events | paginate: eventsConfig">
     <div *ngIf="isDisplayOnly">
       <a class="title-link" [routerLink]="['/events/details/', event.id]">
         {{event.title}}
@@ -114,7 +114,7 @@
     <a class="nav-link active" href="#" (click)="setPage(i, $event)">{{i}}</a>
   </li>
 </ul> -->
-<pagination-controls (pageChange)="pageChange($event)" [previousLabel]="'Poprzednia strona'" [nextLabel]="'Następna strona'"
+<pagination-controls  (pageChange)="eventsPageChange($event)" [previousLabel]="'Poprzednia strona'" [nextLabel]="'Następna strona'"
   [autoHide]="autoHide" [responsive]="responsive"></pagination-controls>
 
 <!-- <pagination-controls (pageChange)="$event"></pagination-controls> -->

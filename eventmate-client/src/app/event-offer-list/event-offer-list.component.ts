@@ -35,7 +35,6 @@ export class EventOfferListComponent implements OnInit {
   isDeleteEventOffferFailed = false;
   deleteEventOfferErrorMessage = '';
 
-
   constructor(private route: ActivatedRoute,
     private eventService: EventService,
     private userService: UserService,
@@ -95,7 +94,7 @@ export class EventOfferListComponent implements OnInit {
       data => {
         console.log(data);
         this.isSuccess = true;
-        this.successMessage = 'Sukces! Nowy kontakt został nawiązany.';
+        this.successMessage = 'Kontakt został nawiązany.';
       },
       error => {
         this.isError = true;
@@ -106,7 +105,7 @@ export class EventOfferListComponent implements OnInit {
   }
 
   deleteEventOffer(eventOffer: EventOffer) {
-    if (confirm('Na pewno chcesz usunąć ofertę?')) {
+    if (confirm('Chcesz usunąć ofertę?')) {
       console.log('Delete confirmed');
       this.eventService.deleteEventOffer(eventOffer.id).subscribe(
         res => {

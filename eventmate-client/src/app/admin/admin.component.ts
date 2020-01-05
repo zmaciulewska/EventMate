@@ -40,6 +40,9 @@ export class AdminComponent implements OnInit {
 
   showNotConfirmedEvents() {
     this.areNotConfirmedEventsShown = true;
+    this.hidePublishedEvents();
+    this.hideCategories();
+    this.hideUsers();
   }
 
   hideNotConfirmedEvents() {
@@ -48,6 +51,9 @@ export class AdminComponent implements OnInit {
 
   showPublishedEvents() {
     this.arePublishedEventsShown = true;
+    this.hideNotConfirmedEvents();
+    this.hideCategories();
+    this.hideUsers();
   }
 
   hidePublishedEvents() {
@@ -56,6 +62,9 @@ export class AdminComponent implements OnInit {
 
   showCategories() {
     this.areCategoriesShown = true;
+    this.hideNotConfirmedEvents();
+    this.hidePublishedEvents();
+    this.hideUsers();
   }
 
   hideCategories() {
@@ -64,6 +73,9 @@ export class AdminComponent implements OnInit {
 
   showUsers() {
     this.areUsersShown = true;
+    this.hideNotConfirmedEvents();
+    this.hideCategories();
+    this.hidePublishedEvents();
   }
 
   hideUsers() {

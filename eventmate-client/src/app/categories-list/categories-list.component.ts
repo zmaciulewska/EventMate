@@ -98,7 +98,7 @@ export class CategoriesListComponent implements OnInit {
     this.categoryForm = new Category();
   }
 
-  pageChange(newPage: number) {
+  categoryPageChange(newPage: number) {
     console.log('newPage: ' + newPage);
     this.currentPage = newPage;
     this.loadCategories();

@@ -26,7 +26,7 @@ export class EventsListComponent implements OnInit {
 
   currentData: Page<Event>;
 
-  config: any;
+  eventsConfig: any;
 
   searchForm: EventSearchForm;
   tmpStartDateTime: Date;
@@ -156,7 +156,7 @@ export class EventsListComponent implements OnInit {
   }
 
   setConfig() {
-    this.config = {
+    this.eventsConfig = {
       itemsPerPage: 5,
       currentPage: this.currentPage,
       totalItems: this.currentData.totalElements,
@@ -228,7 +228,7 @@ export class EventsListComponent implements OnInit {
     }
   }
 
-  pageChange(newPage: number) {
+  eventsPageChange(newPage: number) {
     this.currentPage = newPage;
     this.loadEvents();
   }

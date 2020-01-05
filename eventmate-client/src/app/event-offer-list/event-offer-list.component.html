@@ -44,15 +44,18 @@
                         {{errorMessage}}
                     </div>
                 </div>
+
                 <div *ngIf="userOffers">
+                    <a class="title-link-white" [routerLink]="['/events/details/', eventOffer.eventId]">
+                        Zobacz wydarzenie
+                    </a>
+                    <br/>
                     <button (click)="deleteEventOffer(eventOffer)" class="btn btn-danger">Usuń</button>
                     <div *ngIf="isDeleteEventOffferFailed" class="alert alert-danger">
                         Nie można usunąć oferty: {{deleteEventOfferErrorMessage}}
                     </div>
                     <br/>
-                   <!--  <div *ngIf="isDeleteEventOffferSuccess" class="alert alert-success">
-                        {{successMessage}}
-                    </div> -->
+                
                 </div>
             </div>
         </li>
