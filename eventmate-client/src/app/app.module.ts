@@ -34,6 +34,7 @@ import { ShowcaseEditComponent } from './showcase-edit/showcase-edit.component';
 import { ShowcaseDisplayComponent } from './showcase-display/showcase-display.component';
 import { ContactsListComponent } from './contacts-list/contacts-list.component';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 
 
@@ -58,7 +59,8 @@ import {NgxPaginationModule} from 'ngx-pagination';
     UserDetailsComponent,
     ShowcaseEditComponent,
     ShowcaseDisplayComponent,
-    ContactsListComponent
+    ContactsListComponent,
+    StatisticsComponent
   ],
   imports: [
     BrowserModule,

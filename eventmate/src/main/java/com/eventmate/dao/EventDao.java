@@ -2,6 +2,7 @@ package com.eventmate.dao;
 
 import com.eventmate.entity.Event;
 import com.eventmate.entity.User;
+import com.eventmate.entity.ValueCount;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -101,4 +102,18 @@ public interface EventDao extends AbstractDao<Event> {
                                        @Param("category_code") String categoryCode,
                                        Pageable pageable);
 
+
+
+
+
+  /*  SELECT date_trunc('month', txn_date) AS txn_month, sum(amount) as monthly_sum
+    FROM yourtable
+    GROUP BY txn_month
+
+*/
+    @Query(value = "SELECT date_trunc('month', e.start_date) AS label, COUNT(e.*) AS count "
+            + "FROM event AS e " +
+            "GROUP BY label ORDER BY label ASC",
+            nativeQuery = true)
+    List<ValueCount> countEventsByMonth();
 }

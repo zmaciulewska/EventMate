@@ -1,0 +1,16 @@
+.chartWrapper {
+    position: relative;
+    background-color: #D1D7DA;
+}
+
+.chartWrapper > canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events:none;
+}
+
+.chartAreaWrapper {
+   padding: 5px;
+    overflow-x: scroll;
+}

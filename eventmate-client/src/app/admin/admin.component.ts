@@ -23,6 +23,9 @@ export class AdminComponent implements OnInit {
 
   areUsersShown = false;
 
+  areStatisticsShown = false;
+
+
 
   constructor(private userService: UserService,
   private eventService: EventService) { }
@@ -43,6 +46,7 @@ export class AdminComponent implements OnInit {
     this.hidePublishedEvents();
     this.hideCategories();
     this.hideUsers();
+    this.hideStatistics();
   }
 
   hideNotConfirmedEvents() {
@@ -54,6 +58,7 @@ export class AdminComponent implements OnInit {
     this.hideNotConfirmedEvents();
     this.hideCategories();
     this.hideUsers();
+    this.hideStatistics();
   }
 
   hidePublishedEvents() {
@@ -65,6 +70,7 @@ export class AdminComponent implements OnInit {
     this.hideNotConfirmedEvents();
     this.hidePublishedEvents();
     this.hideUsers();
+    this.hideStatistics();
   }
 
   hideCategories() {
@@ -76,9 +82,22 @@ export class AdminComponent implements OnInit {
     this.hideNotConfirmedEvents();
     this.hideCategories();
     this.hidePublishedEvents();
+    this.hideStatistics();
   }
 
   hideUsers() {
     this.areUsersShown = false;
+  }
+
+  showStatistics() {
+    this.areStatisticsShown = true;
+    this.hideNotConfirmedEvents();
+    this.hideCategories();
+    this.hidePublishedEvents();
+    this.hideUsers();
+  }
+
+  hideStatistics() {
+    this.areStatisticsShown = false;
   }
 }

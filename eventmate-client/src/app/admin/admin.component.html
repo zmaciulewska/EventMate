@@ -27,3 +27,11 @@
 </div>
 <button *ngIf="!areUsersShown" class="btn btn-primary" (click)=showUsers()>Zarządzaj użytkownikami</button>
 <hr/>
+
+
+<div *ngIf="areStatisticsShown">
+        <button class="btn btn-primary" (click)=hideStatistics()>Zwiń</button>
+        <app-statistics></app-statistics>
+</div>
+<button *ngIf="!areStatisticsShown" class="btn btn-primary" (click)=showStatistics()>Pokaż statystyki</button>
+<hr/>

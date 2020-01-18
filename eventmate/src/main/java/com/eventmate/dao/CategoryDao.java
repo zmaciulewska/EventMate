@@ -1,11 +1,14 @@
 package com.eventmate.dao;
 
 import com.eventmate.entity.Category;
+import com.eventmate.entity.ValueCount;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface CategoryDao extends AbstractDao<Category> {
@@ -20,4 +23,10 @@ public interface CategoryDao extends AbstractDao<Category> {
     Page<Category> getAll(@Param("code") String code,
                           @Param("name")String name,
                           Pageable pageable);
+
+    @Query(value = "SELECT c.name AS label, COUNT(c.*) AS count "
+            + "FROM category c JOIN event_category ec ON c.id = ec.category_id " +
+            "GROUP BY label ORDER BY label ASC",
+            nativeQuery = true)
+    List<ValueCount> countCategories();
 }
