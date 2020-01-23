@@ -18,4 +18,12 @@ export class StatisticsService {
   getCategories() {
     return this.http.get<Statistic>(this.baseUrl + '/categories' );
   }
+
+  getEventOffersAge(){
+    return this.http.get<Statistic>(this.baseUrl + '/event-offers-age' );
+  }
+
+  getEventOffersGender(){
+    return this.http.get<Statistic>(this.baseUrl + '/event-offers-gender' );
+  }
 }

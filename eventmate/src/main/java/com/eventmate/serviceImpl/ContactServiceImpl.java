@@ -27,13 +27,13 @@ public class ContactServiceImpl extends AbstractServiceImpl<ContactDto, Contact>
 
     private final ContactMapper contactMapper;
     private final ContactDao contactDao;
-   // private final UserService userService;
+    // private final UserService userService;
     private final UserDao userDao;
 
     public ContactServiceImpl(ContactMapper contactMapper, ContactDao contactDao, UserDao userDao) {
         this.contactMapper = contactMapper;
         this.contactDao = contactDao;
-   //     this.userService = userService;
+        //     this.userService = userService;
         this.userDao = userDao;
     }
 
@@ -74,14 +74,14 @@ public class ContactServiceImpl extends AbstractServiceImpl<ContactDto, Contact>
 
 
         User firstUser = userDao.findById(principal.getId()).orElseThrow(() -> new AppException(Error.USER_NOT_EXISTS));
-        User secondUser =  userDao.findById(contactForm.getSecondUserId()).orElseThrow(() -> new AppException(Error.USER_NOT_EXISTS));
+        User secondUser = userDao.findById(contactForm.getSecondUserId()).orElseThrow(() -> new AppException(Error.USER_NOT_EXISTS));
 
         Optional<Contact> existingContact;
-        existingContact = contactDao.findByFirstPersonAndSecondPerson(firstUser, secondUser);
-        if(existingContact.isPresent()) return contactMapper.convert(existingContact.get());
+        existingContact = contactDao.findByFirstPersonAndSecondPersonAndRemovalDateNull(firstUser, secondUser);
+        if (existingContact.isPresent()) return contactMapper.convert(existingContact.get());
 
-        existingContact = contactDao.findByFirstPersonAndSecondPerson(secondUser, firstUser);
-        if(existingContact.isPresent()) return contactMapper.convert(existingContact.get());
+        existingContact = contactDao.findByFirstPersonAndSecondPersonAndRemovalDateNull(secondUser, firstUser);
+        if (existingContact.isPresent()) return contactMapper.convert(existingContact.get());
 
         Contact contact = new Contact();
         contact.setFirstPerson(firstUser);
@@ -100,9 +100,26 @@ public class ContactServiceImpl extends AbstractServiceImpl<ContactDto, Contact>
 
     @Override
     public List<ContactDto> getUserContacts(User user) {
-        List<Contact> contacts = Stream.concat(contactDao.findByFirstPerson(user).stream(),
-                contactDao.findBySecondPerson(user).stream()).collect(Collectors.toList());
+        List<Contact> contacts = Stream.concat(contactDao.findByFirstPersonAndRemovalDateNull(user).stream(),
+                contactDao.findBySecondPersonAndRemovalDateNull(user).stream()).collect(Collectors.toList());
         return entitiesToDtos(contacts);
     }
 
+    @Override
+    public void delete(Long id) {
+        Contact contact = findById(id);
+        contact.setRemovalDate(LocalDateTime.now());
+        contactDao.save(contact);
+    }
+
+    @Override
+    public ContactDto getOne(Long id) {
+        return convert(findById(id));
+    }
+
+    private Contact findById(Long id) {
+        Contact contact = contactDao.getOne(id);
+        if (contact.getRemovalDate() != null) throw new AppException(Error.CONTACT_REMOVED);
+        return contact;
+    }
 }

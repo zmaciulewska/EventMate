@@ -201,7 +201,8 @@ export class EventsListComponent implements OnInit {
       // window.location.reload();
       this.isSuccess = true;
       this.successMessage = 'Wydarzenie zostało zatwierdzone.';
-      this.router.navigate(['/events/details/', confirmedEvent.id]);
+      this.events = this.events.filter(item => item.id !== confirmedEvent.id);
+     // this.router.navigate(['/events/details/', confirmedEvent.id]);
     }, error => {
       this.isError = true;
       this.errorMessage = error.error.message;
@@ -218,7 +219,8 @@ export class EventsListComponent implements OnInit {
           console.log('Event deleted');
           this.isSuccess = true;
           this.successMessage = 'Wydarzenie zostało usunięte.';
-          this.router.navigate(['/home']);
+          this.events = this.events.filter(item => item.id !== id);
+        //  this.router.navigate(['/home']);
         },
         error => {
           console.log('Event not deleted');

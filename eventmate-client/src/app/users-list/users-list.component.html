@@ -1,5 +1,6 @@
-{{errorMessage}}
-
+<div *ngIf="isError" class="alert alert-danger">
+  Wystąpił problem: {{errorMessage}}
+</div>
 <div class="row">
   <div class="col-xs-5">
     <div class="form-group">

@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,7 +31,9 @@ public class User extends AbstractEntity {
     @Email
     private String email;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    private LocalDateTime removalDate;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})  //, cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.REMOVE})
     @JoinTable(name = "user_authority",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id"))
@@ -41,11 +44,17 @@ public class User extends AbstractEntity {
             cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.REMOVE})
     private Set<EventOffer> eventOffers;
 
-    /*@OneToMany(mappedBy = "owner")
-    private Set<EventOfferResponse> eventOfferResponses;*/
+    //@OneToMany(mappedBy = "owner")
+    //private Set<EventOfferResponse> eventOfferResponses;
 
-//    @OneToMany(mappedBy = "owner")
-//    private Set<Contact> contacts;
+    @OneToMany(mappedBy = "firstPerson", cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+            orphanRemoval = true)
+    private Set<Contact> contactsFirstPerson;
+
+    @OneToMany(mappedBy = "secondPerson", cascade ={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+            orphanRemoval = true)
+    private Set<Contact> contactsSecondPerson;
+
     @OneToOne(mappedBy = "user", cascade={CascadeType.ALL})
     private Showcase showcase;
 

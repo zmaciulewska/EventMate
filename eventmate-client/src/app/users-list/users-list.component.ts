@@ -13,6 +13,7 @@ import { UserSearchForm } from './user-search-form';
 export class UsersListComponent implements OnInit {
 
   users: User[];
+  isError = false;
   errorMessage: string;
 
   currentPage = 1;
@@ -71,6 +72,7 @@ export class UsersListComponent implements OnInit {
         console.log(this.currentData);
       },
       error => {
+        this.isError = true;
         this.errorMessage = error.error.message;
       });
   }
@@ -88,6 +90,7 @@ export class UsersListComponent implements OnInit {
         error => {
           console.log('User not deleted');
           // this.isDeleteFailed = true;
+          this.isError = true;
           this.errorMessage = error.error.message;
         });
     }

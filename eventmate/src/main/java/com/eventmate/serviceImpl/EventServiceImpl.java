@@ -209,6 +209,11 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
     }
 
     @Override
+    public List<Event> getUserEvents(User user) {
+        return eventDao.findAllByReporter(user);
+    }
+
+    @Override
     public List<Event> getExpiredEvents() {
         return eventDao.findAllByRemovalDateNullAndEndDateLessThan(LocalDateTime.now());
     }

@@ -12,8 +12,7 @@ public interface EventOfferService extends AbstractService<EventOfferDto> {
 
     EventOfferDto create(EventOfferFormDto eventOfferForm, Long eventId);
     EventOfferDto update(EventOfferFormDto eventOfferForm, Long id);
-
-//    EventOffer softDelete(EventOffer eventOffer);
+    //EventOffer softDelete(EventOffer eventOffer);
 
     List<EventOfferDto> getUserEventOffers(User user);
 }

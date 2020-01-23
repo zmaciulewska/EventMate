@@ -25,4 +25,15 @@ public class StatisticsController {
     public StatisticsDto getCategories() {
         return statisticsService.getCategories();
     }
+
+
+    @GetMapping("/event-offers-age")
+    public StatisticsDto getEventOffersAge() {
+        return statisticsService.getEventOffersAge();
+    }
+
+    @GetMapping("/event-offers-gender")
+    public StatisticsDto getEventOffersGender() {
+        return statisticsService.getEventOffersGender();
+    }
 }

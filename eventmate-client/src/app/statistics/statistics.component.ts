@@ -19,11 +19,19 @@ export class StatisticsComponent implements OnInit {
   categoriesStatistic: Statistic;
   categoriesPieChart: Chart;
 
+  eventOffersAgeStatistic: Statistic;
+  eventOffersAgeChart: Chart;
+
+  eventOffersGenderStatistic: Statistic;
+  eventOffersGenderPieChart: Chart;
+
   constructor(private statisticsService: StatisticsService) { }
 
   ngOnInit() {
     this.prepareEventsNumberPerMonthChart();
     this.prepareCategoriesPieChart();
+    this.prepareEventOffersAgeChart();
+    this.prepareOffersGenderPieChart();
   }
 
   prepareEventsNumberPerMonthChart() {
@@ -105,7 +113,102 @@ export class StatisticsComponent implements OnInit {
         options: {
           responsive: true,
           legend: {
-            display: true
+            display: true,
+            labels: {
+              fontSize: 15
+            }
+          }
+        }
+      });
+    }, error => {
+      this.isError = true;
+      this.errorMessage = error.error.message;
+    });
+  }
+
+  prepareEventOffersAgeChart() {
+    this.statisticsService.getEventOffersAge().subscribe(data => {
+      this.eventOffersAgeStatistic = data;
+      console.log(this.eventOffersAgeStatistic);
+      this.eventOffersAgeChart = new Chart('event-offers-age-chart', {
+        type: 'bar',
+        data: {
+          labels: this.eventOffersAgeStatistic.labels,
+          datasets: [
+            {
+              data: this.eventsNumberPerMonthStatistic.values,
+              borderColor: '#364D57',
+              backgroundColor: '#0000FF',
+
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          legend: {
+            display: false
+          },
+          scales: {
+            xAxes: [{
+              display: true,
+              ticks: {
+                fontSize: 15
+              }
+            }],
+            yAxes: [{
+              display: true,
+              ticks: {
+                beginAtZero: true,
+                fontSize: 15,
+                stepSize: 1
+              }
+            }],
+          }
+        }
+      });
+    }, error => {
+      this.isError = true;
+      this.errorMessage = error.error.message;
+    });
+  }
+
+
+  prepareOffersGenderPieChart() {
+    this.statisticsService.getEventOffersGender().subscribe(data => {
+      this.eventOffersGenderStatistic = data;
+      console.log(this.eventOffersGenderStatistic);
+      // prepareEventsNumberPerMonthChart();
+      this.eventOffersGenderPieChart = new Chart('event-offers-gender-pie', {
+        type: 'pie',
+        data: {
+          labels: this.eventOffersGenderStatistic.labels,
+          datasets: [
+            {
+              data: this.eventOffersGenderStatistic.values,
+              borderColor: '#364D57',
+              backgroundColor: ['#0000FF',
+                '#3cb371',
+                '#9966FF',
+                '#4C4CFF',
+                '#00FFFF',
+                '#f990a7',
+                '#aad2ed',
+                '#FF00FF',
+                'Blue',
+                'Red',
+                'Blue'],
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          legend: {
+            display: true,
+            labels: {
+              fontSize: 15
+            }
           }
         }
       });

@@ -164,19 +164,24 @@ try {
     }
 
     private EventOffer findEventOfferById(Long id) {
-        EventOffer eventOffer = eventOfferDao.findById(id)
+        EventOffer eventOffer = eventOfferDao.findByIdAndRemovalDateNull(id)
                 .orElseThrow(() -> new EntityNotFoundException("Object with given id: " + id + " not found."));
+        if (eventOffer.getRemovalDate() != null) {
+            throw new AppException(Error.EVENT_OFFER_REMOVED);
+        }
         return eventOffer;
     }
 
     @Override
     public void delete(Long id) {
         UserDto principal = getPrincipal();
-        EventOffer eventOffer = findEventOfferById(id);
-        if (!eventOffer.getOwner().getId().equals(principal.getId())
+        EventOffer eventOffer = eventOfferDao.findById(id).orElseThrow(() -> new EntityNotFoundException("Object with given id: " + id + " not found."));
+        /*if (!eventOffer.getOwner().getId().equals(principal.getId())
                 && !principal.getAuthorities().contains(RoleName.ROLE_ADMIN)) {
             throw new AppException(Error.USER_NOT_ALLOWED);
-        }
-        eventOfferDao.deleteById(id);
+        }*/
+        eventOffer.setRemovalDate(LocalDateTime.now());
+        eventOfferDao.save(eventOffer);
+        //eventOfferDao.deleteById(id);
     }
 }

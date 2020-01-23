@@ -17,9 +17,12 @@ export class UserDetailsComponent implements OnInit {
   user: User;
   userId: number;
 
+  isError = false;
+  errorMessage: string;
+
   visitingUser: User;
 
-  errorMessage: string;
+  
   isEditShowcaseShown = false;
 
 
@@ -75,6 +78,7 @@ export class UserDetailsComponent implements OnInit {
               // this.birthDateString = this.dateFormatPipe.transform(new Date(this.user.showcase.birthDate));
             },
               error => {
+                this.isError = true;
                 this.errorMessage = error.error.message;
               });
         });
@@ -91,7 +95,8 @@ export class UserDetailsComponent implements OnInit {
           this.isVisitorOwner = true;
         },
         error => {
-          this.errorMessage = `${error.status}: ${JSON.parse(error.error).message}`;
+          this.isError = true;
+          this.errorMessage = error.error.message;
         });
     }
 
@@ -104,7 +109,8 @@ export class UserDetailsComponent implements OnInit {
         this.visitingUser = data;
       },
       error => {
-        this.errorMessage = `${error.status}: ${JSON.parse(error.error).message}`;
+        this.isError = true;
+        this.errorMessage = error.error.message;
       });
   }
 

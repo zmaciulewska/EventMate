@@ -1,18 +1,18 @@
 <div *ngIf="isSuccess" class="alert alert-success">
-    {{succesMessage}}
+    {{successMessage}}
  </div>
 
 <div *ngIf="authority && isDisplayOnly">
   <p>
-    <button class="btn btn-block" routerLink="/events/add">Create Event</button>
+    <button class="btn btn-block" routerLink="/events/add">Stwórz wydarzenie</button>
   </p>
 </div>
 <div>
   <div class="row">
     <div class="col-xs-2">
       <div class="form-group">
-        <label class="label-details" for="input">Tytul</label>
-        <input type="text" class="form-control" id="title" [(ngModel)]="searchForm.title" name="title" placeholder="Tytul">
+        <label class="label-details" for="input">Tytuł</label>
+        <input type="text" class="form-control" id="title" [(ngModel)]="searchForm.title" name="title" placeholder="Tytuł">
       </div>
     </div>
     <div class="col-xs-2">
@@ -100,8 +100,8 @@
       </div>
       <div class="col-xs-3">
         <button *ngIf="areEventsNotConfirmed" (click)="confirmEvent(event)" class="btn btn-success">Zatwierdź</button>
-        <button *ngIf="areEventsNotConfirmed" (click)="deleteEvent()" class="btn btn-danger">Odrzuć</button>
-        <button *ngIf="!areEventsNotConfirmed" (click)="deleteEvent()" class="btn btn-danger">Usuń</button>
+        <button *ngIf="areEventsNotConfirmed" (click)="deleteEvent(event.id)" class="btn btn-danger">Odrzuć</button>
+        <button *ngIf="!areEventsNotConfirmed" (click)="deleteEvent(event.id)" class="btn btn-danger">Usuń</button>
         <button *ngIf="!areEventsNotConfirmed && event.reporterId==null || event.reporterId == userId" [routerLink]="['/events/edit/', event.id]" class="btn btn-primary">Edytuj</button>
       </div>
     </div>

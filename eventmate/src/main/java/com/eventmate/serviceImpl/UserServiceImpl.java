@@ -4,9 +4,7 @@ import com.eventmate.dao.RoleDao;
 import com.eventmate.dao.UserDao;
 import com.eventmate.dto.*;
 import com.eventmate.dto.security.SignUpForm;
-import com.eventmate.entity.Role;
-import com.eventmate.entity.Showcase;
-import com.eventmate.entity.User;
+import com.eventmate.entity.*;
 import com.eventmate.entity.enumeration.RoleName;
 import com.eventmate.error.AppException;
 import com.eventmate.error.Error;
@@ -16,6 +14,7 @@ import com.eventmate.service.ContactService;
 import com.eventmate.service.EventOfferService;
 import com.eventmate.service.EventService;
 import com.eventmate.service.UserService;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -80,6 +79,11 @@ public class UserServiceImpl extends AbstractServiceImpl<UserDto, User> implemen
 
         return UserDto.build(user);
     }
+
+   /* @Override
+    public UserDto getOne(Long id){
+
+    }*/
 
     @Override
     public void signUpUser(SignUpForm signUpRequest) {
@@ -230,5 +234,56 @@ public class UserServiceImpl extends AbstractServiceImpl<UserDto, User> implemen
     @Override
     public List<User> dtosToEntities(List<UserDto> dtos) {
         return dtos.stream().map(e -> convert(e)).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        User user = userDao.findById(id).orElseThrow(() -> new AppException(Error.USER_NOT_EXISTS));
+        validateUserAccess(user);
+        //softDelete(user);
+        user.setRemovalDate(LocalDateTime.now());
+        user.setUsername(RandomStringUtils.randomAlphanumeric(20));
+        user.setPassword(RandomStringUtils.randomAlphanumeric(30));
+
+        for(Role role : user.getRoles()) {
+            user.getRoles().remove(role);
+        }
+
+        for(Contact contact: user.getContactsFirstPerson()){
+            if(contact.getRemovalDate() == null) {
+                contactService.delete(contact.getId());
+            }
+        }
+
+        for(Contact contact: user.getContactsSecondPerson()){
+            if(contact.getRemovalDate() == null) {
+                contactService.delete(contact.getId());
+            }
+        }
+
+        for(EventOffer eventOffer: user.getEventOffers()) {
+            //user.getEventOffers().remove(eventOffer);
+            eventOfferService.delete(eventOffer.getId());
+        }
+
+        for(Event event: eventService.getUserEvents(user)) {
+            if (!event.isCommon()) {
+                eventService.delete(event.getId());
+            }
+        }
+        userDao.save(user);
+    }
+
+    @Override
+    public List<UserDto> getAll() {
+        List<User> users = userDao.findAllByRemovalDateNull();
+        return users.stream().map(e -> convert(e)).collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDto getOne(Long id) {
+        User user = userDao.findByIdAndRemovalDateNull(id).orElseThrow(() -> new AppException(Error.USER_NOT_EXISTS));
+        return convert(user);
     }
 }

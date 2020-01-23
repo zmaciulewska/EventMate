@@ -24,6 +24,8 @@ public interface EventService extends AbstractService<EventDto> {
     Page<EventDto> getUserEvents(User user, String title, String localization, LocalDateTime startDate,
                                  LocalDateTime endDate, String categoryCode, Pageable pageable);
 
+    List<Event> getUserEvents(User user);
+
     List<Event> getExpiredEvents();
 
     void softDeleteEvent(Event event);
