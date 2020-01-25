@@ -23,6 +23,9 @@ export class EventOfferCreateComponent implements OnInit {
 
   @Input()
   public continous = false;
+  @Input()
+  public dateString: string;
+
   constructor(private eventService: EventService,
     private route: ActivatedRoute,
     private router: Router
@@ -71,6 +74,11 @@ export class EventOfferCreateComponent implements OnInit {
     } else {
       this.eventOfferForm.prefferedDate = this.tmpPrefferedDate.toISOString();
       console.log('nie zawiera - ');
+    }
+
+    if (!this.continous) {
+      console.log('nie continous:  ' + this.dateString);
+      this.eventOfferForm.prefferedDate = this.dateString;
     }
 
     if ((this.maleCheckbox && this.femaleCheckbox)

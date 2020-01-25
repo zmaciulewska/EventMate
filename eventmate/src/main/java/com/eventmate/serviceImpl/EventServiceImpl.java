@@ -67,6 +67,9 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
         newEvent.setTitle(eventForm.getTitle());
         newEvent.setDescription(eventForm.getDescription());
         newEvent.setLocalization(eventForm.getLocalization());
+        if(eventForm.getStartDate().isAfter(eventForm.getEndDate())) {
+            throw new AppException(Error.WRONG_DATE_ORDER);
+        }
         newEvent.setStartDate(eventForm.getStartDate());
         newEvent.setEndDate(eventForm.getEndDate());
         newEvent.setCommon(eventForm.isCommon());
@@ -135,6 +138,9 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
         existingEvent.setTitle(eventForm.getTitle());
         existingEvent.setDescription(eventForm.getDescription());
         existingEvent.setLocalization(eventForm.getLocalization());
+        if(eventForm.getStartDate().isAfter(eventForm.getEndDate())) {
+            throw new AppException(Error.WRONG_DATE_ORDER);
+        }
         existingEvent.setStartDate(eventForm.getStartDate());
         existingEvent.setEndDate(eventForm.getEndDate());
         existingEvent.setCommon(eventForm.isCommon());

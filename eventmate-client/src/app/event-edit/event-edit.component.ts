@@ -45,7 +45,7 @@ export class EventEditComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.selectedCategories = []; //todo wypadaloby zmienic zeby zczytywalo aktualne kategoei
+    this.selectedCategories = []; // todo wypadaloby zmienic zeby zczytywalo aktualne kategoei
     this.categoryService.getAll().subscribe(data => this.categories = data);
     this.route
       .params

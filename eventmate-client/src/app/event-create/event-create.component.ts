@@ -29,6 +29,9 @@ export class EventCreateComponent implements OnInit {
 
   isAdmin = false;
 
+  isError = false;
+  errorMessage: string;
+
 
   /*   @ViewChild('form')
   private form: NgForm; */
@@ -104,8 +107,15 @@ export class EventCreateComponent implements OnInit {
 
   save() {
     this.eventService.add(this.eventForm)
-      .subscribe(data => console.log(data), error => console.log(error));
-    this.eventForm = new EventForm();
+      .subscribe(data => {
+        console.log(data);
+        this.submitted = true;
+        this.eventForm = new EventForm();
+      }, error => {
+        console.log(error);
+        this.errorMessage = error.error.message;
+        this.isError = true;
+      });
   }
 
   addCost() {
@@ -143,7 +153,7 @@ export class EventCreateComponent implements OnInit {
     console.log('selected: ' + this.selectedCategories);
     console.log(this.eventForm);
     this.eventForm.categoryIds = this.selectedCategories.map(item => item.id);
-    this.submitted = true;
+    // this.submitted = true;
     this.save();
   }
 
@@ -174,7 +184,7 @@ export class EventCreateComponent implements OnInit {
     console.log('selected: ' + this.selectedCategories);
     console.log(this.eventForm);
     this.eventForm.categoryIds = this.selectedCategories.map(item => item.id);
-    this.submitted = true;
+
     this.save();
   }
 

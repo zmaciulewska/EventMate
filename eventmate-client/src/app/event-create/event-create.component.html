@@ -142,10 +142,14 @@
     <show-errors [control]="form"></show-errors>
 
     <button [disabled]="form.invalid || form.pending" type="submit" class="btn btn-success">Zatwierdź wydarzenie</button>
+    <div *ngIf="isError" class="alert alert-danger">
+      Wystąpił problem: {{errorMessage}}
+    </div>
+    
   </form>
 </div>
 
 <div [hidden]="!submitted">
   <h4>Dodano wydarzenie</h4>
-  <button class="btn btn-success" (click)="newEvent()">Dodaj nowe wydarzenie</button>
+  <!-- <button class="btn btn-success" (click)="newEvent()">Dodaj nowe wydarzenie</button> -->
 </div>
