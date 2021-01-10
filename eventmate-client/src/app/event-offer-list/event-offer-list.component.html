@@ -27,11 +27,36 @@
                         Dodatkowe informacje:&nbsp;&nbsp;
                     </div>
                     <div class="showcase-value">
-                           {{ eventOffer.description}}
+                        {{ eventOffer.description}}
+                    </div>
+                </div>
+                <div *ngIf="!userOffers">
+                    <button class="btn btn-info" (click)=createContact(eventOffer)>Zgołoś się</button>
+                    <br/>
+                    <div *ngIf="isSuccess" class="alert alert-success">
+                        {{successMessage}}
+                        <br/>
+                        <a class="title-link" [routerLink]="['/users/details/', eventOffer.ownerId]">
+                            Zobacz profil
+                        </a>
+                    </div>
+                    <div *ngIf="isError" class="alert alert-danger">
+                        {{errorMessage}}
                     </div>
                 </div>
 
-                <button class="btn btn-info" (click)=createContact(eventOffer)>Zgołoś się</button>
+                <div *ngIf="userOffers">
+                    <a class="title-link-white" [routerLink]="['/events/details/', eventOffer.eventId]">
+                        Zobacz wydarzenie
+                    </a>
+                    <br/>
+                    <button (click)="deleteEventOffer(eventOffer)" class="btn btn-danger">Usuń</button>
+                    <div *ngIf="isDeleteEventOffferFailed" class="alert alert-danger">
+                        Nie można usunąć oferty: {{deleteEventOfferErrorMessage}}
+                    </div>
+                    <br/>
+                
+                </div>
             </div>
         </li>
     </ul>

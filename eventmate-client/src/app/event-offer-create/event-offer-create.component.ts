@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { EventOfferForm } from '../domain/event-offer-form';
 import { EventService } from '../services/event.service';
 import { ActivatedRoute, Router } from '../../../node_modules/@angular/router';
@@ -21,6 +21,10 @@ export class EventOfferCreateComponent implements OnInit {
   isSaveFailed;
   errorMessage;
 
+  @Input()
+  public continous = false;
+  @Input()
+  public dateString: string;
 
   constructor(private eventService: EventService,
     private route: ActivatedRoute,
@@ -70,6 +74,11 @@ export class EventOfferCreateComponent implements OnInit {
     } else {
       this.eventOfferForm.prefferedDate = this.tmpPrefferedDate.toISOString();
       console.log('nie zawiera - ');
+    }
+
+    if (!this.continous) {
+      console.log('nie continous:  ' + this.dateString);
+      this.eventOfferForm.prefferedDate = this.dateString;
     }
 
     if ((this.maleCheckbox && this.femaleCheckbox)

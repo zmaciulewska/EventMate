@@ -1,46 +1,119 @@
-<p>
-    {{errorMessage}}
- </p>
+<div *ngIf="isSuccess" class="alert alert-success">
+    {{successMessage}}
+ </div>
 
 <div *ngIf="authority && isDisplayOnly">
   <p>
-    <button class="btn btn-block" routerLink="/events/add">Create Event</button>
-    <!-- <a routerLink="/events/add" class="nav-link" routerLinkActive="active">Create Event</a> -->
+    <button class="btn btn-block" routerLink="/events/add">Stwórz wydarzenie</button>
   </p>
 </div>
+<div>
+  <div class="row">
+    <div class="col-xs-2">
+      <div class="form-group">
+        <label class="label-details" for="input">Tytuł</label>
+        <input type="text" class="form-control" id="title" [(ngModel)]="searchForm.title" name="title" placeholder="Tytuł">
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <div class="form-group">
+        <label class="label-details" for="input">Lokalizacja</label>
+        <input type="text" class="form-control" id="localization" [(ngModel)]="searchForm.localization" name="localization" placeholder="Lokalizacja">
+      </div>
+    </div>
+    <div class="col-xs-4">
 
+
+      <div class="form-group">
+        <div class="row">
+          <div class="col-xs-2">
+            <label class="label-details" for="input">Od:</label>
+          </div>
+
+          <div class="col-xs-10">
+            <input type="datetime-local" id="tmpStartDateTime" class="form-control" [ngModel]="tmpStartDateTime | date:'yyyy-MM-ddTHH:mm'"
+              (ngModelChange)="tmpStartDateTime = $event" name="tmpStartDateTime" mdbInput>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div class="form-group">
+        <div class="row">
+          <div class="col-xs-2">
+            <label class="label-details" for="input">Do:</label>
+          </div>
+
+          <div class="col-xs-10">
+            <input type="datetime-local" id="tmpEndDateTime" class="form-control" [ngModel]="tmpEndDateTime | date:'yyyy-MM-ddTHH:mm'"
+              (ngModelChange)="tmpEndDateTime = $event" name="tmpEndDateTime" mdbInput>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="col-xs-2">
+      <div class="form-group">
+        <label class="label-details" for="input">Kategoria</label>
+        <input type="text" class="form-control" id="categoryCode" [(ngModel)]="searchForm.categoryCode" name="categoryCode" placeholder="Kod kategorii">
+      </div>
+    </div>
+
+    <div class="col-xs-2">
+      <div class="form-group">
+        <button class="btn btn-block" (click)=loadEvents()>Szukaj</button>
+        <button class="btn btn-block" (click)=clearFilters()>Wyczyść</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
 
 <ul class="list-group">
-  <li class="list-group-item" *ngFor="let event of events">
+  <li class="list-group-item" *ngFor="let event of events | paginate: eventsConfig">
     <div *ngIf="isDisplayOnly">
       <a class="title-link" [routerLink]="['/events/details/', event.id]">
         {{event.title}}
       </a>
       <br/>
-      <p style="color: #364D57">
+      <div style="color: #364D57; white-space: pre-wrap">
         {{event.description}}
-      </p>
+      </div>
     </div>
 
     <div class="row" *ngIf="!isDisplayOnly">
-        <div class="col-xs-9">
-            <div ng-click="">
-                <a class="title-link" [routerLink]="['/events/details/', event.id]">
-                  {{event.title}}
-                </a>
-                <br/>
-                <p style="color: #364D57">
-                  {{event.description}}
-                </p>
-              </div>
-        </div>
-        <div class="col-xs-3">
-            <button *ngIf="areEventsNotConfirmed" (click)="confirmEvent(event)" class="btn btn-success">Zatwierdź</button>
-            <button *ngIf="areEventsNotConfirmed" (click)="deleteEvent()" class="btn btn-danger">Odrzuć</button>
-            <button *ngIf="!areEventsNotConfirmed" (click)="deleteEvent()" class="btn btn-danger">Usuń</button>
-            <button *ngIf="!areEventsNotConfirmed && event.reporterId==null"  [routerLink]="['/events/edit/', event.id]" class="btn btn-primary">Edytuj</button>
+      <div class="col-xs-9">
+        <div ng-click="">
+          <a class="title-link" [routerLink]="['/events/details/', event.id]">
+            {{event.title}}
+          </a>
+          <br/>
+          <div style="color: #364D57; white-space: pre-wrap">
+            {{event.description}}
+          </div>
+        
         </div>
       </div>
+      <div class="col-xs-3">
+        <button *ngIf="areEventsNotConfirmed" (click)="confirmEvent(event)" class="btn btn-success">Zatwierdź</button>
+        <button *ngIf="areEventsNotConfirmed" (click)="deleteEvent(event.id)" class="btn btn-danger">Odrzuć</button>
+        <button *ngIf="!areEventsNotConfirmed" (click)="deleteEvent(event.id)" class="btn btn-danger">Usuń</button>
+        <button *ngIf="!areEventsNotConfirmed && event.reporterId==null || event.reporterId == userId" [routerLink]="['/events/edit/', event.id]" class="btn btn-primary">Edytuj</button>
+      </div>
+    </div>
 
   </li>
 </ul>
+<!-- <ul class="nav nav-pills" *ngFor="let p of pages; let i=index ">
+  <li class="nav-item">
+    <a class="nav-link active" href="#" (click)="setPage(i, $event)">{{i}}</a>
+  </li>
+</ul> -->
+<pagination-controls  (pageChange)="eventsPageChange($event)" [previousLabel]="'Poprzednia strona'" [nextLabel]="'Następna strona'"
+  [autoHide]="autoHide" [responsive]="responsive"></pagination-controls>
+
+<!-- <pagination-controls (pageChange)="$event"></pagination-controls> -->

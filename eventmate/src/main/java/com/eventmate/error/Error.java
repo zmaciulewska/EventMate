@@ -1,15 +1,20 @@
 package com.eventmate.error;
 
 public enum Error {
-    EMAIL_EXIST("Email exists in database."),
-    USERNAME_EXIST("Username exists in database."),
-    USER_NOT_ALLOWED("User is not allowed to perform this operation."),
-    EVENT_ALREADY_CONFIRMED("This event already has administrator responsible for."),
-    CANNOT_CONFIRM_PIVATE_EVENT("Private event cannot be confirmed."),
-    EVENT_REMOVED("This event has been removed."),
-    PREFFERED_DATE_DOES_NOT_MATCH("Given preffered date is beyond event's dates."),
-    USER_NOT_EXISTS("User with given id doesn't exist."),
-    IDENTICAL_USER_CONTACT("Cannot create contact between one user.");
+    EMAIL_EXIST("Email jest wykorzystywany przez innego użytkownika."),
+    USERNAME_EXIST("Login jest wykorzystywany przez innego użytkownika."),
+    USER_NOT_ALLOWED("Użytkownik nie może wykonać tej operacji."),
+    EVENT_ALREADY_CONFIRMED("Te wydarzenie zostało już zatwierdzone."),
+    CANNOT_CONFIRM_PIVATE_EVENT("Wydarzenie prywatne nie wymaga zatwierdzania."),
+    EVENT_REMOVED("Te wydarzenie zostało usunięte."),
+    CONTACT_REMOVED("Ten kontakt został usunięty."),
+    EVENT_OFFER_REMOVED("Ta oferta została usunięta."),
+    WRONG_DATE_ORDER("Data rozpoczęcia nie może być po dacie zakończenia."),
+    PREFFERED_DATE_DOES_NOT_MATCH("Preferowana data jest poza zakresem wydarzenia."),
+    USER_NOT_EXISTS("Użytkownik nie istnieje."),
+    USER_WITHOUT_SHOWCASE("Użytkownik nieposiadający wizytówki nie może wykonać tej operacji."),
+    EVENT_OFFER_ALREADY_EXISTS("Nie można stworzyć kolejnej oferty do tego wydarzenia."),
+    IDENTICAL_USER_CONTACT("Nie można nawiązać kontaktu między jednym użytkownikiem.");
 
     private String message;
     //private Long id;

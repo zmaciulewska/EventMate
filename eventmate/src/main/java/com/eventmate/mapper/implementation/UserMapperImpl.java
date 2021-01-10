@@ -7,6 +7,7 @@ import com.eventmate.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.Collectors;
 
@@ -32,6 +33,7 @@ public class UserMapperImpl implements UserMapper {
     }
 
     @Override
+    @Transactional
     public UserDto convert(User user) {
         if (user == null) {
             return null;

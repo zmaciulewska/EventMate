@@ -13,6 +13,7 @@ import java.util.Set;
 public class Event extends AbstractEntity {
 
     private String title;
+    @Lob
     private String description;
     private String localization;
     private LocalDateTime startDate;
@@ -39,7 +40,7 @@ public class Event extends AbstractEntity {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories;
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "event", cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<EventOffer> eventOffers;
 
     public Boolean isCommon() {

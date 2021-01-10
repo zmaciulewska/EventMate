@@ -16,7 +16,7 @@ public class EventArchiveTask {
     @Autowired
     EventService eventService;
 
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 14 21 * * *")
     // @Scheduled(cron = "0 0 0 * * *")
     public void executeTask() {
         logger.info("EventArchiveTask executed at {}", LocalDateTime.now());

@@ -19,6 +19,8 @@ import com.eventmate.mapper.EventMapper;
 import com.eventmate.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,6 +32,7 @@ import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,6 +67,9 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
         newEvent.setTitle(eventForm.getTitle());
         newEvent.setDescription(eventForm.getDescription());
         newEvent.setLocalization(eventForm.getLocalization());
+        if(eventForm.getStartDate().isAfter(eventForm.getEndDate())) {
+            throw new AppException(Error.WRONG_DATE_ORDER);
+        }
         newEvent.setStartDate(eventForm.getStartDate());
         newEvent.setEndDate(eventForm.getEndDate());
         newEvent.setCommon(eventForm.isCommon());
@@ -132,6 +138,9 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
         existingEvent.setTitle(eventForm.getTitle());
         existingEvent.setDescription(eventForm.getDescription());
         existingEvent.setLocalization(eventForm.getLocalization());
+        if(eventForm.getStartDate().isAfter(eventForm.getEndDate())) {
+            throw new AppException(Error.WRONG_DATE_ORDER);
+        }
         existingEvent.setStartDate(eventForm.getStartDate());
         existingEvent.setEndDate(eventForm.getEndDate());
         existingEvent.setCommon(eventForm.isCommon());
@@ -183,8 +192,31 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
     }
 
     @Override
-    public List<EventDto> getUserEvents(User user) {
-        return entitiesToDtos(eventDao.findAllByRemovalDateNullAndReporter(user));
+    public Page<EventDto> getUserEvents(User user, String title, String localization, LocalDateTime startDate,
+                                        LocalDateTime endDate, String caategoryCode,
+                                        Pageable pageable) {
+        if (title == null) {
+            title = "";
+        }
+        if (localization == null) localization = "";
+        if (startDate == null) startDate = LocalDateTime.now().minusYears(10);
+        if (endDate == null) endDate = LocalDateTime.now().plusYears(10);
+        if (caategoryCode == null) caategoryCode = "";
+
+        Page<Event> entities = eventDao.findUserEvents(user.getId(), title, localization, startDate, endDate, caategoryCode, pageable);
+        Page<EventDto> dtoPage = entities.map(new Function<Event, EventDto>() {
+            @Override
+            public EventDto apply(Event entity) {
+                EventDto dto = convert(entity);
+                return dto;
+            }
+        });
+        return dtoPage;
+    }
+
+    @Override
+    public List<Event> getUserEvents(User user) {
+        return eventDao.findAllByReporter(user);
     }
 
     @Override
@@ -205,6 +237,48 @@ public class EventServiceImpl extends AbstractServiceImpl<EventDto, Event> imple
         });
         eventDao.save(event);
 
+    }
+
+    @Override
+    public Page<EventDto> getEvents(Pageable pageable) {
+        Page<Event> entities = eventDao.findAllByRemovalDateNull(pageable);
+        Page<EventDto> dtoPage = entities.map(new Function<Event, EventDto>() {
+            @Override
+            public EventDto apply(Event entity) {
+                EventDto dto = convert(entity);
+                return dto;
+            }
+        });
+        return dtoPage;
+
+    }
+
+    @Override
+    public Page<EventDto> getEvents(String title, String localization, LocalDateTime startDate,
+                                    LocalDateTime endDate, String caategoryCode,
+                                    Pageable pageable, Boolean areConfirmed) {
+        if (title == null) {
+            title = "";
+        }
+        if (localization == null) localization = "";
+        if (startDate == null) startDate = LocalDateTime.now().minusYears(10);
+        if (endDate == null) endDate = LocalDateTime.now().plusYears(10);
+        if (caategoryCode == null) caategoryCode = "";
+        Page<Event> entities;
+        if(areConfirmed) {
+            entities = eventDao.findEvents(title, localization, startDate, endDate, caategoryCode, pageable);
+        } else {
+            entities = eventDao.findNotConfirmedEvents(title, localization, startDate, endDate, caategoryCode, pageable);
+        }
+
+        Page<EventDto> dtoPage = entities.map(new Function<Event, EventDto>() {
+            @Override
+            public EventDto apply(Event entity) {
+                EventDto dto = convert(entity);
+                return dto;
+            }
+        });
+        return dtoPage;
     }
 
     private Event findEventById(Long id) {

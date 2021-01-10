@@ -1,39 +1,49 @@
-<p>
-  user-details works!
-</p>
+<div *ngIf="isError" class="alert alert-danger">
+  Wystąpił problem: {{errorMessage}}
+</div>
+
+
 <p class="label-details">{{user?.username}}</p>
 <p class="label-details">{{user?.email}}</p>
 
 <hr/>
 <app-showcase-display [userId]=user.id></app-showcase-display>
 <br/>
-<button *ngIf="!isEditShowcaseShown" class="btn btn-primary" (click)=showForm()>Edytuj wizytówkę</button>
-<div *ngIf=isEditShowcaseShown>
-  <app-showcase-edit></app-showcase-edit>
-  <br/>
-  <button class="btn btn-primary" (click)=hideForm()>Anuluj</button>
-</div>
-<hr/>
+
+<div *ngIf="areRestrictedInformationShown">
+
+  <div *ngIf="isVisitorOwner">
+    <button *ngIf="!isEditShowcaseShown" class="btn btn-primary" (click)=showForm()>Edytuj wizytówkę</button>
+    <div *ngIf=isEditShowcaseShown>
+      <app-showcase-edit [userId]=user.id></app-showcase-edit>
+      <br/>
+      <button class="btn btn-primary" (click)=hideForm()>Anuluj</button>
+    </div>
+    <hr/>
+
+  </div>
 
 
-<div *ngIf="areUserEventsShown">
-  <button class="btn btn-primary" (click)=hideUserEvents()>Zwiń</button>
-  <app-events-list [userEvents]="true" [isDisplayOnly]="false" [userId]="userId" ></app-events-list>
-</div>
-<button *ngIf="!areUserEventsShown" class="btn btn-primary" (click)=showUserEvents()>Pokaż wydarzenia tego użytkownika</button>
-<hr/>
 
-<div *ngIf="areUserEventOffersShown">
-  <button class="btn btn-primary" (click)=hideUserEventOffers()>Zwiń</button>
-  <app-event-offer-list [userOffers]="true" [userId]="userId" ></app-event-offer-list>
-</div>
-<button *ngIf="!areUserEventOffersShown" class="btn btn-primary" (click)=showUserEventOffers()>Pokaż oferty tego użytkownika</button>
-<hr/>
+  <div *ngIf="areUserEventsShown">
+    <button class="btn btn-primary" (click)=hideUserEvents()>Zwiń</button>
+    <app-events-list [userEvents]="true" [isDisplayOnly]="false" [userId]="userId"></app-events-list>
+  </div>
+  <button *ngIf="!areUserEventsShown" class="btn btn-primary" (click)=showUserEvents()>Pokaż wydarzenia tego użytkownika</button>
+  <hr/>
 
-<div *ngIf="areUserContactsShown">
-  <button class="btn btn-primary" (click)=hideUserContacts()>Zwiń</button>
-  <app-contacts-list [userId]="userId"></app-contacts-list>
+  <div *ngIf="areUserEventOffersShown">
+    <button class="btn btn-primary" (click)=hideUserEventOffers()>Zwiń</button>
+    <app-event-offer-list [userOffers]="true" [userId]="userId"></app-event-offer-list>
+  </div>
+  <button *ngIf="!areUserEventOffersShown" class="btn btn-primary" (click)=showUserEventOffers()>Pokaż oferty tego użytkownika</button>
+  <hr/>
+
+  <div *ngIf="areUserContactsShown">
+    <button class="btn btn-primary" (click)=hideUserContacts()>Zwiń</button>
+    <app-contacts-list [userId]="userId"></app-contacts-list>
+  </div>
+  <button *ngIf="!areUserContactsShown" class="btn btn-primary" (click)=showUserContacts()>Pokaż kontakty tego użytkownika</button>
+  <hr/>
+
 </div>
-{{userId}}
-<button *ngIf="!areUserContactsShown" class="btn btn-primary" (click)=showUserContacts()>Pokaż kontakty tego użytkownika</button>
-<hr/>

@@ -23,6 +23,7 @@ public class Contact extends AbstractEntity {
     private User secondPerson;
 
     private LocalDateTime creationDate;
+    private LocalDateTime removalDate;
 
     @Override
     public boolean equals(Object o) {

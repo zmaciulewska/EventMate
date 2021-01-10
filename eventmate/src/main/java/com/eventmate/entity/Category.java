@@ -3,6 +3,7 @@ package com.eventmate.entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import java.util.Set;
@@ -16,7 +17,7 @@ public class Category extends AbstractEntity {
     String name;
     String description;
 
-    @ManyToMany(mappedBy = "categories")
+    @ManyToMany(mappedBy = "categories", cascade = CascadeType.REMOVE)
     private Set<Event> events;
 
 }

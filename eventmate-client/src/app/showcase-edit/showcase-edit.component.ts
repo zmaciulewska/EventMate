@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Showcase } from '../domain/showcase';
 import { ActivatedRoute, Router } from '../../../node_modules/@angular/router';
@@ -17,33 +17,36 @@ export class ShowcaseEditComponent implements OnInit {
   existingUser: User;
   tmpBirthDate: Date;
 
+  @Input() userId: number;
+
+
   constructor(private userService: UserService,
     private route: ActivatedRoute,
     private router: Router) { }
 
   ngOnInit() {
-    this.route
-      .params
-      .subscribe(params => {
-        this.userService
-          .getOneById(params['id'])
-          .subscribe(data => {
+    // this.route
+    // .params
+    // .subscribe(params => {
+    this.userService
+      .getOneById(this.userId)
+      .subscribe(data => {
 
-            if (data.showcase === null) {
-              this.showcaseForm = new Showcase();
-              this.tmpBirthDate = new Date();
-            } else {
-              this.showcaseForm = data.showcase;
-              this.tmpBirthDate = new Date(data.showcase.birthDate);
-            }
-            this.existingUser = data;
-            console.log(this.showcaseForm);
-            console.log(this.existingUser);
-          },
-            error => {
-              this.errorMessage = error.error.message;
-            });
-      });
+        if (data.showcase === null) {
+          this.showcaseForm = new Showcase();
+          this.tmpBirthDate = new Date();
+        } else {
+          this.showcaseForm = data.showcase;
+          this.tmpBirthDate = new Date(data.showcase.birthDate);
+        }
+        this.existingUser = data;
+        console.log(this.showcaseForm);
+        console.log(this.existingUser);
+      },
+        error => {
+          this.errorMessage = error.error.message;
+        });
+    // });
   }
 
   submit() {

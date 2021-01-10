@@ -9,6 +9,9 @@ import com.eventmate.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,8 +43,8 @@ public class EventController {
     @PutMapping("/{id}/confirm")
     @PreAuthorize("hasRole('ADMIN')")
     // @RequestMapping("/{id}/confirm")
-    public  ResponseEntity<EventDto> confirmPublicEventProposal(@Valid @PathVariable Long id, @Valid @RequestBody EventDto event) {
-        return new ResponseEntity<>( eventService.confirmPublicEventProposal(id), HttpStatus.OK);
+    public ResponseEntity<EventDto> confirmPublicEventProposal(@Valid @PathVariable Long id, @Valid @RequestBody EventDto event) {
+        return new ResponseEntity<>(eventService.confirmPublicEventProposal(id), HttpStatus.OK);
 
     }
 
@@ -52,20 +55,39 @@ public class EventController {
     }
 
     @GetMapping
+    public Page<EventDto> getAll(Pageable pageable,
+                                 @RequestParam(name = "title", required = false) String title,
+                                 @RequestParam(name = "localization", required = false) String localization,
+                                 @RequestParam(name = "startDate", required = false)
+                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                                 @RequestParam(name = "endDate", required = false)
+                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+                                 @RequestParam(name = "categoryCode", required = false) String categoryCode,
+                                @RequestParam(name = "areConfirmed") Boolean areConfirmed ){
+        return eventService.getEvents(title, localization, startDate, endDate, categoryCode, pageable, areConfirmed);
+    }
+
+    /*public Page<EventDto> getAll(@RequestParam(value = "page", defaultValue = "0") int page,
+                                 @RequestParam(value = "limit", defaultValue = "30") int limit) {*/
+   /* @GetMapping
+    public Page<EventDto> getAll(Pageable pageable) {
+        return eventService.getEvents(pageable);
+    }
+    *//*@GetMapping
     public ResponseEntity<List<EventDto>> getAll() {
         return ResponseEntity.ok(eventService.getAll());
-    }
+    }*/
 
-    @GetMapping ("/not-confirmed")
+    @GetMapping("/not-confirmed")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<EventDto>> getAllNotConfirmed() {
-        return  ResponseEntity.ok(eventService.getAllNotConfirmed());
+        return ResponseEntity.ok(eventService.getAllNotConfirmed());
     }
 
-    @GetMapping ("/confirmed-private")
+   /* @GetMapping("/confirmed-private")
     public ResponseEntity<List<EventDto>> getConfirmedAndPrivate() {
-        return  ResponseEntity.ok(eventService.getConfirmedOrPrivate());
-    }
+        return ResponseEntity.ok(eventService.getConfirmedOrPrivate());
+    }*/
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -79,7 +101,7 @@ public class EventController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping ("/{id}/event-offers")
+    @GetMapping("/{id}/event-offers")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<List<EventOfferDto>> getAllEventOffers(@Valid @PathVariable Long id) {
         return ResponseEntity.ok(eventOfferService.getAllEventOffers(id));

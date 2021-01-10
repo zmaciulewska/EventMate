@@ -1,0 +1,39 @@
+<div *ngIf="isError" class="alert alert-danger">
+  {{errorMessage}}
+</div>
+
+<p>
+  Liczba wydarzeń w ciągu miesiąca
+</p>
+<div class="chartWrapper">
+  <div class="chartAreaWrapper">
+    <canvas id="canvas" height="300" width="1200"></canvas>
+  </div>
+</div>
+
+<p>
+  Liczba wydarzeń z danych kategorii
+</p>
+<div class="chartWrapper">
+  <div class="chartAreaWrapper">
+    <canvas id="categories-pie" height="300" width="1200"></canvas>
+  </div>
+</div>
+
+<p>
+  Liczba ofert kierowanych do użytkowników w danym wieku
+</p>
+<div class="chartWrapper">
+  <div class="chartAreaWrapper">
+    <canvas id="event-offers-age-chart" height="300" width="1200"></canvas>
+  </div>
+</div>
+
+<p>
+  Liczba ofert kierowanych do danej płci
+</p>
+<div class="chartWrapper">
+  <div class="chartAreaWrapper">
+    <canvas id="event-offers-gender-pie" height="300" width="1200"></canvas>
+  </div>
+</div>

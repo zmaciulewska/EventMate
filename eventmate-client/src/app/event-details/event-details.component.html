@@ -1,6 +1,9 @@
 <div>
   <p class="title-details">{{event?.title}}</p>
-  <p class="text-details">{{event?.description}}</p>
+  <div style="white-space: pre-wrap">
+    <p class="text-details ">{{event?.description}}</p>
+  </div>
+
   <hr/>
   <p class="label-details">Gdzie?</p>
   <p class="text-details">{{event?.localization}}</p>
@@ -31,32 +34,64 @@
       </tbody>
     </table>
   </div>
-  <p class="label-details">Kategorie</p>
 
-  <div *ngFor="let category of event?.categories">
-    <p class="text-details"># {{category.name}}</p>
-
-  </div>
-  <div *ngIf="authority === 'admin'">
-    <button class="btn btn-danger" (click)="deleteEvent(event.id)">
-      Usuń wydarzenie
-    </button>
-    <div *ngIf="isDeleteFailed" class="alert alert-danger">
-      Nie można usunąć wydarzenia: {{errorMessage}}
+  <div *ngIf="event?.categories.length > 0">
+    <p class="label-details">Kategorie</p>
+    <div *ngFor="let category of event?.categories">
+      <p class="text-details"># {{category.name}}</p>
     </div>
-    <button class="btn btn-info" (click)="router.navigate(['/events/edit/', event?.id]);">
-      Edytuj wydarzenie
-    </button>
-
   </div>
 </div>
+<br/>
 
-<div *ngIf="authority">
-  <app-event-offer-create></app-event-offer-create>
+<div *ngIf="authority && event?.common">
+  <div *ngIf="authority !== 'admin'">
+    <app-event-offer-create  [continous]="event.continous" [dateString]="event.startDate" ></app-event-offer-create>
+  </div>
   <br/>
   <app-event-offer-list></app-event-offer-list>
+</div>
+
+
+<div *ngIf="authority && !event?.common">
+  <p class="label-details">Kto szuka?</p>
+  <app-showcase-display [userId]="event.reporterId"></app-showcase-display>
+  <br/>
+  <button *ngIf="authority !== 'admin'" class="btn btn-block" (click)=createContact(event)>Zgołoś się</button>
+  <br/>
+  <div *ngIf="isSuccess" class="alert alert-success">
+    {{successMessage}}
+    <br/>
+    <a class="title-link" [routerLink]="['/users/details/', event.reporterId]">
+      Zobacz profil
+    </a>
+  </div>
+  <div *ngIf="isCreateContactFailed" class="alert alert-danger">
+    Nie można nawiązać kontaktu: {{errorCreateContact}}
+  </div>
 </div>
 
 <!-- <li *ngIf="authority === 'admin'" class="nav-item">
   <a (click)="deleteEvent(event.id)" class="btn btn-danger">Delete</a>
 </li> -->
+
+
+<div *ngIf="authority === 'admin'">
+  <button class="btn btn-danger" (click)="deleteEvent(event.id)">
+    Usuń wydarzenie
+  </button>
+  <br/>
+  <div *ngIf="isDeleteFailed" class="alert alert-danger">
+    Nie można usunąć wydarzenia: {{errorMessage}}
+  </div>
+  <!-- <button class="btn btn-info" (click)="router.navigate(['/events/edit/', event?.id]);">
+      Edytuj wydarzenie
+    </button> -->
+  <button *ngIf="isEventNotConfirmed" (click)="confirmEvent(event)" class="btn btn-success">
+    Zatwierdź
+  </button>
+  <br/>
+  <div *ngIf="isSuccess" class="alert alert-success">
+    {{successMessage}}
+  </div>
+</div>

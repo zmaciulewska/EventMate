@@ -9,10 +9,11 @@ import java.util.Optional;
 
 @Repository
 public interface ContactDao extends AbstractDao<Contact> {
+    Contact findByIdAndRemovalDateNull(Long id);
 
-   Optional<Contact> findByFirstPersonAndSecondPerson(User firstPerson, User secondPerson);
+   Optional<Contact> findByFirstPersonAndSecondPersonAndRemovalDateNull(User firstPerson, User secondPerson);
 
-    List<Contact> findByFirstPerson(User firstPerson);
+    List<Contact> findByFirstPersonAndRemovalDateNull(User firstPerson);
 
-    List<Contact> findBySecondPerson(User secondPerson);
+    List<Contact> findBySecondPersonAndRemovalDateNull(User secondPerson);
 }

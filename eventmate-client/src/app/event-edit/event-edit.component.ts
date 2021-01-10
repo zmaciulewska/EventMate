@@ -45,6 +45,7 @@ export class EventEditComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
+    this.selectedCategories = []; // todo wypadaloby zmienic zeby zczytywalo aktualne kategoei
     this.categoryService.getAll().subscribe(data => this.categories = data);
     this.route
       .params
@@ -84,7 +85,7 @@ export class EventEditComponent implements OnInit {
   }
 
   submit() {
-    // console.log('method submit');
+    console.log('method submit');
     if (this.tmpStartDateTime.toString().indexOf('-') !== -1) {
       this.eventForm.startDate = this.tmpStartDateTime + ':00.000';
       // console.log(' zawiera - ');
@@ -106,6 +107,7 @@ export class EventEditComponent implements OnInit {
   }
 
   save() {
+    console.log('method save');
     this.eventService.update(this.existingEvent.id, this.eventForm)
       .subscribe(data => {
         console.log(data);

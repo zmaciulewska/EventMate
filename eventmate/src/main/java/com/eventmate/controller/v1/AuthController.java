@@ -58,17 +58,17 @@ public class AuthController {
     public ResponseEntity<CustomHttpResponse> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {
         CustomHttpResponse httpResponse = new CustomHttpResponse();
         if (userService.existsUserByUsername(signUpRequest.getUsername())) {
-            httpResponse.setMessage("Username is already taken!");
+            httpResponse.setMessage("Login jest wykorzystywany przez innego użytkownika.");
             httpResponse.setStatus(HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<>(httpResponse, HttpStatus.BAD_REQUEST);
         }
         if (userService.existsUserByEmail(signUpRequest.getEmail())) {
-            httpResponse.setMessage("Email is already in use!");
+            httpResponse.setMessage("Email jest wykorzystywany przez innego użytkownika.");
             httpResponse.setStatus(HttpStatus.BAD_REQUEST.value());
             return new ResponseEntity<>(httpResponse, HttpStatus.BAD_REQUEST);
         }
         userService.signUpUser(signUpRequest);
-        httpResponse.setMessage("User registered successfully!");
+        httpResponse.setMessage("Użytkownik został zarejestrowany");
         httpResponse.setStatus(HttpStatus.OK.value());
         return ResponseEntity.ok().body(httpResponse);
     }

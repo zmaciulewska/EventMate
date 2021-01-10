@@ -1,7 +1,7 @@
 <div *ngIf="isSignedUp; else signupForm">
-  Your registration is successful. Please login!
+  Rejestracja zakończona sukcesem, możesz się zalogować.
 </div>
- 
+
 <ng-template #signupForm>
   <div class="row col-sm-6" style="max-width:350px;">
     <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
@@ -13,34 +13,34 @@
         </div>
       </div> -->
       <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" class="form-control" name="username" [(ngModel)]="form.username" #username="ngModel"
-          required />
+        <label for="username">Nazwa użytkownika</label>
+        <input type="text" class="form-control" name="username" [(ngModel)]="form.username" #username="ngModel" required />
         <div *ngIf="f.submitted && username.invalid">
-          <div *ngIf="username.errors.required">Username is required</div>
+          <div *ngIf="username.errors.required">Podaj nazwę użytkownika</div>
         </div>
       </div>
       <div class="form-group">
         <label for="email">Email</label>
         <input type="text" class="form-control" name="email" [(ngModel)]="form.email" #email="ngModel" required email />
         <div *ngIf="f.submitted && email.invalid">
-          <div *ngIf="email.errors.required">Email is required</div>
-          <div *ngIf="email.errors.email">Email must be a valid email address</div>
+          <div *ngIf="email.errors.required">Email jest wymagany</div>
+          <div *ngIf="email.errors.email">Email jest w złym formacie</div>
         </div>
       </div>
       <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" name="password" [(ngModel)]="form.password" #password="ngModel"
-          required minlength="6" />
+        <label for="password">Hasło</label>
+        <input type="password" class="form-control" name="password" [(ngModel)]="form.password" #password="ngModel" required minlength="6"
+        />
         <div *ngIf="f.submitted && password.invalid">
-          <div *ngIf="password.errors.required">Password is required</div>
-          <div *ngIf="password.errors.minlength">Password must be at least 6 characters</div>
+          <div *ngIf="password.errors.required">Hasło jest wymagane</div>
+          <div *ngIf="password.errors.minlength">Hasło musi zawierać przynajmniej 6 znaków</div>
         </div>
       </div>
       <div class="form-group">
-        <button class="btn btn-primary">Register</button>
+        <button class="btn btn-primary">Zarejestruj się</button>
         <div *ngIf="f.submitted && isSignUpFailed" class="alert alert-warning">
-          Signup failed!<br/>{{errorMessage}}
+          Rejestracja nie powiodła się
+          <br/>{{errorMessage}}
         </div>
       </div>
     </form>

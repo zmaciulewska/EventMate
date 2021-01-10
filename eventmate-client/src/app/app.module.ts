@@ -33,6 +33,8 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import { ShowcaseEditComponent } from './showcase-edit/showcase-edit.component';
 import { ShowcaseDisplayComponent } from './showcase-display/showcase-display.component';
 import { ContactsListComponent } from './contacts-list/contacts-list.component';
+import {NgxPaginationModule} from 'ngx-pagination';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 
 
@@ -57,7 +59,8 @@ import { ContactsListComponent } from './contacts-list/contacts-list.component';
     UserDetailsComponent,
     ShowcaseEditComponent,
     ShowcaseDisplayComponent,
-    ContactsListComponent
+    ContactsListComponent,
+    StatisticsComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +69,8 @@ import { ContactsListComponent } from './contacts-list/contacts-list.component';
     HttpClientModule,
     AngularDateTimePickerModule,
     NgMultiSelectDropDownModule,
-    CustomFormsModule
+    CustomFormsModule,
+    NgxPaginationModule
     /* ReactiveFormsModule */
     /* MbscModule */
   ],

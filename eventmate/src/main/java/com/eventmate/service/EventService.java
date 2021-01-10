@@ -4,7 +4,10 @@ import com.eventmate.dto.EventDto;
 import com.eventmate.dto.form.EventFormDto;
 import com.eventmate.entity.Event;
 import com.eventmate.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface EventService extends AbstractService<EventDto> {
@@ -18,9 +21,19 @@ public interface EventService extends AbstractService<EventDto> {
 
     List<EventDto> getConfirmedOrPrivate();
 
-    List<EventDto> getUserEvents(User user);
+    Page<EventDto> getUserEvents(User user, String title, String localization, LocalDateTime startDate,
+                                 LocalDateTime endDate, String categoryCode, Pageable pageable);
+
+    List<Event> getUserEvents(User user);
 
     List<Event> getExpiredEvents();
 
     void softDeleteEvent(Event event);
+
+    //   List<EventDto> getEvents(int page, int limit);
+    Page<EventDto> getEvents(Pageable pageable);
+
+    Page<EventDto> getEvents(String title, String localization, LocalDateTime startDate,
+                             LocalDateTime endDate, String categoryCode, Pageable pageable,
+                             Boolean areConfirmed);
 }
